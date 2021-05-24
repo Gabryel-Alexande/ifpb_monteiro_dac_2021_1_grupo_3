@@ -43,6 +43,22 @@ public class Livro {
 	private List<Image> fotosLivro;
 	@NotNull
 	private Integer quantidade;
+	
+	public Livro(String tituloLivro, List<Categoria> categoria, String descricao, BigDecimal preco, Float margemX,
+			Float margemY, String edicao, int anoLancamento, Editora editora, List<Image> fotosLivro,
+			Integer quantidade) {
+		this.tituloLivro = tituloLivro;
+		this.categoria = categoria;
+		this.descricao = descricao;
+		this.preco = preco;
+		this.margemX = margemX;
+		this.margemY = margemY;
+		this.edicao = edicao;
+		this.anoLancamento = anoLancamento;
+		this.editora = editora;
+		this.fotosLivro = fotosLivro;
+		this.quantidade = quantidade;
+	}
 
 	public boolean isEmEstoque() {
 		return (quantidade > 0) ? true : false;
