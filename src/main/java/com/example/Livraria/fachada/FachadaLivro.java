@@ -24,6 +24,9 @@ public class FachadaLivro {
 		Livro livro= new Livro(tituloLivro, categoria, descricao, preco, margemX, margemY, edicao, anoLancamento, editora, fotosLivro, quantidade);
 		livroRepositorio.save(livro);
 	}
+	public void alterarLivro() {
+		
+	}
 
 	public List<Livro> listarLivros() {
 		return livroRepositorio.findAll();
