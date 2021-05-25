@@ -60,6 +60,10 @@ public class Usuario {
 	private void setIdUsusario(Long idUsusario) {
 
 	}
+	
+	public String toString() {
+		return "Nome:"+this.nomeUsusario+"\n Cpf:"+this.cpf+"\n Email: "+this.email+"\n É ADM ?"+this.admisnistrador;
+	}
 
 	public void adcionarAoCarinho(Livro livro) {
 		carrinho.add(livro);

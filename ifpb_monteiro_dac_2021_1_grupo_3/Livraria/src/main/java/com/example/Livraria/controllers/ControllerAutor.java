@@ -7,11 +7,11 @@ import com.example.Livraria.fachada.FachadaAutor;
 import com.example.Livraria.model.Livro;
 
 public class ControllerAutor {
-	private FachadaAutor fachadaAutor;
+	private FachadaAutor fachadaAutor = new FachadaAutor();
 	
-	public void cadastrarAutor(String nomeAutor, String email, String senha, List<Livro> lirvosPublicados)
+	public void cadastrarAutor(String nomeAutor, String email, String senha)
 			throws LoginException {
-		fachadaAutor.cadastrarAutor(nomeAutor, email, senha, lirvosPublicados);
+		fachadaAutor.cadastrarAutor(nomeAutor, email, senha);
 	}
 
 	public void alterarAutor(Long id, String nomeAutor, String senha, List<Livro> lirvosPublicados)

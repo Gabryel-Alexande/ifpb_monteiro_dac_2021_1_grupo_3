@@ -34,10 +34,6 @@ public class Livro {
 	private String descricao;
 	@NotNull
 	private BigDecimal preco;
-	@Column(name = "margem_x", nullable = false)
-	private Float margemX;
-	@Column(name = "margem_y", nullable = false)
-	private Float margemY;
 	@NotNull
 	private String edicao;
 	@Column(name = "ano_lancamento", nullable = false)
@@ -52,16 +48,14 @@ public class Livro {
 	@NotNull
 	private Integer quantidadeEstoque;
 	
-	public Livro(String isbn,String tituloLivro, List<Categoria> categorias, String descricao, BigDecimal preco, Float margemX,
-			Float margemY, String edicao, Integer anoLancamento, Editora editora, List<Image> fotosLivro,
+	public Livro(String isbn,String tituloLivro, List<Categoria> categorias, String descricao, BigDecimal preco,
+			 String edicao, Integer anoLancamento, Editora editora, List<Image> fotosLivro,
 			 List<Autor> autores,Integer quantidadeEstoque) {
 		this.isbn=isbn;
 		this.tituloLivro = tituloLivro;
 		this.categorias = categorias;
 		this.descricao = descricao;
 		this.preco = preco;
-		this.margemX = margemX;
-		this.margemY = margemY;
 		this.edicao = edicao;
 		this.anoLancamento = anoLancamento;
 		this.editora = editora;

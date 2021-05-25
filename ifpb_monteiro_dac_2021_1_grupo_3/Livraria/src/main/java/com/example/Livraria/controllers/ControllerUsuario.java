@@ -9,7 +9,9 @@ import com.example.Livraria.fachada.FachadaUsuario;
 import javassist.NotFoundException;
 
 public class ControllerUsuario {
-	private FachadaUsuario fachadaUsuario;
+	private FachadaUsuario fachadaUsuario = new FachadaUsuario();
+	
+	
 
 	public void cadatrarUsusario(String cpf, String nomeUsusario, String email, String senha,
 			boolean admisnistrador) throws CPFException, LoginException {

@@ -17,9 +17,9 @@ public class FachadaAutor {
 	@Autowired
 	private AutorRepositorio autorRepositorio;
 
-	public void cadastrarAutor(String nomeAutor, String email, String senha, List<Livro> lirvosPublicados)
+	public void cadastrarAutor(String nomeAutor, String email, String senha)
 			throws LoginException {
-		Autor autor = new Autor(nomeAutor, email, senha, lirvosPublicados);
+		Autor autor = new Autor(nomeAutor, email, senha);
 		if (!AutenticacaoLogin.validarLogin(email)) {
 			throw new LoginException("Email invalido!");
 		} else if (!AutenticacaoLogin.validarrSenha(senha)) {

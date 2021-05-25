@@ -29,12 +29,12 @@ public class Autor {
 	@Column(name = "livros_publicados", nullable = false)
 	@ManyToMany
 	private List<Livro> lirvosPublicados;
-	public Autor(String nomeAutor, String email, String senha, List<Livro> lirvosPublicados) {
+	public Autor(String nomeAutor, String email, String senha) {
 		super();
 		this.nomeAutor = nomeAutor;
 		this.email = email;
 		this.senha = senha;
-		this.lirvosPublicados = lirvosPublicados;
+		
 	}
 	//Este metodo foi criado com a finalidade de resolver o problema da clausula @Data,
 	//pois, a mesa cria um metodo plublico que permiti a alteração do atributo indetificador

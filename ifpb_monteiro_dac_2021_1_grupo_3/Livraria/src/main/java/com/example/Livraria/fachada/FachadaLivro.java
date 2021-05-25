@@ -25,9 +25,9 @@ public class FachadaLivro {
 	private AutorRepositorio autorRepositorio;
 
 	public void cadastrarLivro(String isbn, String tituloLivro, List<Categoria> categoria, String descricao,
-			BigDecimal preco, Float margemX, Float margemY, String edicao, int anoLancamento, Editora editora,
+			BigDecimal preco,String edicao, Integer anoLancamento, Editora editora,
 			List<Image> fotosLivro, List<Long> autores, Integer quantidade) {
-		Livro livro = new Livro(isbn, tituloLivro, categoria, descricao, preco, margemX, margemY, edicao, quantidade,
+		Livro livro = new Livro(isbn, tituloLivro, categoria, descricao, preco,edicao, quantidade,
 				editora, fotosLivro, null, quantidade);
 		List<Autor> autoresRegatados = new ArrayList<Autor>();
 		for (Long autorDaVez : autores) {
@@ -44,14 +44,12 @@ public class FachadaLivro {
 		livroRepositorio.save(livro);
 	}
 
-	public void alterarLivro(String isbn, String tituloLivro, String descricao, BigDecimal preco, Float margemX,
-			Float margemY, String edicao, Integer anoLancamento, Editora editora, Integer quantidadeEstoque) {
+	public void alterarLivro(String isbn, String tituloLivro, String descricao, BigDecimal preco,
+			String edicao, Integer anoLancamento, Editora editora, Integer quantidadeEstoque) {
 		Livro livro = livroRepositorio.findByISBN(isbn);
 		livro.setTituloLivro(tituloLivro);
 		livro.setDescricao(descricao);
 		livro.setPreco(preco);
-		livro.setMargemX(margemX);
-		livro.setMargemY(margemY);
 		livro.setEdicao(edicao);
 		livro.setAnoLancamento(anoLancamento);
 		livro.setEditora(editora);

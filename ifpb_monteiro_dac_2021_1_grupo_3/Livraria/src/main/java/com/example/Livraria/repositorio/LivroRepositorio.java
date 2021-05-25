@@ -11,4 +11,6 @@ public interface LivroRepositorio extends JpaRepository<Livro, String>{
 	public Page<Livro>findByPreco(Pageable pagina);
 	public Page<Livro> findAll(Pageable pagina);
 
+	public Page<Livro> findCincoMaisBaratos(Pageable page);
+
 }
