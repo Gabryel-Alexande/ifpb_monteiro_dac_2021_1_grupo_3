@@ -1,4 +1,4 @@
-package com.example.Livraria.autenticacao;
+package com.example.Livraria.utilitarios;
 
 public class AutenticacaoCPF {
 	public static boolean autenticarCPF(String cpf) {

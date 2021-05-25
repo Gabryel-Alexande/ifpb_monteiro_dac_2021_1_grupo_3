@@ -29,4 +29,10 @@ public class Editora {
 	@NotNull
 	@Embedded
 	private Endereco endereco;
+	//Este metodo foi criado com a finalidade de resolver o problema da clausula @Data,
+	//pois, a mesa cria um metodo plublico que permiti a alteração do atributo indetificador
+	//da entendiade, assim trazendo inconsistencia para o codiogo.
+	private void setIdEditora(Long idEditora){
+		
+	}	
 }

@@ -1,7 +1,9 @@
-package com.example.Livraria.autenticacao;
+package com.example.Livraria.utilitarios;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.example.Livraria.exeception.LoginException;
 
 public class AutenticacaoLogin {
 	/**
@@ -35,6 +37,13 @@ public class AutenticacaoLogin {
 			}
 		}
 		return achouNumero && achouMaiuscula && achouMinuscula && achouSimbolo;
+	}
+	
+	//este metodo sera chamado em tempo real, equanto o ussuario digita a senha repetida
+	public void vereficarSenha(String senha1, String senha2) throws LoginException {
+		if(!senha1.equals(senha2)) {
+			throw new LoginException("As senhas devem ser iguais!");
+		}
 	}
 
 	/**

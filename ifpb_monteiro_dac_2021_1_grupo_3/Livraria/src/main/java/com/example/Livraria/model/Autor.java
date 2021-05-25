@@ -36,5 +36,14 @@ public class Autor {
 		this.senha = senha;
 		this.lirvosPublicados = lirvosPublicados;
 	}
-	
+	//Este metodo foi criado com a finalidade de resolver o problema da clausula @Data,
+	//pois, a mesa cria um metodo plublico que permiti a alteração do atributo indetificador
+	//da entendiade, assim trazendo inconsistencia para o codiogo.
+	private void setAutorId(Long autorId){
+		
+	}	
+
+	public void adcionarLivro(Livro livro) {
+		lirvosPublicados.add(livro);
+	}
 }

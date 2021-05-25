@@ -12,18 +12,24 @@ import javax.persistence.ManyToOne;
 
 import com.sun.istack.NotNull;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Data
 public class Livro {
+	
 	@Column(name = "titulo_livro", nullable = false)
 	private String tituloLivro;
 	@Id
 	private String isbn;
 	@NotNull
 	@ManyToMany
-	private List<Categoria> categoria;
+	private List<Categoria> categorias;
 	@NotNull
 	private String descricao;
 	@NotNull
@@ -46,11 +52,12 @@ public class Livro {
 	@NotNull
 	private Integer quantidadeEstoque;
 	
-	public Livro(String tituloLivro, List<Categoria> categoria, String descricao, BigDecimal preco, Float margemX,
+	public Livro(String isbn,String tituloLivro, List<Categoria> categorias, String descricao, BigDecimal preco, Float margemX,
 			Float margemY, String edicao, Integer anoLancamento, Editora editora, List<Image> fotosLivro,
 			 List<Autor> autores,Integer quantidadeEstoque) {
+		this.isbn=isbn;
 		this.tituloLivro = tituloLivro;
-		this.categoria = categoria;
+		this.categorias = categorias;
 		this.descricao = descricao;
 		this.preco = preco;
 		this.margemX = margemX;
@@ -66,4 +73,29 @@ public class Livro {
 	public boolean isEmEstoque() {
 		return (quantidadeEstoque > 0) ? true : false;
 	}
+	
+	//Este metodo foi criado com a finalidade de resolver o problema da clausula @Data,
+	//pois, a mesa cria um metodo plublico que permiti a alteração do atributo indetificador
+	//da entendiade, assim trazendo inconsistencia para o codiogo.
+	private void setIsbn(String isbn) {
+		
+	}
+	public void adcionarAutor(Autor autor) {
+		autores.add(autor);
+	}
+	public void adcionarFoto(Image imagem) {
+		fotosLivro.add(imagem);
+	}
+	public void removerFoto(Image imagem) {
+		fotosLivro.remove(imagem);
+	}
+
+	public void adcionarCategoria(Categoria categoria) {
+		categorias.add(categoria);
+	}
+
+	public void removerCategoria(Categoria categoria) {
+		categorias.remove(categoria);
+	}
+
 }
