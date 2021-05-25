@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.Livraria.model.Pedido;
 
 public interface PedidoRepositorio extends JpaRepository<Pedido, Long>{
-
+	public Pedido findByIdPedido(Long idPedido);
 }

@@ -1,5 +1,6 @@
 package com.example.Livraria.model;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -28,11 +29,28 @@ public class Pedido {
 	@ManyToMany
 	private List<Livro> livros;
 	@Transient
-	private Float preco;
+	private BigDecimal preco;
+	
+	public Pedido(Usuario cliente,List<Livro> livros) {
+		super();
+		this.cliente = cliente;
+		this.endereco = cliente.getEndereco();
+		this.livros = livros;
+		cliente.adcionarPedido(this);
+		for (Livro livro : livros) {
+			preco=preco.add(livro.getPreco());
+		}
+	}
+	public void removerClienteDoPedido() {
+		cliente=null;
+	}
 	//Este metodo foi criado com a finalidade de resolver o problema da clausula @Data,
 	//pois, a mesa cria um metodo plublico que permiti a alteração do atributo indetificador
 	//da entendiade, assim trazendo inconsistencia para o codiogo.
 	private void setIdPedido(Long idPedido){
 		
 	}	
+	public void setPreco(BigDecimal preco){
+
+	}
 }

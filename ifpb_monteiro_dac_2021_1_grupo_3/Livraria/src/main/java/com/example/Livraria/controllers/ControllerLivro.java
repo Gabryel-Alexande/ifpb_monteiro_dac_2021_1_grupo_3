@@ -9,7 +9,7 @@ import com.example.Livraria.model.Categoria;
 import com.example.Livraria.model.Editora;
 import com.example.Livraria.model.Livro;
 
-public class ControllerLivro {
+public class ControllerLivro{
 	private FachadaLivro fachadaLivro;
 
 	public void cadastrarLivro(String isbn, String tituloLivro, List<Categoria> categoria, String descricao,
@@ -39,7 +39,13 @@ public class ControllerLivro {
 		fachadaLivro.removerCategoria(isbn, categoria);
 	}
 
-	public List<Livro> listarLivros() {
-		return fachadaLivro.listarLivros();
+	public Object[] listarLivros() {
+		return fachadaLivro.listarLivros().toArray();
+	}
+	public Object[] listarCincoLivrosComMenorPreco(){
+		return fachadaLivro.listarCincoLivrosComMenorPreco().toArray();
+	}
+	public Object[] listarLivros(int quantidadeDePaginas) {
+		return fachadaLivro.listarLivros(quantidadeDePaginas).toArray();
 	}
 }

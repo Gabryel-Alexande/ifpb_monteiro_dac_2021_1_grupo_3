@@ -3,7 +3,6 @@ package com.example.Livraria.fachada;
 import java.awt.Image;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import com.example.Livraria.model.Editora;
 import com.example.Livraria.model.Livro;
 import com.example.Livraria.repositorio.AutorRepositorio;
 import com.example.Livraria.repositorio.LivroRepositorio;
+import com.example.Livraria.utilitarios.EnviadorDeEmail;
 
 @Service
 public class FachadaLivro {
@@ -35,8 +35,10 @@ public class FachadaLivro {
 			autor.adcionarLivro(livro);
 			if (autor != null) {
 				autoresRegatados.add(autor);
+				EnviadorDeEmail.enviarEmail(autor.getEmail(), "Novo livro cadastrado.",
+						"Você foi adcionado como autor do livro "+livro.getTituloLivro()+"!");
+				autorRepositorio.save(autor);
 			}
-			autorRepositorio.save(autor);
 		}
 		livro.setAutores(autoresRegatados);
 		livroRepositorio.save(livro);
@@ -83,5 +85,11 @@ public class FachadaLivro {
 
 	public List<Livro> listarLivros() {
 		return livroRepositorio.findAll();
+	}
+	public List<Livro> listarLivros(int quantidadeDePaginas) {
+		return null;
+	}
+	public List<Livro> listarCincoLivrosComMenorPreco(){
+		return null;
 	}
 }

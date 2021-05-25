@@ -97,5 +97,10 @@ public class Livro {
 	public void removerCategoria(Categoria categoria) {
 		categorias.remove(categoria);
 	}
-
+	public void diminuirEtoque() {
+		quantidadeEstoque--;
+	}
+	public void aumentarEtoque() {
+		quantidadeEstoque++;
+	}
 }

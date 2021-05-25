@@ -9,7 +9,6 @@ import com.example.Livraria.exeception.LoginException;
 import com.example.Livraria.model.Autor;
 import com.example.Livraria.model.Livro;
 import com.example.Livraria.repositorio.AutorRepositorio;
-import com.example.Livraria.repositorio.LivroRepositorio;
 import com.example.Livraria.utilitarios.AutenticacaoLogin;
 import com.example.Livraria.utilitarios.EnviadorDeEmail;
 
