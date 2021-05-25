@@ -35,7 +35,7 @@ public class Livro {
 	@NotNull
 	private String edicao;
 	@Column(name = "ano_lancamento", nullable = false)
-	private int anoLancamento;
+	private Integer anoLancamento;
 	@NotNull
 	@ManyToOne
 	private Editora editora;
@@ -45,7 +45,7 @@ public class Livro {
 	private Integer quantidade;
 	
 	public Livro(String tituloLivro, List<Categoria> categoria, String descricao, BigDecimal preco, Float margemX,
-			Float margemY, String edicao, int anoLancamento, Editora editora, List<Image> fotosLivro,
+			Float margemY, String edicao, Integer anoLancamento, Editora editora, List<Image> fotosLivro,
 			Integer quantidade) {
 		this.tituloLivro = tituloLivro;
 		this.categoria = categoria;

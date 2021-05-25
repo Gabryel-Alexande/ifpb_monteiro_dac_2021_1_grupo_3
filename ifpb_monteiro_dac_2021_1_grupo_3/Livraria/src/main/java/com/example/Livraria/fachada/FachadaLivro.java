@@ -14,25 +14,43 @@ import com.example.Livraria.repositorio.LivroRepositorio;
 
 @Service
 public class FachadaLivro {
-	
+
 	@Autowired
 	private LivroRepositorio livroRepositorio;
 
-	public void cadastrarLivro(String tituloLivro, List<Categoria> categoria, String descricao, BigDecimal preco, Float margemX,
-			Float margemY, String edicao, int anoLancamento, Editora editora, List<Image> fotosLivro,
-			Integer quantidade){
-		Livro livro= new Livro(tituloLivro, categoria, descricao, preco, margemX, margemY, edicao, anoLancamento, editora, fotosLivro, quantidade);
+	public void cadastrarLivro(String tituloLivro, List<Categoria> categoria, String descricao, BigDecimal preco,
+			Float margemX, Float margemY, String edicao, int anoLancamento, Editora editora, List<Image> fotosLivro,
+			Integer quantidade) {
+		Livro livro = new Livro(tituloLivro, categoria, descricao, preco, margemX, margemY, edicao, anoLancamento,
+				editora, fotosLivro, quantidade);
 		livroRepositorio.save(livro);
 	}
-	public void alterarLivro(String tituloLivro, String descricao, BigDecimal preco, Float margemX,
-			Float margemY, String edicao, int anoLancamento, Editora editora,
-			Integer quantidade) {
-		if(tituloLivro!=null) {
-			
+
+	public void alterarLivro(String isbn, String tituloLivro, String descricao, BigDecimal preco, Float margemX,
+			Float margemY, String edicao, Integer anoLancamento, Editora editora, Integer quantidade) {
+		Livro livro = livroRepositorio.findByISBN(isbn);
+		if (tituloLivro != null) {
+			livro.setTituloLivro(tituloLivro);
+		}if (descricao != null) {
+			livro.setDescricao(descricao);
+		}if (preco != null) {
+			livro.setPreco(preco);
+		}if (margemX != null) {
+			livro.setMargemX(margemX);
+		}if (margemY != null) {
+			livro.setMargemY(margemY);
+		}if (edicao != null) {
+			livro.setEdicao(edicao);
+		}if (anoLancamento != null) {
+			livro.setAnoLancamento(anoLancamento);
+		}if (editora != null) {
+			livro.setEditora(editora);
+		}if (quantidade != null) {
+			livro.setQuantidade(quantidade);
 		}
-		
+		livroRepositorio.save(livro);
 	}
-	
+
 	public List<Livro> listarLivros() {
 		return livroRepositorio.findAll();
 	}
