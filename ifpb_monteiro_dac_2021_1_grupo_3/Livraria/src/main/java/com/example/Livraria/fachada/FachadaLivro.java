@@ -20,14 +20,14 @@ public class FachadaLivro {
 
 	public void cadastrarLivro(String tituloLivro, List<Categoria> categoria, String descricao, BigDecimal preco,
 			Float margemX, Float margemY, String edicao, int anoLancamento, Editora editora, List<Image> fotosLivro,
-			Integer quantidade) {
+			List<String> autores,Integer quantidade) {
 		Livro livro = new Livro(tituloLivro, categoria, descricao, preco, margemX, margemY, edicao, anoLancamento,
-				editora, fotosLivro, quantidade);
+				editora, fotosLivro,autores ,quantidade);
 		livroRepositorio.save(livro);
 	}
 
 	public void alterarLivro(String isbn, String tituloLivro, String descricao, BigDecimal preco, Float margemX,
-			Float margemY, String edicao, Integer anoLancamento, Editora editora, Integer quantidade) {
+			Float margemY, String edicao, Integer anoLancamento, Editora editora, Integer quantidadeEstoque) {
 		Livro livro = livroRepositorio.findByISBN(isbn);
 		if (tituloLivro != null) {
 			livro.setTituloLivro(tituloLivro);
@@ -45,8 +45,8 @@ public class FachadaLivro {
 			livro.setAnoLancamento(anoLancamento);
 		}if (editora != null) {
 			livro.setEditora(editora);
-		}if (quantidade != null) {
-			livro.setQuantidade(quantidade);
+		}if (quantidadeEstoque != null) {
+			livro.setQuantidadeEstoque(quantidadeEstoque);
 		}
 		livroRepositorio.save(livro);
 	}

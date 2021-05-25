@@ -41,12 +41,14 @@ public class Livro {
 	private Editora editora;
 	@Column(name = "fotos_livro", nullable = false)
 	private List<Image> fotosLivro;
+	@ManyToMany
+	private List<Autor> autores;
 	@NotNull
-	private Integer quantidade;
+	private Integer quantidadeEstoque;
 	
 	public Livro(String tituloLivro, List<Categoria> categoria, String descricao, BigDecimal preco, Float margemX,
 			Float margemY, String edicao, Integer anoLancamento, Editora editora, List<Image> fotosLivro,
-			Integer quantidade) {
+			 List<Autor> autores,Integer quantidadeEstoque) {
 		this.tituloLivro = tituloLivro;
 		this.categoria = categoria;
 		this.descricao = descricao;
@@ -57,10 +59,11 @@ public class Livro {
 		this.anoLancamento = anoLancamento;
 		this.editora = editora;
 		this.fotosLivro = fotosLivro;
-		this.quantidade = quantidade;
+		this.quantidadeEstoque = quantidadeEstoque;
+		this.autores=autores;
 	}
 
 	public boolean isEmEstoque() {
-		return (quantidade > 0) ? true : false;
+		return (quantidadeEstoque > 0) ? true : false;
 	}
 }
