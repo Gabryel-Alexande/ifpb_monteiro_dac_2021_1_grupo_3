@@ -72,8 +72,6 @@ public class LivrariaApplication {
 				System.out.println("Digite o Email;");
 				email = input.nextLine();
 				System.out.println("Digite um");
-				
-
 			}
 
 		}

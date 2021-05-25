@@ -13,6 +13,7 @@ import com.example.Livraria.model.Categoria;
 import com.example.Livraria.model.Editora;
 import com.example.Livraria.model.Livro;
 import com.example.Livraria.repositorio.AutorRepositorio;
+import com.example.Livraria.repositorio.CategoriaRepositorio;
 import com.example.Livraria.repositorio.LivroRepositorio;
 import com.example.Livraria.utilitarios.EnviadorDeEmail;
 
@@ -23,12 +24,22 @@ public class FachadaLivro {
 	private LivroRepositorio livroRepositorio;
 	@Autowired
 	private AutorRepositorio autorRepositorio;
+	@Autowired
+	private CategoriaRepositorio categoriaRepositorio;
 
-	public void cadastrarLivro(String isbn, String tituloLivro, List<Categoria> categoria, String descricao,
-			BigDecimal preco,String edicao, Integer anoLancamento, Editora editora,
-			List<Image> fotosLivro, List<Long> autores, Integer quantidade) {
-		Livro livro = new Livro(isbn, tituloLivro, categoria, descricao, preco,edicao, quantidade,
-				editora, fotosLivro, null, quantidade);
+	public void cadastrarLivro(String isbn, String tituloLivro, List<Long> categorias, String descricao,
+			BigDecimal preco, String edicao, Integer anoLancamento, Editora editora, List<Image> fotosLivro,
+			List<Long> autores, Integer quantidade) {
+
+		List<Categoria> categoriasResgatados = new ArrayList<Categoria>();
+		for (Long idCategoria : categorias) {
+			Categoria categoria = categoriaRepositorio.findByIdCategoria(idCategoria);
+			if (categoria != null) {
+				categoriasResgatados.add(categoria);
+			}
+		}
+		Livro livro = new Livro(isbn, tituloLivro, categoriasResgatados, descricao, preco, edicao, quantidade, editora,
+				fotosLivro, null, quantidade);
 		List<Autor> autoresRegatados = new ArrayList<Autor>();
 		for (Long autorDaVez : autores) {
 			Autor autor = autorRepositorio.findById(autorDaVez);
@@ -36,7 +47,7 @@ public class FachadaLivro {
 			if (autor != null) {
 				autoresRegatados.add(autor);
 				EnviadorDeEmail.enviarEmail(autor.getEmail(), "Novo livro cadastrado.",
-						"Você foi adcionado como autor do livro "+livro.getTituloLivro()+"!");
+						"Você foi adcionado como autor do livro " + livro.getTituloLivro() + "!");
 				autorRepositorio.save(autor);
 			}
 		}
@@ -44,8 +55,8 @@ public class FachadaLivro {
 		livroRepositorio.save(livro);
 	}
 
-	public void alterarLivro(String isbn, String tituloLivro, String descricao, BigDecimal preco,
-			String edicao, Integer anoLancamento, Editora editora, Integer quantidadeEstoque) {
+	public void alterarLivro(String isbn, String tituloLivro, String descricao, BigDecimal preco, String edicao,
+			Integer anoLancamento, Editora editora, Integer quantidadeEstoque) {
 		Livro livro = livroRepositorio.findByISBN(isbn);
 		livro.setTituloLivro(tituloLivro);
 		livro.setDescricao(descricao);
@@ -69,25 +80,33 @@ public class FachadaLivro {
 		livroRepositorio.save(livro);
 	}
 
-	public void adcionarCategoria(String isbn, Categoria categoria) {
+	public void adcionarCategoria(String isbn, Long idCategoria) {
 		Livro livro = livroRepositorio.findByISBN(isbn);
+		Categoria categoria = categoriaRepositorio.findByIdCategoria(idCategoria);
 		livro.adcionarCategoria(categoria);
+		categoria.adcionarLivro(livro);
 		livroRepositorio.save(livro);
+		categoriaRepositorio.save(categoria);
 	}
 
-	public void removerCategoria(String isbn, Categoria categoria) {
+	public void removerCategoria(String isbn, Long idCategoria) {
 		Livro livro = livroRepositorio.findByISBN(isbn);
+		Categoria categoria = categoriaRepositorio.findByIdCategoria(idCategoria);
 		livro.removerCategoria(categoria);
+		categoria.removerLivro(livro);
 		livroRepositorio.save(livro);
+		categoriaRepositorio.save(categoria);
 	}
 
 	public List<Livro> listarLivros() {
 		return livroRepositorio.findAll();
 	}
+
 	public List<Livro> listarLivros(int quantidadeDePaginas) {
 		return null;
 	}
-	public List<Livro> listarCincoLivrosComMenorPreco(){
+
+	public List<Livro> listarCincoLivrosComMenorPreco() {
 		return null;
 	}
 }

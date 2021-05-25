@@ -1,12 +1,10 @@
 package com.example.Livraria.controllers;
 
-import java.util.List;
-
 import com.example.Livraria.exeception.LoginException;
 import com.example.Livraria.fachada.FachadaAutor;
-import com.example.Livraria.model.Livro;
 
 public class ControllerAutor {
+	
 	private FachadaAutor fachadaAutor = new FachadaAutor();
 	
 	public void cadastrarAutor(String nomeAutor, String email, String senha)
@@ -14,8 +12,11 @@ public class ControllerAutor {
 		fachadaAutor.cadastrarAutor(nomeAutor, email, senha);
 	}
 
-	public void alterarAutor(Long id, String nomeAutor, String senha, List<Livro> lirvosPublicados)
+	public void alterarAutor(Long id, String nomeAutor, String senha)
 			throws LoginException {
-		fachadaAutor.alterarAutor(id, nomeAutor, senha, lirvosPublicados);
+		fachadaAutor.alterarAutor(id, nomeAutor, senha);
+	}
+	public Object[] listarAutores(){
+		return fachadaAutor.listarAutores().toArray();
 	}
 }

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.Livraria.exeception.LoginException;
 import com.example.Livraria.model.Autor;
-import com.example.Livraria.model.Livro;
 import com.example.Livraria.repositorio.AutorRepositorio;
 import com.example.Livraria.utilitarios.AutenticacaoLogin;
 import com.example.Livraria.utilitarios.EnviadorDeEmail;
@@ -34,7 +33,7 @@ public class FachadaAutor {
 	// Aqui decidimos que o usuario não podera alterar o email, visto que isso pode
 	// trazer problemas para
 	// sua conta
-	public void alterarAutor(Long id, String nomeAutor, String senha, List<Livro> lirvosPublicados)
+	public void alterarAutor(Long id, String nomeAutor, String senha)
 			throws LoginException {
 		Autor autor = autorRepositorio.findById(id);
 		autor.setNomeAutor(nomeAutor);
@@ -43,5 +42,8 @@ public class FachadaAutor {
 		}
 		autor.setSenha(senha);
 		autorRepositorio.save(autor);
+	}
+	public List<Autor> listarAutores(){
+		return autorRepositorio.findAll();
 	}
 }

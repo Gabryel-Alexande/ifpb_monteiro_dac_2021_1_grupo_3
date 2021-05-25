@@ -25,10 +25,21 @@ public class Categoria {
 	@NotNull
 	@ManyToMany
 	private List<Livro> livros;
+	
+	public Categoria(String nomeCategoria) {
+		super();
+		this.nomeCategoria = nomeCategoria;
+	}	
 	//Este metodo foi criado com a finalidade de resolver o problema da clausula @Data,
 	//pois, a mesa cria um metodo plublico que permiti a alteração do atributo indetificador
 	//da entendiade, assim trazendo inconsistencia para o codiogo.
 	private void setIdCategortia(Long idCategortia){
 		
-	}	
+	}
+	public void adcionarLivro(Livro livro) {
+		livros.add(livro);
+	}
+	public void removerLivro(Livro livro) {
+		livros.remove(livro);
+	}
 }

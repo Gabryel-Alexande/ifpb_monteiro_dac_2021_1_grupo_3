@@ -55,6 +55,13 @@ public class FachadaUsuario {
 		usuario.setEndereco(enderecoRegatado);
 		usuarioRepositorio.save(usuario);
 	}
+	public void removerEndereco(Long idUsusario) {
+		Usuario usuario = usuarioRepositorio.findById(idUsusario);
+		if(usuario.getEndereco()!= null) {
+			usuario.setEndereco(null);
+			usuarioRepositorio.save(usuario);			
+		}
+	}
 	public Usuario consultarUsuarioPorEmail(String email) throws NotFoundException {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		if (usuario != null) {
