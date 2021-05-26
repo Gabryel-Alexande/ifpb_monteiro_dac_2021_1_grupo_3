@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import lombok.Data;
@@ -19,13 +21,10 @@ import lombok.Data;
 @Data
 public class Pedido {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_pedido")
-	private Long idPedido;
-	@Embedded
+	private Long idPedido = System.currentTimeMillis();
+	@ManyToOne
 	private Usuario cliente;
-	@Embedded
-	private Endereco endereco;
 	@ManyToMany
 	private List<Livro> livros;
 	@Transient
@@ -34,7 +33,6 @@ public class Pedido {
 	public Pedido(Usuario cliente,List<Livro> livros) {
 		super();
 		this.cliente = cliente;
-		this.endereco = cliente.getEndereco();
 		this.livros = livros;
 		cliente.adcionarPedido(this);
 		for (Livro livro : livros) {
@@ -52,5 +50,8 @@ public class Pedido {
 	}	
 	public void setPreco(BigDecimal preco){
 
+	}
+	public List<Endereco> getEndereco() {
+		return cliente.getEndereco();
 	}
 }

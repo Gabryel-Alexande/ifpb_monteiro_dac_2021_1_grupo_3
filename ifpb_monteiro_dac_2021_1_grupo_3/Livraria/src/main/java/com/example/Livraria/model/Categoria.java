@@ -18,12 +18,11 @@ import lombok.Data;
 @Data
 public class Categoria {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_categoria")
-	private Long idCategortia;
+	private Long idCategortia = System.currentTimeMillis();
 	@Column(name = "nome_categoria", nullable = false)
 	private String nomeCategoria;
-	@NotNull
+	@Column(nullable = false)
 	@ManyToMany
 	private List<Livro> livros;
 	

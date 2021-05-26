@@ -14,22 +14,21 @@ import lombok.Data;
 @Data
 public class Endereco {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_endereco")
-	private Long idEndereco;
-	@NotNull
+	private Long idEndereco = System.currentTimeMillis();
+	@Column(nullable = false)
 	private String cep;
-	@NotNull
+	@Column(nullable = false)
 	private String rua;
-	@NotNull
+	@Column(nullable = false)
 	private String estado;
-	@NotNull
+	@Column(nullable = false)
 	private String cidade;
-	@NotNull
+	@Column(nullable = false)
 	private String complemento;
-	@NotNull
+	@Column(nullable = false)
 	private String pais;
-	@NotNull
+	@Column(nullable = false)
 	private String bairro;
 	@Column(name = "numero_casa", nullable = false)
 	private String numeroCasa;

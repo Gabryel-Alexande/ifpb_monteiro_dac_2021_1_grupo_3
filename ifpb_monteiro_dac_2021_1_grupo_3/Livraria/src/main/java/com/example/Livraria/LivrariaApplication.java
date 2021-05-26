@@ -11,6 +11,7 @@ import java.util.Scanner;
 import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -22,7 +23,7 @@ import com.example.Livraria.controllers.ControllerLivro;
 import com.example.Livraria.controllers.ControllerUsuario;
 
 @SpringBootApplication
-public class LivrariaApplication{
+public class LivrariaApplication implements CommandLineRunner{
 	@Autowired
 	ControllerUsuario controllerUsuario;
 	@Autowired

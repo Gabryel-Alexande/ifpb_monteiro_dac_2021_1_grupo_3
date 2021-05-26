@@ -4,11 +4,17 @@ import java.awt.Image;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.sun.istack.NotNull;
 
@@ -22,30 +28,37 @@ import lombok.Setter;
 @Entity
 @Data
 public class Livro {
-	
-	@Column(name = "titulo_livro", nullable = false)
-	private String tituloLivro;
 	@Id
+	@Column(name="id_livro")
+	private Long idLivro= System.currentTimeMillis();
+	@Column(name = "titulo_livro", nullable = false)
+	private String tituloLivro;	
+	@Column(nullable = false)
 	private String isbn;
-	@NotNull
 	@ManyToMany
+	@Column(nullable = false)
 	private List<Categoria> categorias;
-	@NotNull
+	@Column(nullable = false)
 	private String descricao;
-	@NotNull
+	@Column(nullable = false)
 	private BigDecimal preco;
-	@NotNull
+	@Column(nullable = false)
 	private String edicao;
 	@Column(name = "ano_lancamento", nullable = false)
 	private Integer anoLancamento;
-	@NotNull
+	
 	@ManyToOne
+	@JoinColumn(name="id_editora")
 	private Editora editora;
-	@Column(name = "fotos_livro", nullable = false)
+	
+	@Transient
 	private List<Image> fotosLivro;
-	@ManyToMany
+	
+	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE} )
+	@JoinTable(name = "LIVROAUTOR",  joinColumns = @JoinColumn(name = "LIVROID"), 
+			inverseJoinColumns = @JoinColumn(name = "AUTORID"))
 	private List<Autor> autores;
-	@NotNull
+	@Column(nullable = false)
 	private Integer quantidadeEstoque;
 	
 	public Livro(String isbn,String tituloLivro, List<Categoria> categorias, String descricao, BigDecimal preco,

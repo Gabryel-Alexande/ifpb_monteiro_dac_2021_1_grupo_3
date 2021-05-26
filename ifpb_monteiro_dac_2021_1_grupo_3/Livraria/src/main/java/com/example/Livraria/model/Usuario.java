@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -22,20 +23,19 @@ public class Usuario {
 	@Column(name = "nome_usuario", nullable = false)
 	private String nomeUsusario;
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_usuario")
-	private Long idUsusario;
-	@NotNull
+	private Long idUsusario = System.currentTimeMillis();
+	@Column(nullable = false)
 	private String email;
-	@NotNull
+	@Column(nullable = false)
 	private String senha;
-	@NotNull
-	@Embedded
-	private Endereco endereco;
-	@NotNull
+	@OneToMany
+	@JoinColumn(name="idEndereco")
+	private List<Endereco> endereco;
+	@Column(nullable = false)
 	private String cpf;
-	@NotNull
 	@BooleanFlag
+	@Column(nullable = false)
 	private boolean admisnistrador;
 	@ManyToMany
 	private List<Livro> carrinho;

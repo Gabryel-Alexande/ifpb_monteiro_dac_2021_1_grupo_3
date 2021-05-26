@@ -19,12 +19,11 @@ public class Autor {
 	@Column(name = "nome_autor", nullable = false)
 	private String nomeAutor;
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_autor")
-	private Long idAutor;
-	@NotNull
+	private Long idAutor = System.currentTimeMillis();
+	@Column(nullable = false)
 	private String email;
-	@NotNull
+	@Column(nullable = false)
 	private String senha;
 	@Column(name = "livros_publicados", nullable = false)
 	@ManyToMany

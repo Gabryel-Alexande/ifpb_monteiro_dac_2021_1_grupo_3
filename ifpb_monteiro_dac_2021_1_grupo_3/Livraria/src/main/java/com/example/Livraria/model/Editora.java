@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.sun.istack.NotNull;
 
@@ -18,17 +19,15 @@ import lombok.Data;
 @Data
 public class Editora {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_editora")
-	private Long idEditora;
+	private Long idEditora = System.currentTimeMillis();
+	
 	@Column(name = "nome_editora", nullable = false)
 	private String nomeEditora;
-	@NotNull
-	@ManyToMany
+	
+	@OneToMany(mappedBy = "isbn")
 	private List<Livro> livros;
-	@NotNull
-	@Embedded
-	private Endereco endereco;
+	
 	//Este metodo foi criado com a finalidade de resolver o problema da clausula @Data,
 	//pois, a mesa cria um metodo plublico que permiti a alteração do atributo indetificador
 	//da entendiade, assim trazendo inconsistencia para o codiogo.
@@ -38,7 +37,6 @@ public class Editora {
 	public Editora(String nomeEditora, Endereco endereco) {
 		super();
 		this.nomeEditora = nomeEditora;
-		this.endereco = endereco;
 	}
 	public Editora(String nomeEditora) {
 		super();
