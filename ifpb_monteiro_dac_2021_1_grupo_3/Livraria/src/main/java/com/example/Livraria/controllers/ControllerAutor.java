@@ -1,8 +1,10 @@
 package com.example.Livraria.controllers;
 
+import org.springframework.stereotype.Controller;
+
 import com.example.Livraria.exeception.LoginException;
 import com.example.Livraria.fachada.FachadaAutor;
-
+@Controller
 public class ControllerAutor {
 	
 	private FachadaAutor fachadaAutor = new FachadaAutor();

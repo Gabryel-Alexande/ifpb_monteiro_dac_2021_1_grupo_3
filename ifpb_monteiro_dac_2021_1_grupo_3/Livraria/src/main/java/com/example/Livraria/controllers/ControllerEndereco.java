@@ -1,7 +1,9 @@
 package com.example.Livraria.controllers;
 
-import com.example.Livraria.fachada.FachadaEndereco;
+import org.springframework.stereotype.Controller;
 
+import com.example.Livraria.fachada.FachadaEndereco;
+@Controller
 public class ControllerEndereco {
 	
 	private FachadaEndereco fachadaEndereco = new FachadaEndereco();

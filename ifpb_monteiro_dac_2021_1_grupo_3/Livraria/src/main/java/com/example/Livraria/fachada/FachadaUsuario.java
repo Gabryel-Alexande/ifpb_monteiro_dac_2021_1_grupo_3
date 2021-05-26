@@ -74,21 +74,21 @@ public class FachadaUsuario {
 		return usuarioRepositorio.findAll();
 	}
 
-	public void adcionarAoCarinho(String isbn,Long idUsusario) {
-		Usuario usuario = usuarioRepositorio.findById(idUsusario);
+	public void adcionarAoCarinho(String isbn,String email) {
+		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		Livro livro= livroRepositorio.findByISBN(isbn);
 		usuario.adcionarAoCarinho(livro);
 		usuarioRepositorio.save(usuario);
 	}
 
-	public void removerAoCarinho(String isbn,Long idUsusario) {
-		Usuario usuario = usuarioRepositorio.findById(idUsusario);
+	public void removerAoCarinho(String isbn,String email) {
+		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		Livro livro= livroRepositorio.findByISBN(isbn);
 		usuario.removerDoCarinho(livro);
 		usuarioRepositorio.save(usuario);
 	}
-	public void comprarLivro(List<String> isbns,Long idUsusario) throws NotFoundException{
-		Usuario usuario = usuarioRepositorio.findById(idUsusario);
+	public void comprarLivro(List<String> isbns,String email) throws NotFoundException{
+		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		List<Livro> livroResgatados= new ArrayList<Livro>();
 		for (String isbn : isbns) {
 			Livro livro= livroRepositorio.findByISBN(isbn);	
@@ -109,8 +109,8 @@ public class FachadaUsuario {
 		EnviadorDeEmail.enviarEmail(usuario.getEmail(), "Sua compra foi feita com sucesso!", "Obrigado por sua compra.\nSeu pedido chegara em breve!");
 	}
 
-	public void cancelarPedido(Long idPedido,Long idUsusario) {
-		Usuario usuario = usuarioRepositorio.findById(idUsusario);
+	public void cancelarPedido(Long idPedido,String email) {
+		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		Pedido pedido = pedidoRepositorio.findByIdPedido(idPedido);
 		for (Livro livro : pedido.getLivros()) {
 			livro.aumentarEtoque();

@@ -19,7 +19,7 @@ import lombok.Data;
 public class Editora {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_editora", nullable = false)
+	@Column(name = "id_editora")
 	private Long idEditora;
 	@Column(name = "nome_editora", nullable = false)
 	private String nomeEditora;
@@ -34,5 +34,23 @@ public class Editora {
 	//da entendiade, assim trazendo inconsistencia para o codiogo.
 	private void setIdEditora(Long idEditora){
 		
-	}	
+	}
+	public Editora(String nomeEditora, Endereco endereco) {
+		super();
+		this.nomeEditora = nomeEditora;
+		this.endereco = endereco;
+	}
+	public Editora(String nomeEditora) {
+		super();
+		this.nomeEditora = nomeEditora;
+	
+	}
+	
+	public void adicionarLivroNaEditora(Livro livro) {
+		livros.add(livro);
+	}
+	public void removerLivroNaEditora(Livro livro) {
+		livros.remove(livro);
+	}
+	
 }

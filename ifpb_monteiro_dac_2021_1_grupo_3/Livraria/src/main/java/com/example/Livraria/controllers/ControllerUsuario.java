@@ -2,13 +2,15 @@ package com.example.Livraria.controllers;
 
 import java.util.List;
 
+import org.springframework.stereotype.Controller;
+
 import com.example.Livraria.exeception.CPFException;
 import com.example.Livraria.exeception.LoginException;
 import com.example.Livraria.fachada.FachadaUsuario;
 import com.example.Livraria.model.Usuario;
 
 import javassist.NotFoundException;
-
+@Controller
 public class ControllerUsuario {
 	private FachadaUsuario fachadaUsuario = new FachadaUsuario();
 
@@ -33,20 +35,20 @@ public class ControllerUsuario {
 		return fachadaUsuario.listarUsuarios().toArray();
 	}
 
-	public void adcionarAoCarinho(String isbn, Long idUsusario) {
-		fachadaUsuario.adcionarAoCarinho(isbn, idUsusario);
+	public void adcionarAoCarinho(String isbn, String email) {
+		fachadaUsuario.adcionarAoCarinho(isbn, email);
 	}
 
-	public void removerAoCarinho(String isbn, Long idUsusario) {
-		fachadaUsuario.removerAoCarinho(isbn, idUsusario);
+	public void removerAoCarinho(String isbn, String email) {
+		fachadaUsuario.removerAoCarinho(isbn, email);
 	}
 
-	public void comprarLivro(List<String> isbns, Long idUsusario) throws NotFoundException {
-		fachadaUsuario.comprarLivro(isbns, idUsusario);
+	public void comprarLivro(List<String> isbns, String email) throws NotFoundException {
+		fachadaUsuario.comprarLivro(isbns, email);
 	}
 
-	public void cancelarPedido(Long idPedido, Long idUsusario) {
-		fachadaUsuario.cancelarPedido(idPedido, idUsusario);
+	public void cancelarPedido(Long idPedido, String email) {
+		fachadaUsuario.cancelarPedido(idPedido, email);
 	}
 
 }

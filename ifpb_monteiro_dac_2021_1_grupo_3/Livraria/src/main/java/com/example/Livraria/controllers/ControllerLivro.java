@@ -4,23 +4,27 @@ import java.awt.Image;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.springframework.stereotype.Controller;
+
 import com.example.Livraria.fachada.FachadaLivro;
 import com.example.Livraria.model.Editora;
-
+@Controller
 public class ControllerLivro{
 	private FachadaLivro fachadaLivro = new FachadaLivro();
-
+	
 	public void cadastrarLivro(String isbn, String tituloLivro, List<Long> categoria, String descricao,
-			BigDecimal preco,String edicao, int anoLancamento, Editora editora,
+			BigDecimal preco,String edicao, Integer anoLancamento, Long idEditora,
 			List<Image> fotosLivro, List<Long> autores, Integer quantidade) {
-		fachadaLivro.cadastrarLivro(isbn, tituloLivro, categoria, descricao, preco,edicao, anoLancamento, editora, fotosLivro, autores, quantidade);
+		fachadaLivro.cadastrarLivro(isbn, tituloLivro, categoria, descricao, preco,edicao, anoLancamento, idEditora, fotosLivro, autores, quantidade);
 	}
 
 	public void alterarLivro(String isbn, String tituloLivro, String descricao, BigDecimal preco,
-			 String edicao, Integer anoLancamento, Editora editora, Integer quantidadeEstoque) {
-		fachadaLivro.alterarLivro(isbn, tituloLivro, descricao, preco, edicao, anoLancamento, editora, quantidadeEstoque);
+			 String edicao, Integer anoLancamento, Long idEditora, Integer quantidadeEstoque) {
+		fachadaLivro.alterarLivro(isbn, tituloLivro, descricao, preco, edicao, anoLancamento, idEditora, quantidadeEstoque);
 	}
-
+	public void removerLivro(String isbn) {
+		fachadaLivro.removerLivro(isbn);
+	}
 	public void adcionarFoto(String isbn, Image imagem) {
 		fachadaLivro.adcionarFoto(isbn, imagem);
 	}
