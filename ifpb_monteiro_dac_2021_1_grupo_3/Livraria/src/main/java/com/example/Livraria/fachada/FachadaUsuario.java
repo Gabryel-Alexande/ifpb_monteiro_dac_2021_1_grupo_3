@@ -49,14 +49,14 @@ public class FachadaUsuario {
 				+ "\nAqui temos uma grande variedade de livros.\nSinta-se a vontade para nos contactar.\nObrigado por nos escolher.");
 		usuarioRepositorio.save(usuario);
 	}
-	public void adcionarEndereco(Long idEndereco,Long idUsusario) {
+	public void adcionarEndereco(Long idEndereco,String email) {
 		Endereco enderecoRegatado= enderecoRepositorio.findByIdEndereco(idEndereco);
-		Usuario usuario = usuarioRepositorio.findById(idUsusario);
+		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		usuario.setEndereco(enderecoRegatado);
 		usuarioRepositorio.save(usuario);
 	}
-	public void removerEndereco(Long idUsusario) {
-		Usuario usuario = usuarioRepositorio.findById(idUsusario);
+	public void removerEndereco(String email) {
+		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		if(usuario.getEndereco()!= null) {
 			usuario.setEndereco(null);
 			usuarioRepositorio.save(usuario);			
@@ -74,14 +74,17 @@ public class FachadaUsuario {
 		return usuarioRepositorio.findAll();
 	}
 
+	public List<Pedido> listarPedios(String email){
+		Usuario usuario = usuarioRepositorio.findByEmail(email);
+		return usuario.getPedidos();
+	}
 	public void adcionarAoCarinho(String isbn,String email) {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		Livro livro= livroRepositorio.findByISBN(isbn);
 		usuario.adcionarAoCarinho(livro);
 		usuarioRepositorio.save(usuario);
 	}
-
-	public void removerAoCarinho(String isbn,String email) {
+	public void removerDoCarinho(String isbn,String email) {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		Livro livro= livroRepositorio.findByISBN(isbn);
 		usuario.removerDoCarinho(livro);

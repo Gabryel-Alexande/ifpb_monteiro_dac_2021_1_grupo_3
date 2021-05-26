@@ -4,13 +4,16 @@ import java.awt.Image;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 
 import com.example.Livraria.fachada.FachadaLivro;
-import com.example.Livraria.model.Editora;
+import com.example.Livraria.model.Livro;
 @Controller
 public class ControllerLivro{
-	private FachadaLivro fachadaLivro = new FachadaLivro();
+	@Autowired
+	private FachadaLivro fachadaLivro;
 	
 	public void cadastrarLivro(String isbn, String tituloLivro, List<Long> categoria, String descricao,
 			BigDecimal preco,String edicao, Integer anoLancamento, Long idEditora,
@@ -44,10 +47,10 @@ public class ControllerLivro{
 	public Object[] listarLivros() {
 		return fachadaLivro.listarLivros().toArray();
 	}
-	public Object[] listarCincoLivrosComMenorPreco(){
-		return fachadaLivro.listarCincoLivrosComMenorPreco().toArray();
+	public Page<Livro> listarCincoLivrosComMenorPreco(){
+		return fachadaLivro.listarCincoLivrosComMenorPreco();
 	}
-	public Object[] listarLivros(int quantidadeDePaginas) {
-		return fachadaLivro.listarLivros(quantidadeDePaginas).toArray();
+	public Page<Livro> listarLivros(String campoOrdenacao, int ordem, int quantidadeDePaginas) {
+		return fachadaLivro.listarLivros(campoOrdenacao, ordem, quantidadeDePaginas);
 	}
 }

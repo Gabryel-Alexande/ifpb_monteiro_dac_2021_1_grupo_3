@@ -7,14 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.example.Livraria.model.Endereco;
 import com.example.Livraria.repositorio.EnderecoRepositorio;
-import com.example.Livraria.repositorio.UsuarioRepositorio;
 
 @Service
 public class FachadaEndereco {
 	@Autowired
 	private EnderecoRepositorio enderecoRepositorio;
-	@Autowired
-	private UsuarioRepositorio usuarioRepositorio;
 	
 	public void adcionarEndereco(String cep, String rua, String estado, String cidade, String complemento, String pais,
 			String bairro, String numeroCasa) {

@@ -18,6 +18,11 @@ import com.example.Livraria.repositorio.EditoraRepositorio;
 import com.example.Livraria.repositorio.LivroRepositorio;
 import com.example.Livraria.utilitarios.EnviadorDeEmail;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+
 @Service
 public class FachadaLivro {
 
@@ -29,7 +34,7 @@ public class FachadaLivro {
 	private CategoriaRepositorio categoriaRepositorio;
 	@Autowired
 	private EditoraRepositorio editoraRepositorio;
-	
+
 	public void cadastrarLivro(String isbn, String tituloLivro, List<Long> categorias, String descricao,
 			BigDecimal preco, String edicao, Integer anoLancamento, Long idEditora, List<Image> fotosLivro,
 			List<Long> autores, Integer quantidade) {
@@ -42,7 +47,7 @@ public class FachadaLivro {
 			}
 		}
 		Editora editora = editoraRepositorio.findByIdEditora(idEditora);
-		Livro livro = new Livro(isbn, tituloLivro, categoriasResgatados, descricao, preco, edicao, quantidade,editora ,
+		Livro livro = new Livro(isbn, tituloLivro, categoriasResgatados, descricao, preco, edicao, quantidade, editora,
 				fotosLivro, null, quantidade);
 		editora.adicionarLivroNaEditora(livro);
 		List<Autor> autoresRegatados = new ArrayList<Autor>();
@@ -78,16 +83,18 @@ public class FachadaLivro {
 		livro.setEditora(editoraNova);
 		livro.setQuantidadeEstoque(quantidadeEstoque);
 		livroRepositorio.save(livro);
-		
+
 	}
+
 	public void removerLivro(String isbn) {
 		Livro livroRemove = livroRepositorio.findByISBN(isbn);
-		Editora editora =editoraRepositorio.findByIdEditora(livroRemove.getEditora().getIdEditora());
+		Editora editora = editoraRepositorio.findByIdEditora(livroRemove.getEditora().getIdEditora());
 		editora.removerLivroNaEditora(livroRemove);
 		editoraRepositorio.save(editora);
 		livroRepositorio.delete(livroRemove);
-		
+
 	}
+
 	public void adcionarFoto(String isbn, Image imagem) {
 		Livro livro = livroRepositorio.findByISBN(isbn);
 		livro.adcionarFoto(imagem);
@@ -122,11 +129,21 @@ public class FachadaLivro {
 		return livroRepositorio.findAll();
 	}
 
-	public List<Livro> listarLivros(int quantidadeDePaginas) {
-		return null;
+	public Page<Livro> listarLivros(String campoOrdenacao, int ordem, int quantidadeDePaginas) {
+		Direction sortDirection = Sort.Direction.DESC;
+		if (ordem == 2) {
+			sortDirection = Sort.Direction.ASC;
+		}
+		Sort sort = Sort.by(sortDirection, campoOrdenacao);
+		Page<Livro> pagina = livroRepositorio.findAll(PageRequest.of(--quantidadeDePaginas, 5, sort));
+
+		return pagina;
 	}
 
-	public List<Livro> listarCincoLivrosComMenorPreco() {
-		return null;
+	public Page<Livro> listarCincoLivrosComMenorPreco() {
+		Direction sortDirection = Sort.Direction.ASC;
+		Sort sort = Sort.by(sortDirection, "preco");
+		Page<Livro> pagina = livroRepositorio.findAll(PageRequest.of(5, 5, sort));
+		return pagina;
 	}
 }

@@ -7,17 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.example.Livraria.model.Editora;
 import com.example.Livraria.model.Endereco;
-import com.example.Livraria.model.Livro;
-import com.example.Livraria.model.Usuario;
 import com.example.Livraria.repositorio.EditoraRepositorio;
 import com.example.Livraria.repositorio.EnderecoRepositorio;
-import com.example.Livraria.repositorio.LivroRepositorio;
 @Service
 public class FachadaEditora {
 	@Autowired
 	private EditoraRepositorio editoraRepositorio;
-	@Autowired
-	private LivroRepositorio livroRepositorio;
 	@Autowired
 	private EnderecoRepositorio enderecoRepositorio;
 	public void cadastrarEditora(String nomeEditora) {

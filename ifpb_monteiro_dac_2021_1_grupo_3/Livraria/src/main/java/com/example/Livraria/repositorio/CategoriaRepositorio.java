@@ -1,9 +1,11 @@
 package com.example.Livraria.repositorio;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.example.Livraria.model.Categoria;
 
+@Repository
 public interface CategoriaRepositorio extends JpaRepository<Categoria, Long>{
 	public Categoria findByIdCategoria(Long id);
 }

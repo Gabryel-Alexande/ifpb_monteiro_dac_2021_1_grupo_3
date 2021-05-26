@@ -1,12 +1,13 @@
 package com.example.Livraria.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.example.Livraria.fachada.FachadaCategoria;
 @Controller
 public class ControllerCategoria {
-	
-	private FachadaCategoria fachadaCategoria= new FachadaCategoria();
+	@Autowired
+	private FachadaCategoria fachadaCategoria;
 
 	public void criarCategoria(String nome) {
 		fachadaCategoria.criarCategoria(nome);
@@ -15,7 +16,7 @@ public class ControllerCategoria {
 	public void editarCategoria(Long id, String nome) {
 		fachadaCategoria.editarCategoria(id, nome);
 	}
-	public Object[] listarCategoria(Long id,String nome) {
+	public Object[] listarCategoria() {
 		return fachadaCategoria.listarCategoria().toArray();
 	}
 	public void excluirCategoria(Long id) {
