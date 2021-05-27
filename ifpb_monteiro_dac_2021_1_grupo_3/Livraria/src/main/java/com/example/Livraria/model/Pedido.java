@@ -4,18 +4,14 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import lombok.Data;
-
 
 @Entity
 @Data
@@ -26,17 +22,18 @@ public class Pedido {
 	@ManyToOne
 	private Usuario cliente;
 	@ManyToMany
-	private List<Livro> livros;
+	private List<ItemPedido> itemPedido;
 	@Transient
 	private BigDecimal preco;
-	
-	public Pedido(Usuario cliente,List<Livro> livros) {
+	@Enumerated
+	private EstadoPedido estadoPedido;
+	public Pedido(Usuario cliente,List<ItemPedido> itemPedido) {
 		super();
 		this.cliente = cliente;
-		this.livros = livros;
+		this.itemPedido = itemPedido;
 		cliente.adcionarPedido(this);
-		for (Livro livro : livros) {
-			preco=preco.add(livro.getPreco());
+		for (ItemPedido item : itemPedido) {
+			preco=preco.add(item.getLivro().getPreco().multiply(item.getQuantidade()));
 		}
 	}
 	public void removerClienteDoPedido() {
@@ -50,8 +47,5 @@ public class Pedido {
 	}	
 	public void setPreco(BigDecimal preco){
 
-	}
-	public List<Endereco> getEndereco() {
-		return cliente.getEndereco();
 	}
 }

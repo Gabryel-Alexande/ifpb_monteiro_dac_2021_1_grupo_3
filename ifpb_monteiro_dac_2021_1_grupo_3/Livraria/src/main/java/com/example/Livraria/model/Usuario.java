@@ -31,14 +31,14 @@ public class Usuario {
 	private String senha;
 	@OneToMany
 	@JoinColumn(name="idEndereco")
-	private List<Endereco> endereco;
+	private List<Endereco> enderecos;
 	@Column(nullable = false)
 	private String cpf;
 	@BooleanFlag
 	@Column(nullable = false)
 	private boolean admisnistrador;
 	@ManyToMany
-	private List<Livro> carrinho;
+	private List<ItemPedido> carrinho;
 	@OneToMany
 	private List<Pedido> pedidos;
 
@@ -65,14 +65,17 @@ public class Usuario {
 		return "Nome:"+this.nomeUsusario+"\n Cpf:"+this.cpf+"\n Email: "+this.email+"\n É ADM ?"+this.admisnistrador;
 	}
 
-	public void adcionarAoCarinho(Livro livro) {
-		carrinho.add(livro);
+	public void adcionarAoCarinho(ItemPedido itemPedido) {
+		carrinho.add(itemPedido);
 	}
 
-	public void removerDoCarinho(Livro livro) {
-		carrinho.remove(livro);
+	public void removerDoCarinho(ItemPedido itemPedido) {
+		carrinho.remove(itemPedido);
 	}
-
+	@SuppressWarnings("unlikely-arg-type")
+	public void removerDoCarinho(Integer indice) {
+		carrinho.remove(indice);
+	}
 	public void adcionarPedido(Pedido pedido) {
 		pedidos.add(pedido);
 	}
@@ -81,4 +84,11 @@ public class Usuario {
 		pedidos.remove(pedido);
 		pedido.removerClienteDoPedido();
 	}
+	public void adcionarEndereco(Endereco endereco) {
+		enderecos.add(endereco);
+	}
+	public void removerEndereco(Endereco endereco) {
+		enderecos.remove(endereco);
+	}
+	
 }

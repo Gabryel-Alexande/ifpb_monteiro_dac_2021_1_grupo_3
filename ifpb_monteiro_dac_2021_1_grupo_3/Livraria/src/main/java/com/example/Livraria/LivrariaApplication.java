@@ -68,7 +68,7 @@ public class LivrariaApplication implements CommandLineRunner{
 					+ "15 - Listar Pedidos" + "\n16 - Criar Endereco" + "\n17 - Adcionar Endereco"
 					+ "\n18 - Remover Endereco" + "\n19 - Listar Endereco" + "\n20 - Editar categoria"
 					+ "\n20 - Ecluir categoria" + "\n22 - Listar categoria" + "\n23 - Criar editora"
-					+ "\n24 - Editar editora" + "\n25 - Adcionar endereço a editora"+ "\n26 - Listar editora");
+					+ "\n24 - Editar editora" + "\n25 - Adcionar endereço a editora"+ "\n26 - Listar editora"+"\n27 - Ver carrinho");
 
 			int opcao = Integer.parseInt(input.nextLine());
 			switch (opcao) {
@@ -262,7 +262,7 @@ public class LivrariaApplication implements CommandLineRunner{
 			case 15:
 				System.out.println("Email do cliente: ");
 				email = input.nextLine();
-				System.out.println(controllerUsuario.listarPedios(email).toString());
+				System.out.println(controllerUsuario.listarPedidos(email).toString());
 			case 16:
 				System.out.println("Digite o CEP: ");
 				String cep = input.nextLine();
@@ -292,7 +292,9 @@ public class LivrariaApplication implements CommandLineRunner{
 			case 18:
 				System.out.println("Email do cliente: ");
 				email = input.nextLine();
-				controllerUsuario.removerEndereco(email);
+				System.out.println("Digite o id do endreco:");
+				id = input.nextLong();
+				controllerUsuario.removerEndereco(id,email);
 				System.out.println("Endereco removido!");
 				break;
 			case 19:

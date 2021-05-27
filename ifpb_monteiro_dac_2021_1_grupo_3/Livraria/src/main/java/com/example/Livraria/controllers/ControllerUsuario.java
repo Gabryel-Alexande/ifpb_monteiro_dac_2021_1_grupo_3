@@ -1,5 +1,6 @@
 package com.example.Livraria.controllers;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import com.example.Livraria.exeception.CPFException;
 import com.example.Livraria.exeception.LoginException;
 import com.example.Livraria.fachada.FachadaUsuario;
+import com.example.Livraria.model.ItemPedido;
+import com.example.Livraria.model.Usuario;
 
 import javassist.NotFoundException;
 @Controller
@@ -24,8 +27,8 @@ public class ControllerUsuario {
 		fachadaUsuario.adcionarEndereco(idEndereco, email);
 	}
 
-	public void removerEndereco(String email) {
-		fachadaUsuario.removerEndereco(email);
+	public void removerEndereco(Long idEdereco,String email) {
+		fachadaUsuario.removerEndereco(idEdereco,email);
 	}
 
 	public Object consultarPorEmail(String email) throws NotFoundException {
@@ -35,15 +38,18 @@ public class ControllerUsuario {
 	public Object[] listarUsuarios() {
 		return fachadaUsuario.listarUsuarios().toArray();
 	}
-	public Object[] listarPedios(String email){
-		return fachadaUsuario.listarPedios(email).toArray();
+	public Object[] listarPedidos(String email){
+		return fachadaUsuario.listarPedidos(email).toArray();
 	}
-	public void adcionarAoCarinho(String isbn, String email) {
-		fachadaUsuario.adcionarAoCarinho(isbn, email);
+	public Object[] verCarrinho(String email){
+		return fachadaUsuario.verCarrinho(email).toArray();
+	}
+	public void adcionarAoCarinho(String isbn,BigDecimal quantidade,String email) {
+		fachadaUsuario.adcionarAoCarinho(isbn, quantidade, email);
 	}
 
-	public void removerDoCarinho(String isbn, String email) {
-		fachadaUsuario.removerDoCarinho(isbn, email);
+	public void removerDoCarinho(Integer indice, String email) {
+		fachadaUsuario.removerDoCarinho(indice, email);
 	}
 
 	public void comprarLivro(List<String> isbns, String email) throws NotFoundException {

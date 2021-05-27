@@ -1,5 +1,6 @@
 package com.example.Livraria.fachada;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,10 +10,12 @@ import org.springframework.stereotype.Service;
 import com.example.Livraria.exeception.CPFException;
 import com.example.Livraria.exeception.LoginException;
 import com.example.Livraria.model.Endereco;
+import com.example.Livraria.model.ItemPedido;
 import com.example.Livraria.model.Livro;
 import com.example.Livraria.model.Pedido;
 import com.example.Livraria.model.Usuario;
 import com.example.Livraria.repositorio.EnderecoRepositorio;
+import com.example.Livraria.repositorio.ItemPedidoRepositorio;
 import com.example.Livraria.repositorio.LivroRepositorio;
 import com.example.Livraria.repositorio.PedidoRepositorio;
 import com.example.Livraria.repositorio.UsuarioRepositorio;
@@ -52,13 +55,14 @@ public class FachadaUsuario {
 	public void adcionarEndereco(Long idEndereco,String email) {
 		Endereco enderecoRegatado= enderecoRepositorio.findByIdEndereco(idEndereco);
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
-		usuario.setEndereco(enderecoRegatado);
+		usuario.adcionarEndereco(enderecoRegatado);
 		usuarioRepositorio.save(usuario);
 	}
-	public void removerEndereco(String email) {
+	public void removerEndereco(Long idEndereco,String email) {
+		Endereco enderecoRegatado= enderecoRepositorio.findByIdEndereco(idEndereco);
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
-		if(usuario.getEndereco()!= null) {
-			usuario.setEndereco(null);
+		if(usuario.getEnderecos()!= null) {
+			usuario.removerEndereco(enderecoRegatado);;
 			usuarioRepositorio.save(usuario);			
 		}
 	}
@@ -74,21 +78,24 @@ public class FachadaUsuario {
 		return usuarioRepositorio.findAll();
 	}
 
-	public List<Pedido> listarPedios(String email){
+	public List<Pedido> listarPedidos(String email){
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		return usuario.getPedidos();
 	}
-	public void adcionarAoCarinho(String isbn,String email) {
+	public void adcionarAoCarinho(String isbn,BigDecimal quantidade,String email) {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
-		Livro livro= livroRepositorio.findByISBN(isbn);
-		usuario.adcionarAoCarinho(livro);
+		Livro livro= livroRepositorio.findByISBN(isbn);	
+		usuario.adcionarAoCarinho(new ItemPedido(livro, quantidade));
 		usuarioRepositorio.save(usuario);
 	}
-	public void removerDoCarinho(String isbn,String email) {
+	public void removerDoCarinho(Integer indice,String email) {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
-		Livro livro= livroRepositorio.findByISBN(isbn);
-		usuario.removerDoCarinho(livro);
+		usuario.removerDoCarinho(indice);
 		usuarioRepositorio.save(usuario);
+	}
+	public List<ItemPedido> verCarrinho(String email){
+		Usuario usuario = usuarioRepositorio.findByEmail(email);
+		return usuario.getCarrinho();
 	}
 	public void comprarLivro(List<String> isbns,String email) throws NotFoundException{
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
