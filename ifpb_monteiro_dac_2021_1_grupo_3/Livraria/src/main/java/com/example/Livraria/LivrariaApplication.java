@@ -225,30 +225,24 @@ public class LivrariaApplication implements CommandLineRunner{
 				isbn = input.nextLine();
 				System.out.println("Email do cliente: ");
 				email = input.nextLine();
-				controllerUsuario.adcionarAoCarinho(isbn, email);
+				System.out.println("Quantidade de livro: ");
+				Integer quantidadeLivro = Integer.parseInt(input.nextLine());
+				controllerUsuario.adcionarAoCarinho(isbn,quantidadeLivro, email);
 				System.out.println("Livroadcionado ao carrinho!");
 				break;
 			case 12:
-				System.out.println("ISBN do livro: ");
-				isbn = input.nextLine();
+				System.out.println("indice do livro no carrinho: ");
+				int indice = Integer.parseInt(input.nextLine());
 				System.out.println("Email do cliente: ");
 				email = input.nextLine();
-				controllerUsuario.removerDoCarinho(isbn, email);
+				controllerUsuario.removerDoCarinho(indice, email);
 				System.out.println("Livro removido do carrinho!");
 				break;
 			case 13:
 
 				System.out.println("Email do cliente: ");
 				email = input.nextLine();
-				List<String> isbns = new ArrayList<String>();
-				int sairCompra = 0;
-				while (sairCompra != 2) {
-					System.out.println("ISBN do livro: ");
-					isbn = input.nextLine();
-					System.out.println("1- para continuar e 2 para finalizar: ");
-					sairCompra = Integer.parseInt(input.nextLine());
-				}
-				controllerUsuario.comprarLivro(isbns, email);
+				controllerUsuario.comprarLivro(email);
 				System.out.println("Pedido realizado com sucesso!");
 				break;
 			case 14:
@@ -338,7 +332,12 @@ public class LivrariaApplication implements CommandLineRunner{
 				System.out.println("Endereço adcionado!");
 				break;
 			case 26:
-				System.out.println(controllerEditora.listarEditoras());
+				System.out.println(controllerEditora.listarEditoras().toString());
+				break;
+			case 27:
+				System.out.println("Email do cliente: ");
+				email = input.nextLine();
+				System.out.println(controllerUsuario.verCarrinho(email).toString());
 				break;
 			}
 		}

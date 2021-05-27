@@ -1,16 +1,11 @@
 package com.example.Livraria.controllers;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.example.Livraria.exeception.CPFException;
 import com.example.Livraria.exeception.LoginException;
 import com.example.Livraria.fachada.FachadaUsuario;
-import com.example.Livraria.model.ItemPedido;
-import com.example.Livraria.model.Usuario;
 
 import javassist.NotFoundException;
 @Controller
@@ -44,7 +39,7 @@ public class ControllerUsuario {
 	public Object[] verCarrinho(String email){
 		return fachadaUsuario.verCarrinho(email).toArray();
 	}
-	public void adcionarAoCarinho(String isbn,BigDecimal quantidade,String email) {
+	public void adcionarAoCarinho(String isbn,Integer quantidade,String email) {
 		fachadaUsuario.adcionarAoCarinho(isbn, quantidade, email);
 	}
 
@@ -52,8 +47,8 @@ public class ControllerUsuario {
 		fachadaUsuario.removerDoCarinho(indice, email);
 	}
 
-	public void comprarLivro(List<String> isbns, String email) throws NotFoundException {
-		fachadaUsuario.comprarLivro(isbns, email);
+	public void comprarLivro(String email) throws NotFoundException {
+		fachadaUsuario.comprarLivro(email);
 	}
 
 	public void cancelarPedido(Long idPedido, String email) {

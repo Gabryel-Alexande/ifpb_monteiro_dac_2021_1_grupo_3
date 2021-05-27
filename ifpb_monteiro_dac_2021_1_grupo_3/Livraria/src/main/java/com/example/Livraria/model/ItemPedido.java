@@ -1,7 +1,5 @@
 package com.example.Livraria.model;
 
-import java.math.BigDecimal;
-
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -19,8 +17,8 @@ public class ItemPedido {
 	@ManyToOne
 	private Livro livro;
 	@Column(nullable =false)
-	private BigDecimal quantidade;
-	public ItemPedido(Livro livro, BigDecimal quantidade) {
+	private Integer quantidade;
+	public ItemPedido(Livro livro, Integer quantidade) {
 		super();
 		this.livro = livro;
 		this.quantidade = quantidade;

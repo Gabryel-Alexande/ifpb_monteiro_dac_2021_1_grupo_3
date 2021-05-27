@@ -1,7 +1,5 @@
 package com.example.Livraria.fachada;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import com.example.Livraria.model.Livro;
 import com.example.Livraria.model.Pedido;
 import com.example.Livraria.model.Usuario;
 import com.example.Livraria.repositorio.EnderecoRepositorio;
-import com.example.Livraria.repositorio.ItemPedidoRepositorio;
 import com.example.Livraria.repositorio.LivroRepositorio;
 import com.example.Livraria.repositorio.PedidoRepositorio;
 import com.example.Livraria.repositorio.UsuarioRepositorio;
@@ -82,7 +79,7 @@ public class FachadaUsuario {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		return usuario.getPedidos();
 	}
-	public void adcionarAoCarinho(String isbn,BigDecimal quantidade,String email) {
+	public void adcionarAoCarinho(String isbn,Integer quantidade,String email) {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		Livro livro= livroRepositorio.findByISBN(isbn);	
 		usuario.adcionarAoCarinho(new ItemPedido(livro, quantidade));
@@ -97,24 +94,20 @@ public class FachadaUsuario {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		return usuario.getCarrinho();
 	}
-	public void comprarLivro(List<String> isbns,String email) throws NotFoundException{
+	public void comprarLivro(String email) throws NotFoundException{
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
-		List<Livro> livroResgatados= new ArrayList<Livro>();
-		for (String isbn : isbns) {
-			Livro livro= livroRepositorio.findByISBN(isbn);	
-			if(livro!=null) {
-				livroResgatados.add(livro);				
-			}if(livro.isEmEstoque()) {
+		for (ItemPedido itemPedido : usuario.getCarrinho()) {
+			if(itemPedido.getLivro().isEmEstoque()) {
 				throw new NotFoundException("Este livro não estar em estoque!");
 			}
-			livro.diminuirEtoque();
-			usuario.removerDoCarinho(livro);
+			itemPedido.getLivro().diminuirEtoque(itemPedido.getQuantidade());
+			usuario.removerDoCarinho(itemPedido);
 		}
-		Pedido pedido= new Pedido(usuario, livroResgatados);
+		Pedido pedido= new Pedido(usuario, usuario.getCarrinho());
 		usuario.adcionarPedido(pedido);
 		pedidoRepositorio.save(pedido);
-		for (Livro livro : livroResgatados) {
-			livroRepositorio.save(livro);
+		for (ItemPedido itemPedido : usuario.getCarrinho()) {
+			livroRepositorio.save(itemPedido.getLivro());
 		}
 		EnviadorDeEmail.enviarEmail(usuario.getEmail(), "Sua compra foi feita com sucesso!", "Obrigado por sua compra.\nSeu pedido chegara em breve!");
 	}
@@ -122,8 +115,9 @@ public class FachadaUsuario {
 	public void cancelarPedido(Long idPedido,String email) {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		Pedido pedido = pedidoRepositorio.findByIdPedido(idPedido);
-		for (Livro livro : pedido.getLivros()) {
-			livro.aumentarEtoque();
+		for (ItemPedido itemPedido : usuario.getCarrinho()) {
+			itemPedido.getLivro().aumentarEtoque();
+			livroRepositorio.save(itemPedido.getLivro());
 		}
 		usuario.removerPedido(pedido);
 		pedidoRepositorio.save(pedido);

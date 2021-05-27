@@ -13,17 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.sun.istack.NotNull;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import javassist.NotFoundException;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Data
@@ -104,7 +97,10 @@ public class Livro {
 	public void removerCategoria(Categoria categoria) {
 		categorias.remove(categoria);
 	}
-	public void diminuirEtoque() {
+	public void diminuirEtoque(int quantidade)throws NotFoundException {
+		if(quantidadeEstoque<quantidade) {
+			throw new NotFoundException("Este item nao tem em estoque!");
+		}
 		quantidadeEstoque--;
 	}
 	public void aumentarEtoque() {
