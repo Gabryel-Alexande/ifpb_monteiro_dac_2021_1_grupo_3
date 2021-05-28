@@ -7,5 +7,4 @@ import com.example.Livraria.model.Editora;
 
 @Repository
 public interface EditoraRepositorio extends JpaRepository<Editora, Long> {
-	public Editora findByIdEditora(Long id);
 }

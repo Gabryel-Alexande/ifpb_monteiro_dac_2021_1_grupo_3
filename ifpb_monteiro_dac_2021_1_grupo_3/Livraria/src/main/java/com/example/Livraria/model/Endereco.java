@@ -2,6 +2,8 @@ package com.example.Livraria.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.Data;
@@ -10,8 +12,8 @@ import lombok.Data;
 @Data
 public class Endereco {
 	@Id
-	@Column(name = "id_endereco")
-	private Long idEndereco = System.currentTimeMillis();
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private Long idEndereco;
 	@Column(nullable = false)
 	private String cep;
 	@Column(nullable = false)
@@ -28,7 +30,7 @@ public class Endereco {
 	private String bairro;
 	@Column(name = "numero_casa", nullable = false)
 	private String numeroCasa;
-
+	
 	public Endereco(String cep, String rua, String estado, String cidade, String complemento, String pais,
 			String bairro, String numeroCasa) {
 		super();

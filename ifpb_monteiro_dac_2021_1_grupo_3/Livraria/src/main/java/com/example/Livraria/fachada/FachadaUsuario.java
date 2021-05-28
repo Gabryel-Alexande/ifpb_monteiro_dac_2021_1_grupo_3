@@ -44,19 +44,19 @@ public class FachadaUsuario {
 		} else if (!AutenticacaoLogin.validarrSenha(senha)) {
 			throw new LoginException("Senha invalido!");
 		}
-		EnviadorDeEmail.enviarEmail(email, "Sua conta foi criada com sucesso!", "Seja bem vindo a nossa loja "
-				+ nomeUsusario
-				+ "\nAqui temos uma grande variedade de livros.\nSinta-se a vontade para nos contactar.\nObrigado por nos escolher.");
+//		EnviadorDeEmail.enviarEmail(email, "Sua conta foi criada com sucesso!", "Seja bem vindo a nossa loja "
+//				+ nomeUsusario
+//				+ "\nAqui temos uma grande variedade de livros.\nSinta-se a vontade para nos contactar.\nObrigado por nos escolher.");
 		usuarioRepositorio.save(usuario);
 	}
 	public void adcionarEndereco(Long idEndereco,String email) {
-		Endereco enderecoRegatado= enderecoRepositorio.findByIdEndereco(idEndereco);
+		Endereco enderecoRegatado= enderecoRepositorio.findById(idEndereco).get();
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		usuario.adcionarEndereco(enderecoRegatado);
 		usuarioRepositorio.save(usuario);
 	}
 	public void removerEndereco(Long idEndereco,String email) {
-		Endereco enderecoRegatado= enderecoRepositorio.findByIdEndereco(idEndereco);
+		Endereco enderecoRegatado= enderecoRepositorio.findById(idEndereco).get();
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		if(usuario.getEnderecos()!= null) {
 			usuario.removerEndereco(enderecoRegatado);;
@@ -81,7 +81,7 @@ public class FachadaUsuario {
 	}
 	public void adcionarAoCarinho(String isbn,Integer quantidade,String email) {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
-		Livro livro= livroRepositorio.findByISBN(isbn);	
+		Livro livro= livroRepositorio.findById(email).get();	
 		usuario.adcionarAoCarinho(new ItemPedido(livro, quantidade));
 		usuarioRepositorio.save(usuario);
 	}
@@ -114,7 +114,7 @@ public class FachadaUsuario {
 
 	public void cancelarPedido(Long idPedido,String email) {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
-		Pedido pedido = pedidoRepositorio.findByIdPedido(idPedido);
+		Pedido pedido = pedidoRepositorio.findById(idPedido).get();
 		for (ItemPedido itemPedido : usuario.getCarrinho()) {
 			itemPedido.getLivro().aumentarEtoque();
 			livroRepositorio.save(itemPedido.getLivro());

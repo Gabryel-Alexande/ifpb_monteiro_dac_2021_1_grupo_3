@@ -23,7 +23,7 @@ public class FachadaCategoria {
 		categoriaRepositorio.save(categoria);
 	}
 	public void editarCategoria(Long id,String nome) {
-		Categoria categoria=categoriaRepositorio.findByIdCategoria(id);
+		Categoria categoria=categoriaRepositorio.findById(id).get();
 		categoria.setNomeCategoria(nome);
 		categoriaRepositorio.save(categoria);
 	}
@@ -31,7 +31,7 @@ public class FachadaCategoria {
 		return categoriaRepositorio.findAll();
 	}
 	public void excluirCategoria(Long id) {
-		Categoria categoria=categoriaRepositorio.findByIdCategoria(id);
+		Categoria categoria=categoriaRepositorio.findById(id).get();
 		for (Livro livro : categoria.getLivros()) {
 			livro.removerCategoria(categoria);
 			livroRepositorio.save(livro);

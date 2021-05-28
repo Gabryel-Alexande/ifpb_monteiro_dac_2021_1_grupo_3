@@ -9,10 +9,5 @@ import com.example.Livraria.model.Livro;
 
 @Repository
 public interface LivroRepositorio extends JpaRepository<Livro, String>{
-	public Livro findByISBN(String isbn);
-	public Page<Livro>findByPreco(Pageable pagina);
-	public Page<Livro> findAll(Pageable pagina);
-
-	public Page<Livro> findCincoMaisBaratos(Pageable page);
 
 }

@@ -7,5 +7,4 @@ import com.example.Livraria.model.Endereco;
 
 @Repository
 public interface EnderecoRepositorio extends JpaRepository<Endereco, Long> {
-	public Endereco findByIdEndereco(Long idEndereco);
 }

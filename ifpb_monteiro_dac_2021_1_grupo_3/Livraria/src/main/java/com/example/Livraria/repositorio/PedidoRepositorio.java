@@ -7,5 +7,4 @@ import com.example.Livraria.model.Pedido;
 
 @Repository
 public interface PedidoRepositorio extends JpaRepository<Pedido, Long>{
-	public Pedido findByIdPedido(Long idPedido);
 }

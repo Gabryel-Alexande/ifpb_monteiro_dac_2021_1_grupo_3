@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
@@ -12,11 +14,12 @@ import lombok.Data;
 @Entity
 @Data
 public class Autor {
-	@Column(name = "nome_autor", nullable = false)
-	private String nomeAutor;
 	@Id
 	@Column(name = "id_autor")
-	private Long idAutor = System.currentTimeMillis();
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private Long idAutor;
+	@Column(name = "nome_autor", nullable = false)
+	private String nomeAutor;
 	@Column(nullable = false)
 	private String email;
 	@Column(nullable = false)

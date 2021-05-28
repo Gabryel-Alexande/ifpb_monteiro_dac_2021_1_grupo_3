@@ -41,18 +41,18 @@ public class FachadaLivro {
 
 		List<Categoria> categoriasResgatados = new ArrayList<Categoria>();
 		for (Long idCategoria : categorias) {
-			Categoria categoria = categoriaRepositorio.findByIdCategoria(idCategoria);
+			Categoria categoria = categoriaRepositorio.findById(idCategoria).get();
 			if (categoria != null) {
 				categoriasResgatados.add(categoria);
 			}
 		}
-		Editora editora = editoraRepositorio.findByIdEditora(idEditora);
+		Editora editora = editoraRepositorio.findById(idEditora).get();
 		Livro livro = new Livro(isbn, tituloLivro, categoriasResgatados, descricao, preco, edicao, quantidade, editora,
 				fotosLivro, null, quantidade);
 		editora.adicionarLivroNaEditora(livro);
 		List<Autor> autoresRegatados = new ArrayList<Autor>();
 		for (Long autorDaVez : autores) {
-			Autor autor = autorRepositorio.findById(autorDaVez);
+			Autor autor = autorRepositorio.findById(autorDaVez).get();
 			autor.adcionarLivro(livro);
 			if (autor != null) {
 				autoresRegatados.add(autor);
@@ -68,16 +68,16 @@ public class FachadaLivro {
 
 	public void alterarLivro(String isbn, String tituloLivro, String descricao, BigDecimal preco, String edicao,
 			Integer anoLancamento, Long idEditora, Integer quantidadeEstoque) {
-		Livro livro = livroRepositorio.findByISBN(isbn);
+		Livro livro = livroRepositorio.findById(isbn).get();
 		livro.setTituloLivro(tituloLivro);
 		livro.setDescricao(descricao);
 		livro.setPreco(preco);
 		livro.setEdicao(edicao);
 		livro.setAnoLancamento(anoLancamento);
-		Editora editoraAntiga = editoraRepositorio.findByIdEditora(livro.getEditora().getIdEditora());
+		Editora editoraAntiga = editoraRepositorio.findById(livro.getEditora().getIdEditora()).get();
 		editoraAntiga.removerLivroNaEditora(livro);
 		editoraRepositorio.save(editoraAntiga);
-		Editora editoraNova = editoraRepositorio.findByIdEditora(idEditora);
+		Editora editoraNova = editoraRepositorio.findById(idEditora).get();
 		editoraNova.adicionarLivroNaEditora(livro);
 		editoraRepositorio.save(editoraNova);
 		livro.setEditora(editoraNova);
@@ -87,8 +87,8 @@ public class FachadaLivro {
 	}
 
 	public void removerLivro(String isbn) {
-		Livro livroRemove = livroRepositorio.findByISBN(isbn);
-		Editora editora = editoraRepositorio.findByIdEditora(livroRemove.getEditora().getIdEditora());
+		Livro livroRemove = livroRepositorio.findById(isbn).get();
+		Editora editora = editoraRepositorio.findById(livroRemove.getEditora().getIdEditora()).get();
 		editora.removerLivroNaEditora(livroRemove);
 		editoraRepositorio.save(editora);
 		livroRepositorio.delete(livroRemove);
@@ -96,20 +96,20 @@ public class FachadaLivro {
 	}
 
 	public void adcionarFoto(String isbn, Image imagem) {
-		Livro livro = livroRepositorio.findByISBN(isbn);
+		Livro livro = livroRepositorio.findById(isbn).get();
 		livro.adcionarFoto(imagem);
 		livroRepositorio.save(livro);
 	}
 
 	public void removerFoto(String isbn, Image imagem) {
-		Livro livro = livroRepositorio.findByISBN(isbn);
+		Livro livro = livroRepositorio.findById(isbn).get();
 		livro.removerFoto(imagem);
 		livroRepositorio.save(livro);
 	}
 
 	public void adcionarCategoria(String isbn, Long idCategoria) {
-		Livro livro = livroRepositorio.findByISBN(isbn);
-		Categoria categoria = categoriaRepositorio.findByIdCategoria(idCategoria);
+		Livro livro = livroRepositorio.findById(isbn).get();
+		Categoria categoria = categoriaRepositorio.findById(idCategoria).get();
 		livro.adcionarCategoria(categoria);
 		categoria.adcionarLivro(livro);
 		livroRepositorio.save(livro);
@@ -117,8 +117,8 @@ public class FachadaLivro {
 	}
 
 	public void removerCategoria(String isbn, Long idCategoria) {
-		Livro livro = livroRepositorio.findByISBN(isbn);
-		Categoria categoria = categoriaRepositorio.findByIdCategoria(idCategoria);
+		Livro livro = livroRepositorio.findById(isbn).get();
+		Categoria categoria = categoriaRepositorio.findById(idCategoria).get();
 		livro.removerCategoria(categoria);
 		categoria.removerLivro(livro);
 		livroRepositorio.save(livro);

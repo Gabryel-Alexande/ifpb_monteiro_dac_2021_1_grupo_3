@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.example.Livraria.model.Autor;
 
 @Repository
-public interface AutorRepositorio  extends JpaRepository<Autor, String>{
-	public Autor findById(Long id);
+public interface AutorRepositorio  extends JpaRepository<Autor, Long>{
+	
 }

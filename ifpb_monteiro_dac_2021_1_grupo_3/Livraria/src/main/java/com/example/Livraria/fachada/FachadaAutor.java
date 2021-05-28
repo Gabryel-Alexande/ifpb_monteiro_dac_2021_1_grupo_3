@@ -35,7 +35,7 @@ public class FachadaAutor {
 	// sua conta
 	public void alterarAutor(Long id, String nomeAutor, String senha)
 			throws LoginException {
-		Autor autor = autorRepositorio.findById(id);
+		Autor autor = autorRepositorio.findById(id).get();
 		autor.setNomeAutor(nomeAutor);
 		if (!AutenticacaoLogin.validarrSenha(senha)) {
 			throw new LoginException("Senha fraca!\nPor favor digite uma senha melhor!");

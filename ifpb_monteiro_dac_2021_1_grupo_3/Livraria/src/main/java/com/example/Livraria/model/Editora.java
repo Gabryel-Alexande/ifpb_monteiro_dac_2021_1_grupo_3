@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -15,7 +17,8 @@ import lombok.Data;
 public class Editora {
 	@Id
 	@Column(name = "id_editora")
-	private Long idEditora = System.currentTimeMillis();
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private Long idEditora;
 
 	@Column(name = "nome_editora", nullable = false)
 	private String nomeEditora;

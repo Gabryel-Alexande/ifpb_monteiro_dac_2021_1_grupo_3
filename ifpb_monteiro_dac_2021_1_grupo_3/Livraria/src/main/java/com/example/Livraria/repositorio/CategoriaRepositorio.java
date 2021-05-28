@@ -7,5 +7,4 @@ import com.example.Livraria.model.Categoria;
 
 @Repository
 public interface CategoriaRepositorio extends JpaRepository<Categoria, Long>{
-	public Categoria findByIdCategoria(Long id);
 }

@@ -2,11 +2,13 @@ package com.example.Livraria.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import jdk.jfr.BooleanFlag;
@@ -15,11 +17,12 @@ import lombok.Data;
 @Entity
 @Data
 public class Usuario {
-	@Column(name = "nome_usuario", nullable = false)
-	private String nomeUsusario;
 	@Id
 	@Column(name = "id_usuario")
-	private Long idUsusario = System.currentTimeMillis();
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private Long idUsusario;
+	@Column(name = "nome_usuario", nullable = false)
+	private String nomeUsusario;
 	@Column(nullable = false)
 	private String email;
 	@Column(nullable = false)
@@ -32,9 +35,9 @@ public class Usuario {
 	@BooleanFlag
 	@Column(nullable = false)
 	private boolean admisnistrador;
-	@ManyToMany
+	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "usuario")
 	private List<ItemPedido> carrinho;
-	@OneToMany
+	@OneToMany(cascade = CascadeType.MERGE)
 	private List<Pedido> pedidos;
 
 	public Usuario(String nomeUsusario, String email, String senha, String cpf,
@@ -66,6 +69,7 @@ public class Usuario {
 
 	public void removerDoCarinho(ItemPedido itemPedido) {
 		carrinho.remove(itemPedido);
+		itemPedido.setUsuario(this);
 	}
 	@SuppressWarnings("unlikely-arg-type")
 	public void removerDoCarinho(Integer indice) {

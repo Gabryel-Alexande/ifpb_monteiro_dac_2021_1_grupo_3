@@ -8,6 +8,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -23,7 +25,8 @@ import lombok.Data;
 public class Livro {
 	@Id
 	@Column(name="id_livro")
-	private Long idLivro= System.currentTimeMillis();
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private Long idLivro;
 	@Column(name = "titulo_livro", nullable = false)
 	private String tituloLivro;	
 	@Column(nullable = false)

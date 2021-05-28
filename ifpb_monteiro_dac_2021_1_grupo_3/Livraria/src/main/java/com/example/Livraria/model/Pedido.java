@@ -2,12 +2,14 @@ package com.example.Livraria.model;
 
 import java.math.BigDecimal;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import lombok.Data;
@@ -17,10 +19,11 @@ import lombok.Data;
 public class Pedido {
 	@Id
 	@Column(name = "id_pedido")
-	private Long idPedido = System.currentTimeMillis();
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private Long idPedido;
 	@ManyToOne
 	private Usuario cliente;
-	@ManyToMany
+	@OneToMany(mappedBy = "idItemPedido")
 	private List<ItemPedido> itemPedido;
 	@Transient
 	private BigDecimal preco;

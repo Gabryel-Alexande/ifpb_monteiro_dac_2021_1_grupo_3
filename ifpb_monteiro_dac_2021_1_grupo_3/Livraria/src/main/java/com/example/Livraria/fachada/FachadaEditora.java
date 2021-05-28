@@ -25,13 +25,13 @@ public class FachadaEditora {
 	}
 	
 	public void adcionarEndereco(Long idEndereco,Long idEditora) {
-		Endereco enderecoRegatado= enderecoRepositorio.findByIdEndereco(idEndereco);
-		Editora editora = editoraRepositorio.findByIdEditora(idEditora);
+		Endereco enderecoRegatado= enderecoRepositorio.findById(idEndereco).get();
+		Editora editora = editoraRepositorio.findById(idEditora).get();
 		editora.setEndereco(enderecoRegatado);
 		editoraRepositorio.save(editora);
 	}
 	public void removerEndereco(Long idEditora) {
-		Editora editora = editoraRepositorio.findByIdEditora(idEditora);
+		Editora editora = editoraRepositorio.findById(idEditora).get();
 		if(editora.getEndereco()!= null) {
 			editora.setEndereco(null);
 			editoraRepositorio.save(editora);			
