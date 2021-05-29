@@ -1,5 +1,6 @@
 package com.example.Livraria.fachada;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,11 @@ import com.example.Livraria.model.Endereco;
 import com.example.Livraria.repositorio.EnderecoRepositorio;
 
 @Service
-public class FachadaEndereco {
+public class FachadaEndereco implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Autowired
 	private EnderecoRepositorio enderecoRepositorio;
 	

@@ -38,6 +38,11 @@ public class FachadaUsuario implements Serializable {
 
 	public void cadastrarUsuario(String cpf, String nomeUsusario, String email, String senha, boolean admisnistrador)
 			throws CPFException, LoginException {
+
+		if (usuarioRepositorio.findByEmail(email) != null) {
+			throw new LoginException("Email já cadastrado");
+		}
+
 		Usuario usuario = new Usuario(nomeUsusario, email, senha, cpf, admisnistrador);
 
 		if (!AutenticacaoCPF.autenticarCPF(cpf)) {
@@ -53,21 +58,35 @@ public class FachadaUsuario implements Serializable {
 		usuarioRepositorio.save(usuario);
 	}
 
-	public void adcionarEndereco(Long idEndereco, String email) {
-		Endereco enderecoRegatado = enderecoRepositorio.findById(idEndereco).get();
+	/*
+	 * public void adcionarEndereco(Long idEndereco, String email) { Endereco
+	 * enderecoRegatado = enderecoRepositorio.findById(idEndereco).get(); Usuario
+	 * usuario = usuarioRepositorio.findByEmail(email);
+	 * usuario.adcionarEndereco(enderecoRegatado); usuarioRepositorio.save(usuario);
+	 * }
+	 */
+	public void adcionarEndereco(String email,String cep, String rua, String estado, String cidade, String complemento, String pais,
+			String bairro, String numeroCasa) {
+		
+		
+		Endereco enderecoRegatado = new Endereco(cep, rua, estado, cidade, complemento, pais, bairro, numeroCasa);
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		usuario.adcionarEndereco(enderecoRegatado);
 		usuarioRepositorio.save(usuario);
+		enderecoRepositorio.save(enderecoRegatado);
 	}
 
-	public void removerEndereco(Long idEndereco, String email) {
+	public void removerEndereco(Long idEndereco, String email) throws NotFoundException {
 		Endereco enderecoRegatado = enderecoRepositorio.findById(idEndereco).get();
+
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
-		if (usuario.getEnderecos() != null) {
+		if (usuario != null) {
 			usuario.removerEndereco(enderecoRegatado);
-			;
 			usuarioRepositorio.save(usuario);
+		} else {
+			throw new NotFoundException("Email não encontrado");
 		}
+
 	}
 
 	public Usuario consultarUsuarioPorEmail(String email) throws NotFoundException {

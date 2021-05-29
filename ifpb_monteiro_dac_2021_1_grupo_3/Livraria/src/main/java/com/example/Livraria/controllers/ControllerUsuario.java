@@ -19,14 +19,16 @@ public class ControllerUsuario{
 		fachadaUsuario.cadastrarUsuario(cpf, nomeUsusario, email, senha, admisnistrador);
 	}
 
-	public void adcionarEndereco(Long idEndereco, String email) {
-		fachadaUsuario.adcionarEndereco(idEndereco, email);
+	public void adcionarEndereco(String email,String cep, String rua, String estado, String cidade, String complemento, String pais,
+			String bairro, String numeroCasa) {
+		fachadaUsuario.adcionarEndereco(email, cep, rua, estado, cidade, complemento, pais, bairro, numeroCasa);
 	}
 
 	@Autowired
 	private FachadaUsuario fachadaUsuario ;
 
-	public void removerEndereco(Long idEdereco,String email) {
+	public void removerEndereco(Long idEdereco,String email) throws NotFoundException {
+		
 		fachadaUsuario.removerEndereco(idEdereco,email);
 	}
 

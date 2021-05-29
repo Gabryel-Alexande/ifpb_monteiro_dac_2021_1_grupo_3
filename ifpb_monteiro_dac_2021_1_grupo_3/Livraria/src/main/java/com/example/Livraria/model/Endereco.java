@@ -1,5 +1,7 @@
 package com.example.Livraria.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +12,11 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Endereco {
+public class Endereco implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long idEndereco;
@@ -43,6 +49,8 @@ public class Endereco {
 		this.bairro = bairro;
 		this.numeroCasa = numeroCasa;
 	}
+	
+	private Endereco() {};
 
 	// Este metodo foi criado com a finalidade de resolver o problema da clausula
 	// @Data,

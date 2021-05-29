@@ -12,5 +12,6 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
 	public Usuario findByEmail(String email);
 	public Usuario findByCpf(String cpf);
 	
+	
 }
 

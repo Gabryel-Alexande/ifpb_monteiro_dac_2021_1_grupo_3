@@ -45,6 +45,9 @@ public class Usuario implements Serializable{
 	@OneToMany(cascade = CascadeType.MERGE)
 	private List<Pedido> pedidos;
 
+	
+	private Usuario () {}
+	
 	public Usuario(String nomeUsusario, String email, String senha, String cpf,
 			boolean admisnistrador) {
 		super();

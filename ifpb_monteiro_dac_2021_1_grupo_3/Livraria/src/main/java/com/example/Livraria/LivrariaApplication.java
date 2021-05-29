@@ -87,6 +87,8 @@ public class LivrariaApplication implements CommandLineRunner {
 					System.out.println("Finalizando programa!");
 					break;
 				case 1:
+					
+					
 
 					System.out.println("Nome:");
 					nome = input.nextLine();
@@ -107,10 +109,12 @@ public class LivrariaApplication implements CommandLineRunner {
 					System.out.println("Cadastrado com Sucesso !!");
 					break;
 				case 2:
+					
 					System.out.println("Digite o Email:");
 					email = input.nextLine();
 					Object usuario = controllerUsuario.consultarPorEmail(email);
 					System.out.println(usuario.toString());
+					
 					break;
 
 				case 3:
@@ -266,6 +270,30 @@ public class LivrariaApplication implements CommandLineRunner {
 					email = input.nextLine();
 					System.out.println(controllerUsuario.listarPedidos(email).toString());
 				case 16:
+					/*
+					 * System.out.println("Digite o CEP: "); String cep = input.nextLine();
+					 * System.out.println("Digite a rua: "); String rua = input.nextLine();
+					 * System.out.println("Digite o estado: "); String estado = input.nextLine();
+					 * System.out.println("Digite a cidade: "); String cidade = input.nextLine();
+					 * System.out.println("Digite o pais: "); String pais = input.nextLine();
+					 * System.out.println("Digite o bairro: "); String bairro = input.nextLine();
+					 * System.out.println("Digite o numero da casa: "); String numeroCasa =
+					 * input.nextLine(); System.out.println("Digite o complemento"); String
+					 * complemento = input.nextLine();
+					 */
+					
+					/*try{
+						
+						controllerEndereco.adcionarEndereco(cep, rua, estado, cidade,complemento, pais, bairro, numeroCasa);
+					}catch(Exception e ) {
+						System.out.println(e.getMessage());
+					}
+					System.out.println("Endereco criado!");
+					break;*/
+				case 17:
+					
+					System.out.println("Email do cliente: ");
+					email = input.nextLine();
 					System.out.println("Digite o CEP: ");
 					String cep = input.nextLine();
 					System.out.println("Digite a rua: ");
@@ -280,15 +308,9 @@ public class LivrariaApplication implements CommandLineRunner {
 					String bairro = input.nextLine();
 					System.out.println("Digite o numero da casa: ");
 					String numeroCasa = input.nextLine();
-					controllerEndereco.adcionarEndereco(cep, rua, estado, cidade, null, pais, bairro, numeroCasa);
-					System.out.println("Endereco criado!");
-					break;
-				case 17:
-					System.out.println("Email do cliente: ");
-					email = input.nextLine();
-					System.out.println("Digite o id do endreco:");
-					id = input.nextLong();
-					controllerUsuario.adcionarEndereco(id, email);
+					System.out.println("Digite o complemento");
+					String complemento  = input.nextLine();
+					controllerUsuario.adcionarEndereco(email, cep, rua, estado, cidade, complemento, pais, bairro, numeroCasa);
 					System.out.println("Endereco adcionado!");
 					break;
 				case 18:
