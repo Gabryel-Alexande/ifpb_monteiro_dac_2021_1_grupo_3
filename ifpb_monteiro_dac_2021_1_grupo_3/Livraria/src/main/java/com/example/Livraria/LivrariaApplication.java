@@ -71,7 +71,7 @@ public class LivrariaApplication implements CommandLineRunner {
 					+ "\n7 -Excluir Livro" + "\n8 -Consultar os 5 mais baratos" + "\n9 -Consultar todos os Livros"
 					+ "\n10 -Criar categoria" + "\n11 - Adicionar o Livro ao Carrinho(pelo id)"
 					+ "\n12 - Remover livro do carrinho" + "\n13 -Fazer Pedido" + "\n14 - Cancelar pedido"
-					+ "15 - Listar Pedidos" + "\n16 - Criar Endereco" + "\n17 - Adcionar Endereco"
+					+ "\n15 - Listar Pedidos" + "\n16 - Criar Endereco" + "\n17 - Adcionar Endereco"
 					+ "\n18 - Remover Endereco" + "\n19 - Listar Endereco" + "\n20 - Editar categoria"
 					+ "\n20 - Ecluir categoria" + "\n22 - Listar categoria" + "\n23 - Criar editora"
 					+ "\n24 - Editar editora" + "\n25 - Adcionar endereço a editora" + "\n26 - Listar editora"
@@ -85,7 +85,7 @@ public class LivrariaApplication implements CommandLineRunner {
 				case 0:
 					con = false;
 					System.out.println("Finalizando programa!");
-					continue;
+					break;
 				case 1:
 
 					System.out.println("Nome:");
@@ -110,7 +110,6 @@ public class LivrariaApplication implements CommandLineRunner {
 					System.out.println("Digite o Email:");
 					email = input.nextLine();
 					Object usuario = controllerUsuario.consultarPorEmail(email);
-
 					System.out.println(usuario.toString());
 					break;
 

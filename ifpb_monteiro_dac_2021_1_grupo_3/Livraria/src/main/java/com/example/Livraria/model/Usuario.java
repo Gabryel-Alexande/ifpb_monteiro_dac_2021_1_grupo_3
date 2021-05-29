@@ -1,5 +1,6 @@
 package com.example.Livraria.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -16,7 +17,11 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Usuario {
+public class Usuario implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "id_usuario")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)

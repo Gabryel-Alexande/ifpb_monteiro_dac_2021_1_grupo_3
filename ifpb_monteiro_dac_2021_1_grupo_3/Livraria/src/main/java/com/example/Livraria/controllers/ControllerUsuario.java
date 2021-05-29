@@ -1,5 +1,7 @@
 package com.example.Livraria.controllers;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -9,9 +11,8 @@ import com.example.Livraria.fachada.FachadaUsuario;
 
 import javassist.NotFoundException;
 @Controller
-public class ControllerUsuario {
-	@Autowired
-	private FachadaUsuario fachadaUsuario;
+public class ControllerUsuario{
+
 
 	public void cadatrarUsusario(String cpf, String nomeUsusario, String email, String senha, boolean admisnistrador)
 			throws CPFException, LoginException {
@@ -21,6 +22,9 @@ public class ControllerUsuario {
 	public void adcionarEndereco(Long idEndereco, String email) {
 		fachadaUsuario.adcionarEndereco(idEndereco, email);
 	}
+
+	@Autowired
+	private FachadaUsuario fachadaUsuario ;
 
 	public void removerEndereco(Long idEdereco,String email) {
 		fachadaUsuario.removerEndereco(idEdereco,email);
