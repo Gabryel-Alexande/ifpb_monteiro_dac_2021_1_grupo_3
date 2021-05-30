@@ -18,30 +18,35 @@ import lombok.Data;
 @Entity
 @Data
 public class Usuario implements Serializable{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "id_usuario")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long idUsusario;
+	
 	@Column(name = "nome_usuario", nullable = false)
 	private String nomeUsusario;
+	
 	@Column(nullable = false)
 	private String email;
+	
 	@Column(nullable = false)
 	private String senha;
+	
 	@OneToMany
 	@JoinColumn(name="idEndereco")
 	private List<Endereco> enderecos;
+	
 	@Column(nullable = false)
 	private String cpf;
+	
 	@BooleanFlag
 	@Column(nullable = false)
 	private boolean admisnistrador;
-	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "usuario")
+	
+	@OneToMany
 	private List<ItemPedido> carrinho;
+
 	@OneToMany(cascade = CascadeType.MERGE)
 	private List<Pedido> pedidos;
 

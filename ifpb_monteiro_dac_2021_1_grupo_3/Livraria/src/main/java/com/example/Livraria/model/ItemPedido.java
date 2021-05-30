@@ -1,5 +1,7 @@
 package com.example.Livraria.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,24 +13,32 @@ import lombok.Data;
 
 @Entity
 @Data
-public class ItemPedido {
-	@Id	
-	@Column(name ="id_item_pedido")
+public class ItemPedido implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@Column(name = "id_item_pedido")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long idItemPedido;
+	
 	@ManyToOne
 	@JoinColumn(name = "LIVRO_FK")
 	private Livro livro;
+	
 	@ManyToOne
 	private Usuario usuario;
-	@Column(nullable =false)
+	
+	@Column(nullable = false)
 	private Integer quantidade;
+
 	public ItemPedido(Livro livro, Integer quantidade) {
 		super();
 		this.livro = livro;
 		this.quantidade = quantidade;
 	}
+
 	private void setIdItemPedido(Long id) {
-		
+
 	}
 }

@@ -73,7 +73,6 @@ public class FachadaUsuario implements Serializable {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		usuario.adcionarEndereco(enderecoRegatado);
 		usuarioRepositorio.save(usuario);
-		enderecoRepositorio.save(enderecoRegatado);
 	}
 
 	public void removerEndereco(Long idEndereco, String email) throws NotFoundException {
@@ -109,7 +108,7 @@ public class FachadaUsuario implements Serializable {
 
 	public void adcionarAoCarinho(String isbn, Integer quantidade, String email) {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
-		Livro livro = livroRepositorio.findById(email).get();
+		Livro livro = livroRepositorio.findByIsbn(isbn);
 		usuario.adcionarAoCarinho(new ItemPedido(livro, quantidade));
 		usuarioRepositorio.save(usuario);
 	}
@@ -156,7 +155,5 @@ public class FachadaUsuario implements Serializable {
 		usuarioRepositorio.save(usuario);
 		EnviadorDeEmail.enviarEmail(usuario.getEmail(), "Sua compra cancelada com sucesso!",
 				"Sua compra foi cancelada, logo receberá seu reembolso!");
-
-	}
-
+		}
 }

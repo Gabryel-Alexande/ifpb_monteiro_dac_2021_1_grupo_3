@@ -22,15 +22,19 @@ public class Autor implements Serializable{
 	@Column(name = "id_autor")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long idAutor;
+	
 	@Column(name = "nome_autor", nullable = false)
 	private String nomeAutor;
+	
 	@Column(nullable = false)
 	private String email;
+	
 	@Column(nullable = false)
 	private String senha;
-	@Column(name = "livros_publicados", nullable = false)
-	@ManyToMany
+	
+	@ManyToMany(mappedBy = "autores")
 	private List<Livro> lirvosPublicados;
+	
 	public Autor(String nomeAutor, String email, String senha) {
 		super();
 		this.nomeAutor = nomeAutor;

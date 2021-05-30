@@ -28,8 +28,8 @@ public class Editora implements Serializable {
 	@Column(name = "nome_editora", nullable = false)
 	private String nomeEditora;
 
-	@OneToMany(mappedBy = "isbn")
-	private List<Livro> livros;
+//	@OneToMany(mappedBy = "idLivro")
+//	private List<Livro> livros;
 
 	@ManyToOne
 	private Endereco endereco;
@@ -53,13 +53,13 @@ public class Editora implements Serializable {
 
 	}
 
-	public void adicionarLivroNaEditora(Livro livro) {
-		livros.add(livro);
-	}
-
-	public void removerLivroNaEditora(Livro livro) {
-		livros.remove(livro);
-	}
+//	public void adicionarLivroNaEditora(Livro livro) {
+//		livros.add(livro);
+//	}
+//
+//	public void removerLivroNaEditora(Livro livro) {
+//		livros.remove(livro);
+//	}
 	public String toString() {
 		return "Editora: " + nomeEditora + " | id: " + idEditora + " Endereço: ";
 	}

@@ -2,6 +2,7 @@ package com.example.Livraria.controllers;
 
 import java.awt.Image;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,9 @@ public class ControllerLivro{
 		fachadaLivro.cadastrarLivro(isbn, tituloLivro, categoria, descricao, preco,edicao, anoLancamento, idEditora, fotosLivro, autores, quantidade);
 	}
 
-	public void alterarLivro(String isbn, String tituloLivro, String descricao, BigDecimal preco,
+	public void alterarLivro(Long id,String isbn, String tituloLivro, String descricao, BigDecimal preco,
 			 String edicao, Integer anoLancamento, Long idEditora, Integer quantidadeEstoque) {
-		fachadaLivro.alterarLivro(isbn, tituloLivro, descricao, preco, edicao, anoLancamento, idEditora, quantidadeEstoque);
+		fachadaLivro.alterarLivro(id,isbn, tituloLivro, descricao, preco, edicao, anoLancamento, idEditora, quantidadeEstoque);
 	}
 	public void removerLivro(String isbn) {
 		fachadaLivro.removerLivro(isbn);
@@ -47,10 +48,10 @@ public class ControllerLivro{
 	public Object[] listarLivros() {
 		return fachadaLivro.listarLivros().toArray();
 	}
-	public Page<Livro> listarCincoLivrosComMenorPreco(){
-		return fachadaLivro.listarCincoLivrosComMenorPreco();
+	public Object[] listarCincoLivrosComMenorPreco(){		
+		return fachadaLivro.listarCincoLivrosComMenorPreco().toArray();
 	}
-	public Page<Livro> listarLivros(String campoOrdenacao, int ordem, int quantidadeDePaginas) {
-		return fachadaLivro.listarLivros(campoOrdenacao, ordem, quantidadeDePaginas);
+	public Object[] listarLivros(String campoOrdenacao, int ordem, int quantidadeDePaginas) {
+		return fachadaLivro.listarLivros(campoOrdenacao, ordem, quantidadeDePaginas).toArray();
 	}
 }

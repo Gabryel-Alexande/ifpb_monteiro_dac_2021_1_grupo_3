@@ -6,17 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.Livraria.model.Categoria;
-import com.example.Livraria.model.Livro;
 import com.example.Livraria.repositorio.CategoriaRepositorio;
-import com.example.Livraria.repositorio.LivroRepositorio;
 
 @Service
 public class FachadaCategoria {
 	
 	@Autowired
 	private CategoriaRepositorio categoriaRepositorio;
-	@Autowired
-	private LivroRepositorio livroRepositorio;
 	
 	public void criarCategoria(String nome) {
 		Categoria categoria= new Categoria(nome);
@@ -32,10 +28,6 @@ public class FachadaCategoria {
 	}
 	public void excluirCategoria(Long id) {
 		Categoria categoria=categoriaRepositorio.findById(id).get();
-		for (Livro livro : categoria.getLivros()) {
-			livro.removerCategoria(categoria);
-			livroRepositorio.save(livro);
-		}
 		categoriaRepositorio.delete(categoria);
 	}
 }

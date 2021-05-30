@@ -26,23 +26,31 @@ import lombok.Data;
 public class Livro implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@Column(name = "id_livro")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long idLivro;
+	
 	@Column(name = "titulo_livro", nullable = false)
 	private String tituloLivro;
+	
 	@Column(nullable = false)
 	private String isbn;
+	
 	@ManyToMany
 	@Column(nullable = false)
 	private List<Categoria> categorias;
+	
 	@Column(nullable = false)
 	private String descricao;
+	
 	@Column(nullable = false)
 	private BigDecimal preco;
+	
 	@Column(nullable = false)
 	private String edicao;
+	
 	@Column(name = "ano_lancamento", nullable = false)
 	private Integer anoLancamento;
 
@@ -53,9 +61,10 @@ public class Livro implements Serializable {
 	@Transient
 	private List<Image> fotosLivro;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE })
-	@JoinTable(name = "LIVROAUTOR", joinColumns = @JoinColumn(name = "LIVROID"), inverseJoinColumns = @JoinColumn(name = "AUTORID"))
+	@ManyToMany(cascade = { CascadeType.MERGE })
+	@JoinTable(name = "LIVROAUTOR", joinColumns = @JoinColumn(name = "idLivro"), inverseJoinColumns = @JoinColumn(name = "idAutor"))
 	private List<Autor> autores;
+	
 	@Column(nullable = false)
 	private Integer quantidadeEstoque;
 
@@ -84,7 +93,7 @@ public class Livro implements Serializable {
 	// pois, a mesa cria um metodo plublico que permiti a alteração do atributo
 	// indetificador
 	// da entendiade, assim trazendo inconsistencia para o codiogo.
-	private void setIsbn(String isbn) {
+	private void setIdLivro(String idLivro) {
 
 	}
 
@@ -121,8 +130,8 @@ public class Livro implements Serializable {
 
 	public String toString() {
 		return "Titulo: " + tituloLivro + "\nISBN: " + isbn + "\nID: " + idLivro + "\nDescrição: " + descricao
-				+ "\n Preço: " + preco + "\nEdição: " + edicao + "\nAno de lançamento: " + anoLancamento + "\nEditora:"
-				+ "[AQUI VAI O NOME DA EDITORA]" + "\nQuantidade em estoque: " + quantidadeEstoque;
+				+ "\n Preço: " + preco + "\nEdição: " + edicao + "\nAno de lançamento: " + anoLancamento + "\nEditora: "
+				+ editora.getNomeEditora() + "\nQuantidade em estoque: " + quantidadeEstoque;
 	}
 
 	private Livro() {

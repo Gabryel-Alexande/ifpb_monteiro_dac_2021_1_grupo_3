@@ -16,7 +16,6 @@ import com.example.Livraria.repositorio.AutorRepositorio;
 import com.example.Livraria.repositorio.CategoriaRepositorio;
 import com.example.Livraria.repositorio.EditoraRepositorio;
 import com.example.Livraria.repositorio.LivroRepositorio;
-import com.example.Livraria.utilitarios.EnviadorDeEmail;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -49,37 +48,32 @@ public class FachadaLivro {
 		Editora editora = editoraRepositorio.findById(idEditora).get();
 		Livro livro = new Livro(isbn, tituloLivro, categoriasResgatados, descricao, preco, edicao, quantidade, editora,
 				fotosLivro, null, quantidade);
-		editora.adicionarLivroNaEditora(livro);
 		List<Autor> autoresRegatados = new ArrayList<Autor>();
 		for (Long autorDaVez : autores) {
 			Autor autor = autorRepositorio.findById(autorDaVez).get();
 			if (autor != null) {
-				autor.adcionarLivro(livro);
 				autoresRegatados.add(autor);
 //				EnviadorDeEmail.enviarEmail(autor.getEmail(), "Novo livro cadastrado.",
 //						"Você foi adcionado como autor do livro " + livro.getTituloLivro() + "!");
-				autorRepositorio.save(autor);
 			}
 		}
 		livro.setAutores(autoresRegatados);
 		livroRepositorio.save(livro);
-		editoraRepositorio.save(editora);
 	}
 
-	public void alterarLivro(String isbn, String tituloLivro, String descricao, BigDecimal preco, String edicao,
-			Integer anoLancamento, Long idEditora, Integer quantidadeEstoque) {
-		Livro livro = livroRepositorio.findById(isbn).get();
+	public void alterarLivro(Long id, String isbn, String tituloLivro, String descricao, BigDecimal preco,
+			String edicao, Integer anoLancamento, Long idEditora, Integer quantidadeEstoque) {
+		Livro livro = livroRepositorio.findById(id).get();
+		livro.setIsbn(isbn);
 		livro.setTituloLivro(tituloLivro);
 		livro.setDescricao(descricao);
 		livro.setPreco(preco);
 		livro.setEdicao(edicao);
 		livro.setAnoLancamento(anoLancamento);
-		Editora editoraAntiga = editoraRepositorio.findById(livro.getEditora().getIdEditora()).get();
-		editoraAntiga.removerLivroNaEditora(livro);
-		editoraRepositorio.save(editoraAntiga);
+//		Editora editoraAntiga = editoraRepositorio.findById(livro.getEditora().getIdEditora()).get();
+//		editoraAntiga.removerLivroNaEditora(livro);
 		Editora editoraNova = editoraRepositorio.findById(idEditora).get();
-		editoraNova.adicionarLivroNaEditora(livro);
-		editoraRepositorio.save(editoraNova);
+//		editoraNova.adicionarLivroNaEditora(livro);
 		livro.setEditora(editoraNova);
 		livro.setQuantidadeEstoque(quantidadeEstoque);
 		livroRepositorio.save(livro);
@@ -87,62 +81,60 @@ public class FachadaLivro {
 	}
 
 	public void removerLivro(String isbn) {
-		Livro livroRemove = livroRepositorio.findById(isbn).get();
-		Editora editora = editoraRepositorio.findById(livroRemove.getEditora().getIdEditora()).get();
-		editora.removerLivroNaEditora(livroRemove);
-		editoraRepositorio.save(editora);
+		Livro livroRemove = livroRepositorio.findByIsbn(isbn);
 		livroRepositorio.delete(livroRemove);
 
 	}
 
 	public void adcionarFoto(String isbn, Image imagem) {
-		Livro livro = livroRepositorio.findById(isbn).get();
+		Livro livro = livroRepositorio.findByIsbn(isbn);
 		livro.adcionarFoto(imagem);
 		livroRepositorio.save(livro);
 	}
 
 	public void removerFoto(String isbn, Image imagem) {
-		Livro livro = livroRepositorio.findById(isbn).get();
+		Livro livro = livroRepositorio.findByIsbn(isbn);
 		livro.removerFoto(imagem);
 		livroRepositorio.save(livro);
 	}
 
 	public void adcionarCategoria(String isbn, Long idCategoria) {
-		Livro livro = livroRepositorio.findById(isbn).get();
+		Livro livro = livroRepositorio.findByIsbn(isbn);
 		Categoria categoria = categoriaRepositorio.findById(idCategoria).get();
 		livro.adcionarCategoria(categoria);
 		categoria.adcionarLivro(livro);
 		livroRepositorio.save(livro);
-		categoriaRepositorio.save(categoria);
 	}
 
 	public void removerCategoria(String isbn, Long idCategoria) {
-		Livro livro = livroRepositorio.findById(isbn).get();
+		Livro livro = livroRepositorio.findByIsbn(isbn);
 		Categoria categoria = categoriaRepositorio.findById(idCategoria).get();
 		livro.removerCategoria(categoria);
 		categoria.removerLivro(livro);
 		livroRepositorio.save(livro);
-		categoriaRepositorio.save(categoria);
 	}
 
 	public List<Livro> listarLivros() {
 		return livroRepositorio.findAll();
 	}
 
-	public Page<Livro> listarLivros(String campoOrdenacao, int ordem, int quantidadeDePaginas) {
+	public List<String> listarLivros(String campoOrdenacao, int ordem, int quantidadeDePaginas) {
 		Direction sortDirection = Sort.Direction.DESC;
 		if (ordem == 2) {
 			sortDirection = Sort.Direction.ASC;
 		}
 		Sort sort = Sort.by(sortDirection, campoOrdenacao);
 		Page<Livro> pagina = livroRepositorio.findAll(PageRequest.of(--quantidadeDePaginas, 5, sort));
-		return pagina;
+
+		ArrayList<String> livros = new ArrayList<String>();
+
+		for (Livro livro : pagina) {
+			livros.add(livro.toString());
+		}
+		return livros;
 	}
 
-	public Page<Livro> listarCincoLivrosComMenorPreco() {
-		Direction sortDirection = Sort.Direction.ASC;
-		Sort sort = Sort.by(sortDirection, "preco");
-		Page<Livro> pagina = livroRepositorio.findAll(PageRequest.of(5, 5, sort));
-		return pagina;
+	public List<String> listarCincoLivrosComMenorPreco() {
+		return listarLivros("preco", 2, 1);
 	}
 }
