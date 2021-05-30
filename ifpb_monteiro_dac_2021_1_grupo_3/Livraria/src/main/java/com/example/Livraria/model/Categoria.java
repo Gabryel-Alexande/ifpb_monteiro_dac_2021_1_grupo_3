@@ -1,6 +1,7 @@
 
 package com.example.Livraria.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -14,7 +15,11 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Categoria {
+public class Categoria implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "id_categoria")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -41,4 +46,8 @@ public class Categoria {
 	public void removerLivro(Livro livro) {
 		livros.remove(livro);
 	}
+	public String toString() {
+		return "Categoira: " + nomeCategoria + " | id: " + idCategortia;
+	}
+	private Categoria() {}
 }

@@ -1,5 +1,7 @@
 package com.example.Livraria.controllers;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -15,8 +17,8 @@ public class ControllerAutor {
 		fachadaAutor.cadastrarAutor(nomeAutor, email, senha);
 	}
 
-	public void alterarAutor(Long id, String nomeAutor, String senha)
-			throws LoginException {
+	public void alterarAutor(Long id, String nomeAutor, String senha) throws NoSuchElementException,
+			LoginException {
 		fachadaAutor.alterarAutor(id, nomeAutor, senha);
 	}
 	public Object[] listarAutores(){

@@ -53,11 +53,11 @@ public class FachadaLivro {
 		List<Autor> autoresRegatados = new ArrayList<Autor>();
 		for (Long autorDaVez : autores) {
 			Autor autor = autorRepositorio.findById(autorDaVez).get();
-			autor.adcionarLivro(livro);
 			if (autor != null) {
+				autor.adcionarLivro(livro);
 				autoresRegatados.add(autor);
-				EnviadorDeEmail.enviarEmail(autor.getEmail(), "Novo livro cadastrado.",
-						"Você foi adcionado como autor do livro " + livro.getTituloLivro() + "!");
+//				EnviadorDeEmail.enviarEmail(autor.getEmail(), "Novo livro cadastrado.",
+//						"Você foi adcionado como autor do livro " + livro.getTituloLivro() + "!");
 				autorRepositorio.save(autor);
 			}
 		}
@@ -136,7 +136,6 @@ public class FachadaLivro {
 		}
 		Sort sort = Sort.by(sortDirection, campoOrdenacao);
 		Page<Livro> pagina = livroRepositorio.findAll(PageRequest.of(--quantidadeDePaginas, 5, sort));
-
 		return pagina;
 	}
 

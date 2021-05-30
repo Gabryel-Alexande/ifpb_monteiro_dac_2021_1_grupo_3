@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
@@ -51,6 +52,7 @@ public class LivrariaApplication implements CommandLineRunner {
 
 		@SuppressWarnings("resource")
 		Scanner input = new Scanner(System.in);
+		Scanner input2 = new Scanner(System.in);
 		String email;
 		String nome;
 		String senha;
@@ -64,17 +66,18 @@ public class LivrariaApplication implements CommandLineRunner {
 		List<Long> autores;
 		Long idDoAutor;
 		Integer quantidade;
+		Long idCategoria;
 		while (con) {
 
-			System.out.println("0- Finalizar" + "\n1 -Registrar Novo Usuário" + "\n2 -Consultar Usuário pelo E-Mail"
-					+ "\n3- Cadastrar Autor " + "\n4 -Alterar Autor" + "\n5 -Cadastrar Livro" + "\n6 -Alterar Livro"
+			System.out.println("0- Finalizar" + "\n1 -Registrar Novo Usuário V" + "\n2 -Consultar Usuário pelo E-Mail V"
+					+ "\n3- Cadastrar Autor V" + "\n4 -Alterar Autor V" + "\n5 -Cadastrar Livro" + "\n6 -Alterar Livro"
 					+ "\n7 -Excluir Livro" + "\n8 -Consultar os 5 mais baratos" + "\n9 -Consultar todos os Livros"
-					+ "\n10 -Criar categoria" + "\n11 - Adicionar o Livro ao Carrinho(pelo id)"
+					+ "\n10 -Criar categoria V" + "\n11 - Adicionar o Livro ao Carrinho(pelo id)"
 					+ "\n12 - Remover livro do carrinho" + "\n13 -Fazer Pedido" + "\n14 - Cancelar pedido"
 					+ "\n15 - Listar Pedidos" + "\n16 - Criar Endereco" + "\n17 - Adcionar Endereco"
-					+ "\n18 - Remover Endereco" + "\n19 - Listar Endereco" + "\n20 - Editar categoria"
-					+ "\n20 - Ecluir categoria" + "\n22 - Listar categoria" + "\n23 - Criar editora"
-					+ "\n24 - Editar editora" + "\n25 - Adcionar endereço a editora" + "\n26 - Listar editora"
+					+ "\n18 - Remover Endereco" + "\n19 - Listar Endereco" + "\n20 - Editar categoria V"
+					+ "\n21 - Ecluir categoria" + "\n22 - Listar categoria V" + "\n23 - Criar editora V"
+					+ "\n24 - Editar editora" + "\n25 - Adcionar endereço a editora" + "\n26 - Listar editora V(falta o endereço)"
 					+ "\n27 - Ver carrinho");
 
 			System.out.println("-------------------------------");
@@ -131,12 +134,16 @@ public class LivrariaApplication implements CommandLineRunner {
 				case 4:
 					System.out.println("Digite o ID: ");
 					Long id = Long.parseLong(input.nextLine());
-					System.out.println("Digite o Email: ");
+					System.out.println("Digite o novo nome: ");
 					email = input.nextLine();
 					System.out.println("Digite uma senha: ");
 					senha = input.nextLine();
+					try {
 					controllerAutor.alterarAutor(id, email, senha);
 					System.out.println("Autor alterado!");
+					}catch (NoSuchElementException e) {
+						System.out.println(e.getMessage());
+					}
 					break;
 
 				case 5:
@@ -144,38 +151,30 @@ public class LivrariaApplication implements CommandLineRunner {
 					isbn = input.nextLine();
 					System.out.println("Titulo do livro: ");
 					tituloLivro = input.nextLine();
-					List<Long> idsCategorias = new ArrayList<Long>();
-					int sair = 0;
-					while (sair != 2) {
-						System.out.println("Digite um ID de categoria: ");
-						Long idCategoria = Long.parseLong(input.nextLine());
-						idsCategorias.add(idCategoria);
-						System.out.println("Deseja colocar mais alguma categoria ? s para sim e n para não: ");
-						sair = Integer.parseInt(input.nextLine());
-					}
+				
+				
 					System.out.println("Descrição do livro: ");
 					descricao = input.nextLine();
-					System.out.println("preço do livro: ");
-					preco = input.nextBigDecimal();
+					
 					System.out.println("Edições do livro: ");
 					edicao = input.nextLine();
-					System.out.println("Ano de lançamento do livro: ");
-					anoLancamento = Integer.parseInt(input.nextLine());
-					System.out.println("Id da Editora: ");
-					idEditora = Long.parseLong(input.nextLine());
+				
 
 					List<Image> fotosLivro = new ArrayList<Image>();
-					int sairImagem = 0;
-					while (sairImagem != 2) {
-						System.out.println("Digite o endereço da imagem: ");
-						String edereçoDaImagem = input.nextLine();
-						BufferedImage imagem = ImageIO.read(new File(edereçoDaImagem));
-						fotosLivro.add(imagem);
-						System.out.println("Deseja colocar mais alguma Imagem ? 1 para sim e 2 para não: ");
-						sairImagem = Integer.parseInt(input.nextLine());
-					}
+//					int sairImagem = 0;
+//					while (sairImagem != 2) {
+//						System.out.println("Digite o endereço da imagem: ");
+//						String edereçoDaImagem = input.nextLine();
+//						BufferedImage imagem = ImageIO.read(new File(edereçoDaImagem));
+//						fotosLivro.add(imagem);
+//						System.out.println("Deseja colocar mais alguma Imagem ? 1 para sim e 2 para não: ");
+//						sairImagem = Integer.parseInt(input.nextLine());
+//					}
+					BufferedImage imagem = ImageIO.read(new File("\\Users\\ytall\\Downloads\\ISAC\\fl studio\\imagensParaDac\\download.jpg"));
+					fotosLivro.add(imagem);
 					int sairAutor = 0;
 					autores = new ArrayList<Long>();
+					
 					while (sairAutor != 2) {
 						System.out.println("Digite o ID do Autor: ");
 						idDoAutor = Long.parseLong(input.nextLine());
@@ -185,9 +184,27 @@ public class LivrariaApplication implements CommandLineRunner {
 					}
 					System.out.println("Digite a quantitade de livros em estoque: ");
 					quantidade = Integer.parseInt(input.nextLine());
+					System.out.println("Ano de lançamento do livro: ");
+					anoLancamento = Integer.parseInt(input.nextLine());
+					System.out.println("Id da Editora: ");
+					idEditora = Long.parseLong(input.nextLine());
+					System.out.println("preço do livro: ");
+					preco = input.nextBigDecimal();
+					int sair = 0;
+					List<Long> idsCategorias = new ArrayList<Long>();
+//					while (sair != 2) {
+//						System.out.println("Digite um ID de categoria: ");
+//						System.out.println(input.nextLine());
+//						idCategoria = input.nextLong();
+//						idsCategorias.add(idCategoria);
+//						System.out.println("Deseja colocar mais alguma categoria ? 1 para sim e 2 para não: ");
+//						sair = Integer.parseInt(input2.nextLine());
+//					}
+					idsCategorias.add((long) 3);
 					controllerLivro.cadastrarLivro(isbn, tituloLivro, idsCategorias, descricao, preco, edicao,
 							anoLancamento, idEditora, fotosLivro, autores, quantidade);
 					System.out.println("Livro criado!");
+					
 					break;
 				case 6:
 					System.out.println("Digite o ISBN: ");
@@ -198,10 +215,12 @@ public class LivrariaApplication implements CommandLineRunner {
 					descricao = input.nextLine();
 					System.out.println("preço do livro: ");
 					preco = input.nextBigDecimal();
-					System.out.println("Edições do livro: ");
-					edicao = input.nextLine();
+				
 					System.out.println("Ano de lançamento do livro: ");
 					anoLancamento = Integer.parseInt(input.nextLine());
+					
+					System.out.println("Edições do livro: ");
+					edicao = input.nextLine();
 					System.out.println("Id da Editora: ");
 					idEditora = Long.parseLong(input.nextLine());
 					System.out.println("Digite a quantitade de livros em estoque: ");
@@ -223,7 +242,10 @@ public class LivrariaApplication implements CommandLineRunner {
 					System.out.println(controllerLivro.listarCincoLivrosComMenorPreco().toString());
 					break;
 				case 9:
-					System.out.println(controllerLivro.listarLivros());
+					for (Object livro : controllerLivro.listarLivros()) {
+						
+						System.out.println(livro.toString());
+					}
 					break;
 				case 10:
 					System.out.println("Digite o Nome da categoria: ");
@@ -326,8 +348,8 @@ public class LivrariaApplication implements CommandLineRunner {
 					break;
 				case 20:
 					System.out.println("Digite o id da categoria:");
-					id = input.nextLong();
-					System.out.println("Digite o nome da categoria: ");
+					id = Long.parseLong(input.nextLine());
+					System.out.println("Digite o novo nome da categoria: ");
 					nome = input.nextLine();
 					controllerCategoria.editarCategoria(id, nome);
 					System.out.println("Categoria editada!");
@@ -339,7 +361,9 @@ public class LivrariaApplication implements CommandLineRunner {
 					System.out.println("Categoria excluida!");
 					break;
 				case 22:
-					System.out.println(controllerCategoria.listarCategoria());
+					for (Object categoria : controllerCategoria.listarCategoria()) {
+						System.out.println(categoria.toString());
+					}
 					break;
 				case 23:
 					System.out.println("Digite o nome da editora: ");
@@ -347,22 +371,25 @@ public class LivrariaApplication implements CommandLineRunner {
 					controllerEditora.cadastrarEditora(nome);
 					System.out.println("Editora criada");
 					break;
-				case 24:
+				case 25:
 					System.out.println("Digite o id da editora:");
-					id = input.nextLong();
+					id = Long.parseLong(input.nextLine());
 					controllerEditora.removerEndereco(id);
 					System.out.println("Editora excluida!");
 					break;
-				case 25:
+				case 24:
 					System.out.println("Digite o id da editora:");
-					id = input.nextLong();
+					id = Long.parseLong(input.nextLine());
 					System.out.println("Digite o id do endereco");
 					Long idEndereco = input.nextLong();
 					controllerEditora.adcionarEndereco(idEndereco, id);
 					System.out.println("Endereço adcionado!");
 					break;
 				case 26:
-					System.out.println(controllerEditora.listarEditoras().toString());
+					
+					for (Object editora : controllerEditora.listarEditoras()) {
+						System.out.println(editora.toString());
+					}
 					break;
 				case 27:
 					System.out.println("Email do cliente: ");

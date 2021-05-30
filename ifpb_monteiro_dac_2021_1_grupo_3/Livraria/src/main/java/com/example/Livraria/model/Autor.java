@@ -1,5 +1,6 @@
 package com.example.Livraria.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,7 +14,10 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Autor {
+public class Autor implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@Column(name = "id_autor")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -34,6 +38,7 @@ public class Autor {
 		this.senha = senha;
 		
 	}
+	private Autor() {}
 	//Este metodo foi criado com a finalidade de resolver o problema da clausula @Data,
 	//pois, a mesa cria um metodo plublico que permiti a alteração do atributo indetificador
 	//da entendiade, assim trazendo inconsistencia para o codiogo.

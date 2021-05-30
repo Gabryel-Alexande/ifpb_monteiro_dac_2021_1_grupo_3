@@ -1,9 +1,11 @@
 package com.example.Livraria.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,7 +16,10 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Editora {
+public class Editora implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name = "id_editora")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -55,5 +60,9 @@ public class Editora {
 	public void removerLivroNaEditora(Livro livro) {
 		livros.remove(livro);
 	}
+	public String toString() {
+		return "Editora: " + nomeEditora + " | id: " + idEditora + " Endereço: ";
+	}
+	private Editora() {}
 
 }
