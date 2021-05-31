@@ -165,7 +165,8 @@ public class LivrariaApplication implements CommandLineRunner {
 //						System.out.println("Deseja colocar mais alguma Imagem ? 1 para sim e 2 para não: ");
 //						sairImagem = Integer.parseInt(input.nextLine());
 //					}
-					BufferedImage imagem = ImageIO.read(new File("C:\\Users\\Antônio Amorim\\Downloads\\imagem.jpg"));
+					BufferedImage imagem = ImageIO.read(
+							new File("C:\\Users\\ytall\\Downloads\\ISAC\\fl studio\\imagensParaDac\\download.jpg"));
 					fotosLivro.add(imagem);
 					int sairAutor = 0;
 					autores = new ArrayList<Long>();
@@ -234,8 +235,8 @@ public class LivrariaApplication implements CommandLineRunner {
 					break;
 
 				case 8:
-					for (Object livro : controllerLivro.listarCincoLivrosComMenorPreco()){
-						System.out.println(livro+"\n---------------");
+					for (Object livro : controllerLivro.listarCincoLivrosComMenorPreco()) {
+						System.out.println(livro + "\n---------------");
 					}
 					break;
 				case 9:
@@ -243,7 +244,7 @@ public class LivrariaApplication implements CommandLineRunner {
 					quantidade = Integer.parseInt(input.nextLine());
 					for (Object livro : controllerLivro.listarLivros("tituloLivro", 2, quantidade)) {
 
-						System.out.println(livro.toString()+"\n---------------");
+						System.out.println(livro.toString() + "\n---------------");
 					}
 					break;
 				case 10:
@@ -261,7 +262,7 @@ public class LivrariaApplication implements CommandLineRunner {
 					System.out.println("Quantidade de livro: ");
 					Integer quantidadeLivro = Integer.parseInt(input.nextLine());
 					controllerUsuario.adcionarAoCarinho(isbn, quantidadeLivro, email);
-					System.out.println("Livroadcionado ao carrinho!");
+					System.out.println("Livroa dcionado ao carrinho!");
 					break;
 				case 12:
 					System.out.println("indice do livro no carrinho: ");
@@ -394,7 +395,9 @@ public class LivrariaApplication implements CommandLineRunner {
 				case 27:
 					System.out.println("Email do cliente: ");
 					email = input.nextLine();
-					System.out.println(controllerUsuario.verCarrinho(email).toString());
+					for (Object carrinho : controllerUsuario.verCarrinho(email)) {
+						System.out.println(carrinho.toString());
+					}
 					break;
 				}
 			} catch (NotFoundException | LoginException | IOException | CPFException e) {

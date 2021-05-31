@@ -6,17 +6,22 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.SecondaryTable;
+import javax.persistence.Table;
 
 import jdk.jfr.BooleanFlag;
 import lombok.Data;
 
 @Entity
 @Data
+@SecondaryTable(name = "usuario_carrinho")
 public class Usuario implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -44,7 +49,8 @@ public class Usuario implements Serializable{
 	@Column(nullable = false)
 	private boolean admisnistrador;
 	
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER , mappedBy = "idItemPedido")
+	@Column(name ="carrinho",table= "usuario_carrinho")
 	private List<ItemPedido> carrinho;
 
 	@OneToMany(cascade = CascadeType.MERGE)
@@ -73,7 +79,7 @@ public class Usuario implements Serializable{
 	}
 	
 	public String toString() {
-		return "Nome:"+this.nomeUsusario+"\n Cpf:"+this.cpf+"\n Email: "+this.email+"\n É ADM ?"+this.admisnistrador;
+		return "Nome:"+this.nomeUsusario+"\n Cpf:"+this.cpf+"\n Email: "+this.email+"\n É ADM  ?"+this.admisnistrador;
 	}
 
 	public void adcionarAoCarinho(ItemPedido itemPedido) {

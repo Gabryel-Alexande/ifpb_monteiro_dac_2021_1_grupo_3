@@ -26,7 +26,7 @@ public class ItemPedido implements Serializable {
 	@JoinColumn(name = "LIVRO_FK")
 	private Livro livro;
 	
-	@ManyToOne
+	@ManyToOne()
 	private Usuario usuario;
 	
 	@Column(nullable = false)
@@ -37,7 +37,8 @@ public class ItemPedido implements Serializable {
 		this.livro = livro;
 		this.quantidade = quantidade;
 	}
-
+	private ItemPedido() {}
+	
 	private void setIdItemPedido(Long id) {
 
 	}
