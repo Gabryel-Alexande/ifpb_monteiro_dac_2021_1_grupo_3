@@ -62,7 +62,7 @@ public class Livro implements Serializable {
 	private List<Image> fotosLivro;
 
 	@ManyToMany(cascade = { CascadeType.MERGE })
-	@JoinTable(name = "LIVROAUTOR", joinColumns = @JoinColumn(name = "idLivro"), inverseJoinColumns = @JoinColumn(name = "idAutor"))
+	@JoinTable(name = "livro_autor", joinColumns = @JoinColumn(name = "idLivro"), inverseJoinColumns = @JoinColumn(name = "idAutor"))
 	private List<Autor> autores;
 	
 	@Column(nullable = false)

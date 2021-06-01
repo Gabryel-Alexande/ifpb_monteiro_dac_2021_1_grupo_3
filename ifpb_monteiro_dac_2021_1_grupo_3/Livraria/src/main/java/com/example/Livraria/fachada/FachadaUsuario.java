@@ -14,6 +14,7 @@ import com.example.Livraria.model.Livro;
 import com.example.Livraria.model.Pedido;
 import com.example.Livraria.model.Usuario;
 import com.example.Livraria.repositorio.EnderecoRepositorio;
+import com.example.Livraria.repositorio.ItemPedidoRepositorio;
 import com.example.Livraria.repositorio.LivroRepositorio;
 import com.example.Livraria.repositorio.PedidoRepositorio;
 import com.example.Livraria.repositorio.UsuarioRepositorio;
@@ -35,6 +36,8 @@ public class FachadaUsuario implements Serializable {
 	private PedidoRepositorio pedidoRepositorio;
 	@Autowired
 	private EnderecoRepositorio enderecoRepositorio;
+	@Autowired
+	private ItemPedidoRepositorio itemPedidoRepositorio;
 
 	public void cadastrarUsuario(String cpf, String nomeUsusario, String email, String senha, boolean admisnistrador)
 			throws CPFException, LoginException {
@@ -65,10 +68,9 @@ public class FachadaUsuario implements Serializable {
 	 * usuario.adcionarEndereco(enderecoRegatado); usuarioRepositorio.save(usuario);
 	 * }
 	 */
-	public void adcionarEndereco(String email,String cep, String rua, String estado, String cidade, String complemento, String pais,
-			String bairro, String numeroCasa) {
-		
-		
+	public void adcionarEndereco(String email, String cep, String rua, String estado, String cidade, String complemento,
+			String pais, String bairro, String numeroCasa) {
+
 		Endereco enderecoRegatado = new Endereco(cep, rua, estado, cidade, complemento, pais, bairro, numeroCasa);
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		usuario.adcionarEndereco(enderecoRegatado);
@@ -109,7 +111,9 @@ public class FachadaUsuario implements Serializable {
 	public void adcionarAoCarinho(String isbn, Integer quantidade, String email) {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		Livro livro = livroRepositorio.findByIsbn(isbn);
-		usuario.adcionarAoCarinho(new ItemPedido(livro, quantidade));
+		ItemPedido itemPedido = new ItemPedido(livro, quantidade);
+		usuario.adcionarAoCarinho(itemPedido);
+		itemPedidoRepositorio.save(itemPedido);
 		usuarioRepositorio.save(usuario);
 	}
 
@@ -155,5 +159,5 @@ public class FachadaUsuario implements Serializable {
 		usuarioRepositorio.save(usuario);
 		EnviadorDeEmail.enviarEmail(usuario.getEmail(), "Sua compra cancelada com sucesso!",
 				"Sua compra foi cancelada, logo receberá seu reembolso!");
-		}
+	}
 }

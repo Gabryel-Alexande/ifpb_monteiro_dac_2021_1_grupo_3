@@ -67,12 +67,12 @@ public class LivrariaApplication implements CommandLineRunner {
 		Integer quantidade;
 		while (con) {
 
-			System.out.println("0- Finalizar" + "\n1 -Registrar Novo Usuário V" + "\n2 -Consultar Usuário pelo E-Mail V"
-					+ "\n3- Cadastrar Autor V" + "\n4 -Alterar Autor V" + "\n5 -Cadastrar Livro V"
-					+ "\n6 -Alterar Livro V" + "\n7 -Excluir Livro V" + "\n8 -Consultar os 5 mais baratos V"
-					+ "\n9 -Consultar todos os Livros V" + "\n10 -Criar categoria V"
+			System.out.println("0 - Finalizar" + "\n1 - Registrar Novo Usuário V" + "\n2 - Consultar Usuário pelo E-Mail V"
+					+ "\n3 - Cadastrar Autor V" + "\n4 - Alterar Autor V" + "\n5 - Cadastrar Livro V"
+					+ "\n6 - Alterar Livro V" + "\n7 - Excluir Livro V" + "\n8 - Consultar os 5 mais baratos V"
+					+ "\n9 - Consultar todos os Livros V" + "\n10 - Criar categoria V"
 					+ "\n11 - Adicionar o Livro ao Carrinho(pelo id)" + "\n12 - Remover livro do carrinho"
-					+ "\n13 -Fazer Pedido" + "\n14 - Cancelar pedido" + "\n15 - Listar Pedidos"
+					+ "\n13 - Fazer Pedido" + "\n14 - Cancelar pedido" + "\n15 - Listar Pedidos"
 					+ "\n16 - Criar Endereco" + "\n17 - Adcionar Endereco" + "\n18 - Remover Endereco"
 					+ "\n19 - Listar Endereco" + "\n20 - Editar categoria V" + "\n21 - Ecluir categoria V"
 					+ "\n22 - Listar categoria V" + "\n23 - Criar editora V" + "\n24 - Editar editora"
@@ -262,7 +262,7 @@ public class LivrariaApplication implements CommandLineRunner {
 					System.out.println("Quantidade de livro: ");
 					Integer quantidadeLivro = Integer.parseInt(input.nextLine());
 					controllerUsuario.adcionarAoCarinho(isbn, quantidadeLivro, email);
-					System.out.println("Livroa dcionado ao carrinho!");
+					System.out.println("Livro adcionado ao carrinho!");
 					break;
 				case 12:
 					System.out.println("indice do livro no carrinho: ");
