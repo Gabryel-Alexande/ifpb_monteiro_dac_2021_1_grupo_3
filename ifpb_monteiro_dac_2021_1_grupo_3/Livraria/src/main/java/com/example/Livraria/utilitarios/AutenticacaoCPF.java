@@ -10,7 +10,6 @@ public class AutenticacaoCPF {
 		for (int i = 0; i < CPF.length(); i++) {
 			cpfFinal = CPF.replace("-", "");
 		}
-		System.out.println(cpfFinal);
 		if (cpfFinal.equals("00000000000") || cpfFinal.equals("11111111111") || cpfFinal.equals("22222222222")
 				|| cpfFinal.equals("33333333333") || cpfFinal.equals("44444444444") || cpfFinal.equals("55555555555")
 				|| cpfFinal.equals("66666666666") || cpfFinal.equals("77777777777") || cpfFinal.equals("88888888888")

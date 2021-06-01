@@ -12,7 +12,9 @@ import com.example.Livraria.fachada.FachadaUsuario;
 import javassist.NotFoundException;
 @Controller
 public class ControllerUsuario{
-
+	
+	@Autowired
+	private FachadaUsuario fachadaUsuario ;
 
 	public void cadatrarUsusario(String cpf, String nomeUsusario, String email, String senha, boolean admisnistrador)
 			throws CPFException, LoginException {
@@ -23,9 +25,6 @@ public class ControllerUsuario{
 			String bairro, String numeroCasa) {
 		fachadaUsuario.adcionarEndereco(email, cep, rua, estado, cidade, complemento, pais, bairro, numeroCasa);
 	}
-
-	@Autowired
-	private FachadaUsuario fachadaUsuario ;
 
 	public void removerEndereco(Long idEdereco,String email) throws NotFoundException {
 		

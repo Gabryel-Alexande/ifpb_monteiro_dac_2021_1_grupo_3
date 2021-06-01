@@ -14,7 +14,6 @@ import com.example.Livraria.model.Livro;
 import com.example.Livraria.model.Pedido;
 import com.example.Livraria.model.Usuario;
 import com.example.Livraria.repositorio.EnderecoRepositorio;
-import com.example.Livraria.repositorio.ItemPedidoRepositorio;
 import com.example.Livraria.repositorio.LivroRepositorio;
 import com.example.Livraria.repositorio.PedidoRepositorio;
 import com.example.Livraria.repositorio.UsuarioRepositorio;
@@ -36,8 +35,6 @@ public class FachadaUsuario implements Serializable {
 	private PedidoRepositorio pedidoRepositorio;
 	@Autowired
 	private EnderecoRepositorio enderecoRepositorio;
-	@Autowired
-	private ItemPedidoRepositorio itemPedidoRepositorio;
 
 	public void cadastrarUsuario(String cpf, String nomeUsusario, String email, String senha, boolean admisnistrador)
 			throws CPFException, LoginException {
@@ -94,6 +91,7 @@ public class FachadaUsuario implements Serializable {
 
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		if (usuario != null) {
+			System.out.println(usuario.getEnderecos());
 			return usuario;
 		}
 		throw new NotFoundException("Email não cadastrado!");
@@ -111,9 +109,7 @@ public class FachadaUsuario implements Serializable {
 	public void adcionarAoCarinho(String isbn, Integer quantidade, String email) {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		Livro livro = livroRepositorio.findByIsbn(isbn);
-		ItemPedido itemPedido = new ItemPedido(livro, quantidade);
-		usuario.adcionarAoCarinho(itemPedido);
-		itemPedidoRepositorio.save(itemPedido);
+		usuario.adcionarAoCarinho(new ItemPedido(livro, quantidade));
 		usuarioRepositorio.save(usuario);
 	}
 

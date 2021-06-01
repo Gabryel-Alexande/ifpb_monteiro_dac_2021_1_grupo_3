@@ -10,11 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.SecondaryTable;
-import javax.persistence.Table;
 
 import jdk.jfr.BooleanFlag;
 import lombok.Data;
@@ -38,8 +35,7 @@ public class Usuario implements Serializable{
 	@Column(nullable = false)
 	private String senha;
 	
-	@OneToMany
-	@JoinColumn(name="idEndereco")
+	@OneToMany(fetch = FetchType.EAGER , mappedBy = "idEndereco")
 	private List<Endereco> enderecos;
 	
 	@Column(nullable = false)
@@ -79,7 +75,7 @@ public class Usuario implements Serializable{
 	}
 	
 	public String toString() {
-		return "Nome:"+this.nomeUsusario+"\n Cpf:"+this.cpf+"\n Email: "+this.email+"\n É ADM  ?"+this.admisnistrador;
+		return "Nome:"+this.nomeUsusario+"\n Cpf:"+this.cpf+"\n Email: "+this.email+"\n É ADM ? "+this.admisnistrador;
 	}
 
 	public void adcionarAoCarinho(ItemPedido itemPedido) {

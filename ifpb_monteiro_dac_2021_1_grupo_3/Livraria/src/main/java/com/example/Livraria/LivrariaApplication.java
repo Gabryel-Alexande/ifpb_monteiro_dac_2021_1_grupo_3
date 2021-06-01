@@ -75,9 +75,9 @@ public class LivrariaApplication implements CommandLineRunner {
 					+ "\n13 - Fazer Pedido" + "\n14 - Cancelar pedido" + "\n15 - Listar Pedidos"
 					+ "\n16 - Criar Endereco" + "\n17 - Adcionar Endereco" + "\n18 - Remover Endereco"
 					+ "\n19 - Listar Endereco" + "\n20 - Editar categoria V" + "\n21 - Ecluir categoria V"
-					+ "\n22 - Listar categoria V" + "\n23 - Criar editora V" + "\n24 - Editar editora"
+					+ "\n22 - Listar categoria V" + "\n23 - Criar editora V" + "\n24 - Editar editora V"
 					+ "\n25 - Adcionar endereço a editora" + "\n26 - Listar editora V(falta o endereço)"
-					+ "\n27 - Ver carrinho");
+					+ "\n27 - Ver carrinho"+"\n28 - Remover endereço de editora"+"\n29 - Excluir editora");
 
 			System.out.println("-------------------------------");
 			int opcao = Integer.parseInt(input.nextLine());
@@ -166,7 +166,7 @@ public class LivrariaApplication implements CommandLineRunner {
 //						sairImagem = Integer.parseInt(input.nextLine());
 //					}
 					BufferedImage imagem = ImageIO.read(
-							new File("C:\\Users\\ytall\\Downloads\\ISAC\\fl studio\\imagensParaDac\\download.jpg"));
+							new File("C:\\Users\\Antônio Amorim\\Downloads\\imagem.jpg"));
 					fotosLivro.add(imagem);
 					int sairAutor = 0;
 					autores = new ArrayList<Long>();
@@ -330,7 +330,7 @@ public class LivrariaApplication implements CommandLineRunner {
 					String bairro = input.nextLine();
 					System.out.println("Digite o numero da casa: ");
 					String numeroCasa = input.nextLine();
-					System.out.println("Digite o complemento");
+					System.out.println("Digite o complemento: ");
 					String complemento = input.nextLine();
 					controllerUsuario.adcionarEndereco(email, cep, rua, estado, cidade, complemento, pais, bairro,
 							numeroCasa);
@@ -375,16 +375,32 @@ public class LivrariaApplication implements CommandLineRunner {
 				case 25:
 					System.out.println("Digite o id da editora:");
 					id = Long.parseLong(input.nextLine());
-					controllerEditora.removerEndereco(id);
-					System.out.println("Editora excluida!");
+					System.out.println("Digite o CEP: ");
+					cep = input.nextLine();
+					System.out.println("Digite a rua: ");
+					rua = input.nextLine();
+					System.out.println("Digite o estado: ");
+					estado = input.nextLine();
+					System.out.println("Digite a cidade: ");
+					cidade = input.nextLine();
+					System.out.println("Digite o pais: ");
+					pais = input.nextLine();
+					System.out.println("Digite o bairro: ");
+					bairro = input.nextLine();
+					System.out.println("Digite o numero da casa: ");
+					numeroCasa = input.nextLine();
+					System.out.println("Digite o complemento: ");
+					complemento = input.nextLine();
+					controllerEditora.adcionarEndereco(cep, rua, estado, cidade, complemento, pais, bairro, numeroCasa, id);
+					System.out.println("Endereco criado!");
 					break;
 				case 24:
 					System.out.println("Digite o id da editora:");
 					id = Long.parseLong(input.nextLine());
-					System.out.println("Digite o id do endereco");
-					Long idEndereco = input.nextLong();
-					controllerEditora.adcionarEndereco(idEndereco, id);
-					System.out.println("Endereço adcionado!");
+					System.out.println("Digite o novo nome");
+					nome= input.nextLine();
+					controllerEditora.editarEndereco(nome, id);
+					System.out.println("Editora atualizada!");
 					break;
 				case 26:
 
@@ -398,6 +414,17 @@ public class LivrariaApplication implements CommandLineRunner {
 					for (Object carrinho : controllerUsuario.verCarrinho(email)) {
 						System.out.println(carrinho.toString());
 					}
+					break;
+				case 28:
+					System.out.println("Digite o id da editora:");
+					id = Long.parseLong(input.nextLine());
+					controllerEditora.removerEndereco(id);
+					break;
+				case 29:
+					System.out.println("Digite o id da editora:");
+					id = Long.parseLong(input.nextLine());
+					controllerEditora.excluirEditora(id);
+					System.out.println("Editora Excluida!");
 					break;
 				}
 			} catch (NotFoundException | LoginException | IOException | CPFException e) {
