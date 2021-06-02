@@ -40,7 +40,6 @@ public class FachadaEditora {
 		}
 	}
 	public void excluirEditora(Long idEditora) {
-		Editora editora = editoraRepositorio.findById(idEditora).get();
-		editoraRepositorio.delete(editora);
+		editoraRepositorio.deleteById(idEditora);
 	}
 }

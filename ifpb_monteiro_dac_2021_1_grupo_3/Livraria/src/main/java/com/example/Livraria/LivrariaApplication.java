@@ -67,17 +67,18 @@ public class LivrariaApplication implements CommandLineRunner {
 		Integer quantidade;
 		while (con) {
 
-			System.out.println("0 - Finalizar" + "\n1 - Registrar Novo Usuário V" + "\n2 - Consultar Usuário pelo E-Mail V"
-					+ "\n3 - Cadastrar Autor V" + "\n4 - Alterar Autor V" + "\n5 - Cadastrar Livro V"
-					+ "\n6 - Alterar Livro V" + "\n7 - Excluir Livro V" + "\n8 - Consultar os 5 mais baratos V"
-					+ "\n9 - Consultar todos os Livros V" + "\n10 - Criar categoria V"
-					+ "\n11 - Adicionar o Livro ao Carrinho(pelo id)" + "\n12 - Remover livro do carrinho"
-					+ "\n13 - Fazer Pedido" + "\n14 - Cancelar pedido" + "\n15 - Listar Pedidos"
-					+ "\n16 - Criar Endereco" + "\n17 - Adcionar Endereco" + "\n18 - Remover Endereco"
-					+ "\n19 - Listar Endereco" + "\n20 - Editar categoria V" + "\n21 - Ecluir categoria V"
-					+ "\n22 - Listar categoria V" + "\n23 - Criar editora V" + "\n24 - Editar editora V"
-					+ "\n25 - Adcionar endereço a editora" + "\n26 - Listar editora V(falta o endereço)"
-					+ "\n27 - Ver carrinho"+"\n28 - Remover endereço de editora"+"\n29 - Excluir editora");
+			System.out.println(
+					"0 - Finalizar" + "\n1 - Registrar Novo Usuário V" + "\n2 - Consultar Usuário pelo E-Mail V"
+							+ "\n3 - Cadastrar Autor V" + "\n4 - Alterar Autor V" + "\n5 - Cadastrar Livro V"
+							+ "\n6 - Alterar Livro V" + "\n7 - Excluir Livro V" + "\n8 - Consultar os 5 mais baratos V"
+							+ "\n9 - Consultar todos os Livros V" + "\n10 - Criar categoria V"
+							+ "\n11 - Adicionar o Livro ao Carrinho(pelo id)" + "\n12 - Remover livro do carrinho"
+							+ "\n13 - Fazer Pedido" + "\n14 - Cancelar pedido" + "\n15 - Listar Pedidos"
+							+ "\n16 - Criar Endereco" + "\n17 - Adcionar Endereco" + "\n18 - Remover Endereco"
+							+ "\n19 - Listar Endereco" + "\n20 - Editar categoria V" + "\n21 - Ecluir categoria V"
+							+ "\n22 - Listar categoria V" + "\n23 - Criar editora V" + "\n24 - Editar editora V"
+							+ "\n25 - Adcionar endereço a editora" + "\n26 - Listar editora V"
+							+ "\n27 - Ver carrinho" + "\n28 - Remover endereço de editora" + "\n29 - Excluir editora");
 
 			System.out.println("-------------------------------");
 			int opcao = Integer.parseInt(input.nextLine());
@@ -165,8 +166,7 @@ public class LivrariaApplication implements CommandLineRunner {
 //						System.out.println("Deseja colocar mais alguma Imagem ? 1 para sim e 2 para não: ");
 //						sairImagem = Integer.parseInt(input.nextLine());
 //					}
-					BufferedImage imagem = ImageIO.read(
-							new File("C:\\Users\\Antônio Amorim\\Downloads\\imagem.jpg"));
+					BufferedImage imagem = ImageIO.read(new File("C:\\Users\\Antônio Amorim\\Downloads\\imagem.jpg"));
 					fotosLivro.add(imagem);
 					int sairAutor = 0;
 					autores = new ArrayList<Long>();
@@ -292,26 +292,30 @@ public class LivrariaApplication implements CommandLineRunner {
 					email = input.nextLine();
 					System.out.println(controllerUsuario.listarPedidos(email).toString());
 				case 16:
-					/*
-					 * System.out.println("Digite o CEP: "); String cep = input.nextLine();
-					 * System.out.println("Digite a rua: "); String rua = input.nextLine();
-					 * System.out.println("Digite o estado: "); String estado = input.nextLine();
-					 * System.out.println("Digite a cidade: "); String cidade = input.nextLine();
-					 * System.out.println("Digite o pais: "); String pais = input.nextLine();
-					 * System.out.println("Digite o bairro: "); String bairro = input.nextLine();
-					 * System.out.println("Digite o numero da casa: "); String numeroCasa =
-					 * input.nextLine(); System.out.println("Digite o complemento"); String
-					 * complemento = input.nextLine();
-					 */
 
-					/*
-					 * try{
-					 * 
-					 * controllerEndereco.adcionarEndereco(cep, rua, estado, cidade,complemento,
-					 * pais, bairro, numeroCasa); }catch(Exception e ) {
-					 * System.out.println(e.getMessage()); } System.out.println("Endereco criado!");
-					 * break;
-					 */
+//					System.out.println("Digite o CEP: ");
+//					String cep = input.nextLine();
+//					System.out.println("Digite a rua: ");
+//					String rua = input.nextLine();
+//					System.out.println("Digite o estado: ");
+//					String estado = input.nextLine();
+//					System.out.println("Digite a cidade: ");
+//					String cidade = input.nextLine();
+//					System.out.println("Digite o pais: ");
+//					String pais = input.nextLine();
+//					System.out.println("Digite o bairro: ");
+//					String bairro = input.nextLine();
+//					System.out.println("Digite o numero da casa: ");
+//					String numeroCasa = input.nextLine();
+//					System.out.println("Digite o complemento");
+//					String complemento = input.nextLine();
+//					  try{
+//					  
+//					  controllerEndereco.adcionarEndereco(cep, rua, estado, cidade,complemento,
+//					  pais, bairro, numeroCasa); }catch(Exception e ) {
+//					  System.out.println(e.getMessage()); } System.out.println("Endereco criado!");
+				  break;
+
 				case 17:
 
 					System.out.println("Email do cliente: ");
@@ -356,10 +360,10 @@ public class LivrariaApplication implements CommandLineRunner {
 					System.out.println("Categoria editada!");
 					break;
 				case 21:
-					System.out.println("Digite o id da categoria:");
-					id = Long.parseLong(input.nextLine());
-					controllerCategoria.excluirCategoria(id);
-					System.out.println("Categoria excluida!");
+//					System.out.println("Digite o id da categoria:");
+//					id = Long.parseLong(input.nextLine());
+//					controllerCategoria.excluirCategoria(id);
+//					System.out.println("Categoria excluida!");
 					break;
 				case 22:
 					for (Object categoria : controllerCategoria.listarCategoria()) {
@@ -391,14 +395,15 @@ public class LivrariaApplication implements CommandLineRunner {
 					numeroCasa = input.nextLine();
 					System.out.println("Digite o complemento: ");
 					complemento = input.nextLine();
-					controllerEditora.adcionarEndereco(cep, rua, estado, cidade, complemento, pais, bairro, numeroCasa, id);
+					controllerEditora.adcionarEndereco(cep, rua, estado, cidade, complemento, pais, bairro, numeroCasa,
+							id);
 					System.out.println("Endereco criado!");
 					break;
 				case 24:
 					System.out.println("Digite o id da editora:");
 					id = Long.parseLong(input.nextLine());
 					System.out.println("Digite o novo nome");
-					nome= input.nextLine();
+					nome = input.nextLine();
 					controllerEditora.editarEndereco(nome, id);
 					System.out.println("Editora atualizada!");
 					break;
@@ -421,10 +426,10 @@ public class LivrariaApplication implements CommandLineRunner {
 					controllerEditora.removerEndereco(id);
 					break;
 				case 29:
-					System.out.println("Digite o id da editora:");
-					id = Long.parseLong(input.nextLine());
-					controllerEditora.excluirEditora(id);
-					System.out.println("Editora Excluida!");
+//					System.out.println("Digite o id da editora:");
+//					id = Long.parseLong(input.nextLine());
+//					controllerEditora.excluirEditora(id);
+//					System.out.println("Editora Excluida!");
 					break;
 				}
 			} catch (NotFoundException | LoginException | IOException | CPFException e) {

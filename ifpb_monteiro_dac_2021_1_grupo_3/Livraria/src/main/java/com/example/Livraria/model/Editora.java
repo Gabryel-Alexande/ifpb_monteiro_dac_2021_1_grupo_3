@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import lombok.Data;
 
@@ -31,7 +32,7 @@ public class Editora implements Serializable {
 //	@OneToMany(mappedBy = "idLivro")
 //	private List<Livro> livros;
 
-	@ManyToOne
+	@OneToOne
 	private Endereco endereco;
 
 	// Este metodo foi criado com a finalidade de resolver o problema da clausula

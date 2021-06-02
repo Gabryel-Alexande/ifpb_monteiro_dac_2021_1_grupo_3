@@ -27,7 +27,6 @@ public class FachadaCategoria {
 		return categoriaRepositorio.findAll();
 	}
 	public void excluirCategoria(Long id) {
-		Categoria categoria=categoriaRepositorio.findById(id).get();
-		categoriaRepositorio.delete(categoria);
+		categoriaRepositorio.deleteById(id);
 	}
 }

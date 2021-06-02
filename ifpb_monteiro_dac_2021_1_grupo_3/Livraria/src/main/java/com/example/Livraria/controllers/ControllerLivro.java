@@ -2,15 +2,12 @@ package com.example.Livraria.controllers;
 
 import java.awt.Image;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 
 import com.example.Livraria.fachada.FachadaLivro;
-import com.example.Livraria.model.Livro;
 @Controller
 public class ControllerLivro{
 	@Autowired
