@@ -22,17 +22,17 @@ public class ControllerEditora {
 		return fachadaEditora.listarEditoras();
 	}
 
-	public void adcionarEndereco(String cep, String rua, String estado, String cidade, String complemento,
-			String pais, String bairro, String numeroCasa, Long idEditora) {
-		fachadaEditora.adcionarEndereco(cep, rua, estado, cidade, complemento, pais, bairro, numeroCasa, idEditora);
-	}
+//	public void adcionarEndereco(String cep, String rua, String estado, String cidade, String complemento,
+//			String pais, String bairro, String numeroCasa, Long idEditora) {
+//		fachadaEditora.adcionarEndereco(cep, rua, estado, cidade, complemento, pais, bairro, numeroCasa, idEditora);
+//	}
 	
 	public void editarEndereco(String nome,Long idEditora) {
 		fachadaEditora.editarEndereco(nome, idEditora);
 	}
-	public void removerEndereco(Long idEditora) {
-		fachadaEditora.removerEndereco(idEditora);
-	}
+//	public void removerEndereco(Long idEditora) {
+//		fachadaEditora.removerEndereco(idEditora);
+//	}
 	public void excluirEditora(Long idEditora) {
 		fachadaEditora.excluirEditora(idEditora);
 	}

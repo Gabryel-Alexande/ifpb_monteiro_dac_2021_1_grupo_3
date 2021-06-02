@@ -1,6 +1,7 @@
 package com.example.Livraria.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -38,7 +39,7 @@ public class Usuario implements Serializable{
 	@Column(nullable = false)
 	private String senha;
 	
-	@OneToMany(fetch = FetchType.EAGER , mappedBy = "idEndereco")
+	@OneToMany(cascade = CascadeType.MERGE,mappedBy = "usuario")
 	private List<Endereco> enderecos;
 	
 	@Column(nullable = false)
@@ -48,9 +49,8 @@ public class Usuario implements Serializable{
 	@Column(nullable = false)
 	private boolean admisnistrador;
 	
-	@OneToMany(fetch = FetchType.EAGER )
-	@JoinColumn(name="idItemPedido")
-	private List<ItemPedido> carrinho;
+	@OneToMany(cascade = CascadeType.MERGE,mappedBy = "usuario")
+	private List<ItemPedido> carrinho = new ArrayList<ItemPedido>();
 
 	@OneToMany(cascade = CascadeType.MERGE)
 	private List<Pedido> pedidos;

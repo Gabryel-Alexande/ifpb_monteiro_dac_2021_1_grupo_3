@@ -7,15 +7,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.Data;
 
 @Entity
 @Data
 public class Endereco implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -36,9 +35,11 @@ public class Endereco implements Serializable {
 	private String bairro;
 	@Column(name = "numero_casa", nullable = false)
 	private String numeroCasa;
-	
+	@ManyToOne
+	@JoinColumn(name ="idUsusario")
+	private Usuario usuario;
 	public Endereco(String cep, String rua, String estado, String cidade, String complemento, String pais,
-			String bairro, String numeroCasa) {
+			String bairro, String numeroCasa,Usuario usuario) {
 		super();
 		this.cep = cep;
 		this.rua = rua;
@@ -48,6 +49,7 @@ public class Endereco implements Serializable {
 		this.pais = pais;
 		this.bairro = bairro;
 		this.numeroCasa = numeroCasa;
+		this.usuario = usuario;
 	}
 	
 	private Endereco() {};

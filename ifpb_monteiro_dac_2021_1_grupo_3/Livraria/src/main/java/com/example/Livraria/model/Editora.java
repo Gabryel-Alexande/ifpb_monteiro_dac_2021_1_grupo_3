@@ -32,9 +32,7 @@ public class Editora implements Serializable {
 //	@OneToMany(mappedBy = "idLivro")
 //	private List<Livro> livros;
 
-	@OneToOne
-	private Endereco endereco;
-
+	
 	// Este metodo foi criado com a finalidade de resolver o problema da clausula
 	// @Data, pois, a mesa cria um metodo plublico que permiti a alteração do
 	// atributo indetificadorda entendiade, assim trazendo inconsistencia para o

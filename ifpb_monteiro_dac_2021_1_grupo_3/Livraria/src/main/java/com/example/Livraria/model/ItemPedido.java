@@ -26,15 +26,17 @@ public class ItemPedido implements Serializable {
 	private Livro livro;
 	
 	@ManyToOne()
+	@JoinColumn(name="idUsusario")
 	private Usuario usuario;
 	
 	@Column(nullable = false)
 	private Integer quantidade;
 
-	public ItemPedido(Livro livro, Integer quantidade) {
+	public ItemPedido(Livro livro, Integer quantidade,Usuario usuario) {
 		super();
 		this.livro = livro;
 		this.quantidade = quantidade;
+		this.usuario = usuario;
 	}
 	private ItemPedido() {}
 	

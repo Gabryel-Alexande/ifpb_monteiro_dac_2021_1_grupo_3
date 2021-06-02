@@ -166,7 +166,7 @@ public class LivrariaApplication implements CommandLineRunner {
 //						System.out.println("Deseja colocar mais alguma Imagem ? 1 para sim e 2 para não: ");
 //						sairImagem = Integer.parseInt(input.nextLine());
 //					}
-					BufferedImage imagem = ImageIO.read(new File("C:\\Users\\Antônio Amorim\\Downloads\\imagem.jpg"));
+					BufferedImage imagem = ImageIO.read(new File("C:\\Teste.jpg"));
 					fotosLivro.add(imagem);
 					int sairAutor = 0;
 					autores = new ArrayList<Long>();
@@ -377,27 +377,27 @@ public class LivrariaApplication implements CommandLineRunner {
 					System.out.println("Editora criada");
 					break;
 				case 25:
-					System.out.println("Digite o id da editora:");
-					id = Long.parseLong(input.nextLine());
-					System.out.println("Digite o CEP: ");
-					cep = input.nextLine();
-					System.out.println("Digite a rua: ");
-					rua = input.nextLine();
-					System.out.println("Digite o estado: ");
-					estado = input.nextLine();
-					System.out.println("Digite a cidade: ");
-					cidade = input.nextLine();
-					System.out.println("Digite o pais: ");
-					pais = input.nextLine();
-					System.out.println("Digite o bairro: ");
-					bairro = input.nextLine();
-					System.out.println("Digite o numero da casa: ");
-					numeroCasa = input.nextLine();
-					System.out.println("Digite o complemento: ");
-					complemento = input.nextLine();
-					controllerEditora.adcionarEndereco(cep, rua, estado, cidade, complemento, pais, bairro, numeroCasa,
-							id);
-					System.out.println("Endereco criado!");
+//					System.out.println("Digite o id da editora:");
+//					id = Long.parseLong(input.nextLine());
+//					System.out.println("Digite o CEP: ");
+//					cep = input.nextLine();
+//					System.out.println("Digite a rua: ");
+//					rua = input.nextLine();
+//					System.out.println("Digite o estado: ");
+//					estado = input.nextLine();
+//					System.out.println("Digite a cidade: ");
+//					cidade = input.nextLine();
+//					System.out.println("Digite o pais: ");
+//					pais = input.nextLine();
+//					System.out.println("Digite o bairro: ");
+//					bairro = input.nextLine();
+//					System.out.println("Digite o numero da casa: ");
+//					numeroCasa = input.nextLine();
+//					System.out.println("Digite o complemento: ");
+//					complemento = input.nextLine();
+//					controllerEditora.adcionarEndereco(cep, rua, estado, cidade, complemento, pais, bairro, numeroCasa,
+//							id);
+//					System.out.println("Endereco criado!");
 					break;
 				case 24:
 					System.out.println("Digite o id da editora:");
@@ -421,9 +421,9 @@ public class LivrariaApplication implements CommandLineRunner {
 					}
 					break;
 				case 28:
-					System.out.println("Digite o id da editora:");
-					id = Long.parseLong(input.nextLine());
-					controllerEditora.removerEndereco(id);
+//					System.out.println("Digite o id da editora:");
+//					id = Long.parseLong(input.nextLine());
+//					controllerEditora.removerEndereco(id);
 					break;
 				case 29:
 //					System.out.println("Digite o id da editora:");
