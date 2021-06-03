@@ -67,18 +67,17 @@ public class LivrariaApplication implements CommandLineRunner {
 		Integer quantidade;
 		while (con) {
 
-			System.out.println(
-					"0 - Finalizar" + "\n1 - Registrar Novo Usuário V" + "\n2 - Consultar Usuário pelo E-Mail V"
-							+ "\n3 - Cadastrar Autor V" + "\n4 - Alterar Autor V" + "\n5 - Cadastrar Livro V"
-							+ "\n6 - Alterar Livro V" + "\n7 - Excluir Livro V" + "\n8 - Consultar os 5 mais baratos V"
-							+ "\n9 - Consultar todos os Livros V" + "\n10 - Criar categoria V"
-							+ "\n11 - Adicionar o Livro ao Carrinho(pelo id)" + "\n12 - Remover livro do carrinho"
-							+ "\n13 - Fazer Pedido" + "\n14 - Cancelar pedido" + "\n15 - Listar Pedidos"
-							+ "\n16 - Criar Endereco" + "\n17 - Adcionar Endereco" + "\n18 - Remover Endereco"
-							+ "\n19 - Listar Endereco" + "\n20 - Editar categoria V" + "\n21 - Ecluir categoria V"
-							+ "\n22 - Listar categoria V" + "\n23 - Criar editora V" + "\n24 - Editar editora V"
-							+ "\n25 - Adcionar endereço a editora" + "\n26 - Listar editora V"
-							+ "\n27 - Ver carrinho" + "\n28 - Remover endereço de editora" + "\n29 - Excluir editora");
+			System.out.println("0 - Finalizar" + "\n1 - Registrar Novo Usuário V"
+					+ "\n2 - Consultar Usuário pelo E-Mail V" + "\n3 - Cadastrar Autor V" + "\n4 - Alterar Autor V"
+					+ "\n5 - Cadastrar Livro V" + "\n6 - Alterar Livro V" + "\n7 - Excluir Livro V"
+					+ "\n8 - Consultar os 5 mais baratos V" + "\n9 - Consultar todos os Livros V"
+					+ "\n10 - Criar categoria V" + "\n11 - Adicionar o Livro ao Carrinho V"
+					+ "\n12 - Remover livro do carrinho V" + "\n13 - Fazer Pedido V" + "\n14 - Cancelar pedido V"
+					+ "\n15 - Listar Pedidos V" + "\n16 - Criar Endereco V" + "\n17 - Adcionar Endereco V"
+					+ "\n18 - Remover Endereco V" + "\n19 - Listar Endereco V" + "\n20 - Editar categoria V"
+					+ "\n21 - Ecluir categoria V" + "\n22 - Listar categoria V" + "\n23 - Criar editora V"
+					+ "\n24 - Editar editora V" + "\n25 - Adcionar endereço a editora V" + "\n26 - Listar editora V"
+					+ "\n27 - Ver carrinho V"  + "\n28 - Remover endereço de editora V" + "\n29 - Excluir editora V");
 
 			System.out.println("-------------------------------");
 			int opcao = Integer.parseInt(input.nextLine());
@@ -166,7 +165,7 @@ public class LivrariaApplication implements CommandLineRunner {
 //						System.out.println("Deseja colocar mais alguma Imagem ? 1 para sim e 2 para não: ");
 //						sairImagem = Integer.parseInt(input.nextLine());
 //					}
-					BufferedImage imagem = ImageIO.read(new File("C:\\Teste.jpg"));
+					BufferedImage imagem = ImageIO.read(new File("imagem.jpg"));
 					fotosLivro.add(imagem);
 					int sairAutor = 0;
 					autores = new ArrayList<Long>();
@@ -265,11 +264,11 @@ public class LivrariaApplication implements CommandLineRunner {
 					System.out.println("Livro adcionado ao carrinho!");
 					break;
 				case 12:
-					System.out.println("indice do livro no carrinho: ");
-					int indice = Integer.parseInt(input.nextLine());
 					System.out.println("Email do cliente: ");
 					email = input.nextLine();
-					controllerUsuario.removerDoCarinho(indice, email);
+					System.out.println("Digite o id do livro no carrinho: ");
+					id = Long.parseLong(input.nextLine());
+					controllerUsuario.removerDoCarinho(id, email);
 					System.out.println("Livro removido do carrinho!");
 					break;
 				case 13:
@@ -283,7 +282,7 @@ public class LivrariaApplication implements CommandLineRunner {
 					System.out.println("Email do cliente: ");
 					email = input.nextLine();
 					System.out.println("Digite o id do pedido:");
-					id = input.nextLong();
+					id = Long.parseLong(input.nextLine());
 					controllerUsuario.cancelarPedido(id, email);
 					System.out.println("Pedido cancelado!");
 					break;
@@ -314,7 +313,7 @@ public class LivrariaApplication implements CommandLineRunner {
 //					  controllerEndereco.adcionarEndereco(cep, rua, estado, cidade,complemento,
 //					  pais, bairro, numeroCasa); }catch(Exception e ) {
 //					  System.out.println(e.getMessage()); } System.out.println("Endereco criado!");
-				  break;
+					break;
 
 				case 17:
 
@@ -344,12 +343,12 @@ public class LivrariaApplication implements CommandLineRunner {
 					System.out.println("Email do cliente: ");
 					email = input.nextLine();
 					System.out.println("Digite o id do endreco:");
-					id = input.nextLong();
+					id = Long.parseLong(input.nextLine());
 					controllerUsuario.removerEndereco(id, email);
 					System.out.println("Endereco removido!");
 					break;
 				case 19:
-					System.out.println(controllerEndereco.listarEnderecos());
+					System.out.println(controllerEndereco.listarEnderecos().toString());
 					break;
 				case 20:
 					System.out.println("Digite o id da categoria:");
@@ -416,9 +415,8 @@ public class LivrariaApplication implements CommandLineRunner {
 				case 27:
 					System.out.println("Email do cliente: ");
 					email = input.nextLine();
-					for (Object carrinho : controllerUsuario.verCarrinho(email)) {
-						System.out.println(carrinho.toString());
-					}
+					System.out.println(controllerUsuario.verCarrinho(email));
+
 					break;
 				case 28:
 //					System.out.println("Digite o id da editora:");

@@ -15,7 +15,7 @@ public class ControllerLivro{
 	
 	public void cadastrarLivro(String isbn, String tituloLivro, List<Long> categoria, String descricao,
 			BigDecimal preco,String edicao, Integer anoLancamento, Long idEditora,
-			List<Image> fotosLivro, List<Long> autores, Integer quantidade) {
+			List<Image> fotosLivro, List<Long> autores, Integer quantidade) throws IllegalArgumentException{
 		fachadaLivro.cadastrarLivro(isbn, tituloLivro, categoria, descricao, preco,edicao, anoLancamento, idEditora, fotosLivro, autores, quantidade);
 	}
 

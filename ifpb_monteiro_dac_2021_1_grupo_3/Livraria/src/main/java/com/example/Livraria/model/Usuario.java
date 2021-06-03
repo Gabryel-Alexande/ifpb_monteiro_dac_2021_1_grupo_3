@@ -48,11 +48,8 @@ public class Usuario implements Serializable{
 	@BooleanFlag
 	@Column(nullable = false)
 	private boolean admisnistrador;
-	
-	@OneToMany(cascade = CascadeType.MERGE,mappedBy = "usuario")
-	private List<ItemPedido> carrinho = new ArrayList<ItemPedido>();
 
-	@OneToMany(cascade = CascadeType.MERGE)
+	@OneToMany(cascade = CascadeType.MERGE,mappedBy = "usuario")
 	private List<Pedido> pedidos;
 
 	
@@ -81,18 +78,6 @@ public class Usuario implements Serializable{
 		return "Nome:"+this.nomeUsusario+"\n Cpf:"+this.cpf+"\n Email: "+this.email+"\n É ADM ? "+this.admisnistrador;
 	}
 
-	public void adcionarAoCarinho(ItemPedido itemPedido) {
-		carrinho.add(itemPedido);
-	}
-
-	public void removerDoCarinho(ItemPedido itemPedido) {
-		carrinho.remove(itemPedido);
-		itemPedido.setUsuario(this);
-	}
-	@SuppressWarnings("unlikely-arg-type")
-	public void removerDoCarinho(Integer indice) {
-		carrinho.remove(indice);
-	}
 	public void adcionarPedido(Pedido pedido) {
 		pedidos.add(pedido);
 	}
@@ -106,6 +91,15 @@ public class Usuario implements Serializable{
 	}
 	public void removerEndereco(Endereco endereco) {
 		enderecos.remove(endereco);
+	}
+
+	public Pedido getCarrinho() {
+		for (Pedido pedido : pedidos) {
+			if(pedido.getEstadoPedido()==EstadoPedido.Aberto) {
+				return pedido;
+			}
+		}
+		return null;
 	}
 	
 }

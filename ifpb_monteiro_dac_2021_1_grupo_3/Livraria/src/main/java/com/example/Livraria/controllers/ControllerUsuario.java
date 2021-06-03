@@ -48,8 +48,8 @@ public class ControllerUsuario{
 		fachadaUsuario.adcionarAoCarinho(isbn, quantidade, email);
 	}
 
-	public void removerDoCarinho(Integer indice, String email) {
-		fachadaUsuario.removerDoCarinho(indice, email);
+	public void removerDoCarinho(Long id, String email){
+		fachadaUsuario.removerDoCarinho(id, email);
 	}
 
 	public void comprarLivro(String email) throws NotFoundException {

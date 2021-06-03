@@ -1,9 +1,14 @@
 package com.example.Livraria.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,30 +21,38 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Pedido {
+public class Pedido implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name = "id_pedido")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long idPedido;
+
 	@ManyToOne
-	private Usuario cliente;
-	@OneToMany(mappedBy = "idItemPedido")
+	@JoinColumn(name ="idUsusario")
+	private Usuario usuario;
+
+	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "pedido")
 	private List<ItemPedido> itemPedido;
+
 	@Transient
 	private BigDecimal preco;
 
-	public Pedido(Usuario cliente, List<ItemPedido> itemPedido) {
+	@Enumerated(EnumType.STRING)
+	private EstadoPedido estadoPedido;
+
+	public Pedido(Usuario cliente) {
 		super();
-		this.cliente = cliente;
-		this.itemPedido = itemPedido;
-		cliente.adcionarPedido(this);
-		for (ItemPedido item : itemPedido) {
-			preco = preco.add(item.getLivro().getPreco().multiply(new BigDecimal(item.getQuantidade())));
-		}
+		this.usuario = cliente;
+		estadoPedido = EstadoPedido.Aberto;
 	}
 
+	private Pedido() {
+	}
 	public void removerClienteDoPedido() {
-		cliente = null;
+		usuario = null;
 	}
 
 	// Este metodo foi criado com a finalidade de resolver o problema da clausula

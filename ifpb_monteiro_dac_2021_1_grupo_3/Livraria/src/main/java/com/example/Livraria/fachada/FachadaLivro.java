@@ -36,9 +36,12 @@ public class FachadaLivro {
 
 	public void cadastrarLivro(String isbn, String tituloLivro, List<Long> categorias, String descricao,
 			BigDecimal preco, String edicao, Integer anoLancamento, Long idEditora, List<Image> fotosLivro,
-			List<Long> autores, Integer quantidade) {
+			List<Long> autores, Integer quantidade) throws IllegalArgumentException{
 
 		List<Categoria> categoriasResgatados = new ArrayList<Categoria>();
+		if(livroRepositorio.findByIsbn(isbn)!=null) {
+			throw new IllegalArgumentException("Este isbn já existe!");
+		}
 		for (Long idCategoria : categorias) {
 			Categoria categoria = categoriaRepositorio.findById(idCategoria).get();
 			if (categoria != null) {

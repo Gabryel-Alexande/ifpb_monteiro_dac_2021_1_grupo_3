@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.Livraria.model.Editora;
-import com.example.Livraria.model.Endereco;
 import com.example.Livraria.repositorio.EditoraRepositorio;
 @Service
 public class FachadaEditora {
