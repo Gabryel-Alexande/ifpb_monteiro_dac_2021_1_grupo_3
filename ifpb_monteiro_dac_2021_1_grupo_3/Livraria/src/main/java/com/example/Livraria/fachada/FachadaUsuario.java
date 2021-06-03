@@ -97,7 +97,7 @@ public class FachadaUsuario implements Serializable {
 
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		if (usuario != null) {
-			System.out.println(usuario.getEnderecos());
+			//System.out.println(usuario.getEnderecos());
 			return usuario;
 		}
 		throw new NotFoundException("[ERRO] Email não cadastrado!");

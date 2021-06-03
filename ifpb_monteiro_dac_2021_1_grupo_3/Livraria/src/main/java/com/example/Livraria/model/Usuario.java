@@ -75,6 +75,7 @@ public class Usuario implements Serializable{
 	}
 	
 	public String toString() {
+
 		return "Id: "+idUsusario+"\nNome: "+this.nomeUsusario+"\nCpf: "+this.cpf+"\nEmail: "+this.email+"\nÉ ADM ? "+this.admisnistrador;
 	}
 
