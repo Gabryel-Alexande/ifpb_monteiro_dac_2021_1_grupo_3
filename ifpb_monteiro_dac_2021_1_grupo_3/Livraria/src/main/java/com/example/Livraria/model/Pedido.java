@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Data
@@ -50,7 +51,9 @@ public class Pedido implements Serializable{
 	}
 
 	private Pedido() {
+		
 	}
+	
 	public void removerClienteDoPedido() {
 		usuario = null;
 	}
@@ -67,4 +70,9 @@ public class Pedido implements Serializable{
 	public void setPreco(BigDecimal preco) {
 
 	}
+	
+	public String toString(){
+		return "Id: "+idPedido+"\nEstado: "+estadoPedido.toString()+"\nCliente: \n"+usuario.toString();
+	}
+	
 }

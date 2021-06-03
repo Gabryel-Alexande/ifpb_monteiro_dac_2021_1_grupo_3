@@ -47,7 +47,7 @@ public class Categoria implements Serializable{
 		livros.remove(livro);
 	}
 	public String toString() {
-		return "Categoira: " + nomeCategoria + " | id: " + idCategortia;
+		return "Id: " + idCategortia+"\nCategoira: " + nomeCategoria;
 	}
 	private Categoria() {}
 }

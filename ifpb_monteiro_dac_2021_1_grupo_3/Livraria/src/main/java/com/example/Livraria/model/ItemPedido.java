@@ -12,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-
 import lombok.Data;
 
 @Entity
@@ -48,10 +47,14 @@ public class ItemPedido implements Serializable {
 	}
 
 	private void setIdItemPedido(Long id) {
-	
+
 	}
+
 	public BigDecimal getPreco() {
 		return livro.getPreco().multiply(new BigDecimal(quantidade));
 	}
-	
+
+	public String toString() {
+		return "Id: " + idItemPedido + "\nLivro: " + livro.toString() + "\nQuantidade: " + quantidade;
+	}
 }

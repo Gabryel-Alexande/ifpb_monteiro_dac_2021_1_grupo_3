@@ -75,7 +75,7 @@ public class Usuario implements Serializable{
 	}
 	
 	public String toString() {
-		return "Nome:"+this.nomeUsusario+"\n Cpf:"+this.cpf+"\n Email: "+this.email+"\n É ADM ? "+this.admisnistrador;
+		return "Id: "+idUsusario+"\nNome: "+this.nomeUsusario+"\nCpf: "+this.cpf+"\nEmail: "+this.email+"\nÉ ADM ? "+this.admisnistrador;
 	}
 
 	public void adcionarPedido(Pedido pedido) {

@@ -16,6 +16,7 @@ import com.example.Livraria.repositorio.AutorRepositorio;
 import com.example.Livraria.repositorio.CategoriaRepositorio;
 import com.example.Livraria.repositorio.EditoraRepositorio;
 import com.example.Livraria.repositorio.LivroRepositorio;
+import com.example.Livraria.utilitarios.EnviadorDeEmail;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,7 +34,9 @@ public class FachadaLivro {
 	private CategoriaRepositorio categoriaRepositorio;
 	@Autowired
 	private EditoraRepositorio editoraRepositorio;
-
+	@Autowired
+	private EnviadorDeEmail enviadorDeEmail;
+	
 	public void cadastrarLivro(String isbn, String tituloLivro, List<Long> categorias, String descricao,
 			BigDecimal preco, String edicao, Integer anoLancamento, Long idEditora, List<Image> fotosLivro,
 			List<Long> autores, Integer quantidade) throws IllegalArgumentException{
@@ -49,15 +52,15 @@ public class FachadaLivro {
 			}
 		}
 		Editora editora = editoraRepositorio.findById(idEditora).get();
-		Livro livro = new Livro(isbn, tituloLivro, categoriasResgatados, descricao, preco, edicao, quantidade, editora,
+		Livro livro = new Livro(isbn, tituloLivro, categoriasResgatados, descricao, preco, edicao, anoLancamento, editora,
 				fotosLivro, null, quantidade);
 		List<Autor> autoresRegatados = new ArrayList<Autor>();
 		for (Long autorDaVez : autores) {
 			Autor autor = autorRepositorio.findById(autorDaVez).get();
 			if (autor != null) {
 				autoresRegatados.add(autor);
-//				EnviadorDeEmail.enviarEmail(autor.getEmail(), "Novo livro cadastrado.",
-//						"Você foi adcionado como autor do livro " + livro.getTituloLivro() + "!");
+				enviadorDeEmail.enviarEmail(autor.getEmail(), "Novo livro cadastrado.",
+						"Você foi adcionado como autor do livro " + livro.getTituloLivro() + "!");
 			}
 		}
 		livro.setAutores(autoresRegatados);
@@ -66,6 +69,9 @@ public class FachadaLivro {
 
 	public void alterarLivro(Long id, String isbn, String tituloLivro, String descricao, BigDecimal preco,
 			String edicao, Integer anoLancamento, Long idEditora, Integer quantidadeEstoque) {
+		if(livroRepositorio.findByIsbn(isbn)!=null) {
+			throw new IllegalArgumentException("[ERRO] Este isbn já existe!");
+		}
 		Livro livro = livroRepositorio.findById(id).get();
 		livro.setIsbn(isbn);
 		livro.setTituloLivro(tituloLivro);
@@ -73,10 +79,7 @@ public class FachadaLivro {
 		livro.setPreco(preco);
 		livro.setEdicao(edicao);
 		livro.setAnoLancamento(anoLancamento);
-//		Editora editoraAntiga = editoraRepositorio.findById(livro.getEditora().getIdEditora()).get();
-//		editoraAntiga.removerLivroNaEditora(livro);
 		Editora editoraNova = editoraRepositorio.findById(idEditora).get();
-//		editoraNova.adicionarLivroNaEditora(livro);
 		livro.setEditora(editoraNova);
 		livro.setQuantidadeEstoque(quantidadeEstoque);
 		livroRepositorio.save(livro);
@@ -121,23 +124,26 @@ public class FachadaLivro {
 		return livroRepositorio.findAll();
 	}
 
-	public List<String> listarLivros(String campoOrdenacao, int ordem, int quantidadeDePaginas) {
+	public List<Livro> listarLivros(String campoOrdenacao, int ordem, int quantidadeDePaginas) {
 		Direction sortDirection = Sort.Direction.DESC;
 		if (ordem == 2) {
 			sortDirection = Sort.Direction.ASC;
 		}
 		Sort sort = Sort.by(sortDirection, campoOrdenacao);
 		Page<Livro> pagina = livroRepositorio.findAll(PageRequest.of(--quantidadeDePaginas, 5, sort));
-
-		ArrayList<String> livros = new ArrayList<String>();
-
+		List<Livro> livros = new ArrayList<Livro>();
 		for (Livro livro : pagina) {
-			livros.add(livro.toString());
+			livros.add(livro);
 		}
 		return livros;
 	}
 
-	public List<String> listarCincoLivrosComMenorPreco() {
-		return listarLivros("preco", 2, 1);
+	public List<Livro> listarCincoLivrosComMenorPreco(int quantidadeDePagina) {
+		List<Livro> livros = new ArrayList<Livro>();
+		for (Livro livro : livroRepositorio.livrosEmEstoque(PageRequest.of(--quantidadeDePagina, 5, Sort.Direction.ASC))) {
+			System.out.println(0);
+			livros.add(livro);
+		}
+		return livros;
 	}
 }

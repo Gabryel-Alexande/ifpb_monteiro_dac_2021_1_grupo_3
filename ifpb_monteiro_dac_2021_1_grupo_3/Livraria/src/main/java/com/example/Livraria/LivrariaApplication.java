@@ -77,7 +77,7 @@ public class LivrariaApplication implements CommandLineRunner {
 					+ "\n18 - Remover Endereco V" + "\n19 - Listar Endereco V" + "\n20 - Editar categoria V"
 					+ "\n21 - Ecluir categoria V" + "\n22 - Listar categoria V" + "\n23 - Criar editora V"
 					+ "\n24 - Editar editora V" + "\n25 - Adcionar endereço a editora V" + "\n26 - Listar editora V"
-					+ "\n27 - Ver carrinho V"  + "\n28 - Remover endereço de editora V" + "\n29 - Excluir editora V");
+					+ "\n27 - Ver carrinho V" + "\n28 - Remover endereço de editora V" + "\n29 - Excluir editora V");
 
 			System.out.println("-------------------------------");
 			int opcao = Integer.parseInt(input.nextLine());
@@ -234,16 +234,17 @@ public class LivrariaApplication implements CommandLineRunner {
 					break;
 
 				case 8:
-					for (Object livro : controllerLivro.listarCincoLivrosComMenorPreco()) {
-						System.out.println(livro + "\n---------------");
+					System.out.println("Digite a quantidade de paginas");
+					quantidade = Integer.parseInt(input.nextLine());
+					for (Object livro : controllerLivro.listarCincoLivrosComMenorPreco(quantidade)) {
+						System.out.println(livro.toString() + "\n-------------------------------");
 					}
 					break;
 				case 9:
-					System.out.println("Digite a quantidade de livros");
+					System.out.println("Digite a quantidade de paginas");
 					quantidade = Integer.parseInt(input.nextLine());
 					for (Object livro : controllerLivro.listarLivros("tituloLivro", 2, quantidade)) {
-
-						System.out.println(livro.toString() + "\n---------------");
+						System.out.println(livro.toString() + "\n-------------------------------");
 					}
 					break;
 				case 10:
@@ -289,7 +290,10 @@ public class LivrariaApplication implements CommandLineRunner {
 				case 15:
 					System.out.println("Email do cliente: ");
 					email = input.nextLine();
-					System.out.println(controllerUsuario.listarPedidos(email).toString());
+					for (Object pedido : controllerUsuario.listarPedidos(email)) {
+						System.out.println(pedido.toString() + "\n-------------------------------");
+					}
+					break;
 				case 16:
 
 //					System.out.println("Digite o CEP: ");
@@ -348,7 +352,11 @@ public class LivrariaApplication implements CommandLineRunner {
 					System.out.println("Endereco removido!");
 					break;
 				case 19:
-					System.out.println(controllerEndereco.listarEnderecos().toString());
+					System.out.println("Email do cliente: ");
+					email = input.nextLine();
+					for (Object endereco : controllerEndereco.listarEnderecos(email)) {
+						System.out.println(endereco.toString() + "\n-------------------------------");
+					}
 					break;
 				case 20:
 					System.out.println("Digite o id da categoria:");
@@ -366,7 +374,7 @@ public class LivrariaApplication implements CommandLineRunner {
 					break;
 				case 22:
 					for (Object categoria : controllerCategoria.listarCategoria()) {
-						System.out.println(categoria.toString());
+						System.out.println(categoria.toString() + "\n-------------------------------");
 					}
 					break;
 				case 23:
@@ -409,13 +417,15 @@ public class LivrariaApplication implements CommandLineRunner {
 				case 26:
 
 					for (Object editora : controllerEditora.listarEditoras()) {
-						System.out.println(editora.toString());
+						System.out.println(editora.toString() + "\n-------------------------------");
 					}
 					break;
 				case 27:
 					System.out.println("Email do cliente: ");
 					email = input.nextLine();
-					System.out.println(controllerUsuario.verCarrinho(email));
+					for (Object item : controllerUsuario.verCarrinho(email)) {
+						System.out.println(item.toString() + "\n-------------------------------");
+					}
 
 					break;
 				case 28:
@@ -424,10 +434,10 @@ public class LivrariaApplication implements CommandLineRunner {
 //					controllerEditora.removerEndereco(id);
 					break;
 				case 29:
-//					System.out.println("Digite o id da editora:");
-//					id = Long.parseLong(input.nextLine());
-//					controllerEditora.excluirEditora(id);
-//					System.out.println("Editora Excluida!");
+					System.out.println("Digite o id da editora:");
+					id = Long.parseLong(input.nextLine());
+					controllerEditora.excluirEditora(id);
+					System.out.println("Editora Excluida!");
 					break;
 				}
 			} catch (NotFoundException | LoginException | IOException | CPFException e) {

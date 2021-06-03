@@ -60,7 +60,7 @@ public class Editora implements Serializable {
 //		livros.remove(livro);
 //	}
 	public String toString() {
-		return "Editora: " + nomeEditora + " | id: " + idEditora + " Endereço: ";
+		return "Id: " + idEditora +"\nEditora: " + nomeEditora;
 	}
 	private Editora() {}
 

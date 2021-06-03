@@ -130,7 +130,7 @@ public class Livro implements Serializable {
 
 	public String toString() {
 		return "Titulo: " + tituloLivro + "\nISBN: " + isbn + "\nID: " + idLivro + "\nDescrição: " + descricao
-				+ "\n Preço: " + preco + "\nEdição: " + edicao + "\nAno de lançamento: " + anoLancamento + "\nEditora: "
+				+ "\nPreço: " + preco + "\nEdição: " + edicao + "\nAno de lançamento: " + anoLancamento + "\nEditora: "
 				+ editora.getNomeEditora() + "\nQuantidade em estoque: " + quantidadeEstoque;
 	}
 

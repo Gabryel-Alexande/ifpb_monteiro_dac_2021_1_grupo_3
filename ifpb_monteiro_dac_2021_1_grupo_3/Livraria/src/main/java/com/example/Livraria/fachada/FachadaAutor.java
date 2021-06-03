@@ -23,9 +23,9 @@ public class FachadaAutor {
 		Autor autor = new Autor(nomeAutor, email, senha);
 		
 		if (!AutenticacaoLogin.validarLogin(email)) {
-			throw new LoginException("Email invalido!");
+			throw new LoginException("[ERRO] Email invalido!");
 		} else if (!AutenticacaoLogin.validarrSenha(senha)) {
-			throw new LoginException("Senha fraca!\nPor favor digite uma senha melhor!");
+			throw new LoginException("[ERRO] Senha fraca!\nPor favor digite uma senha melhor!");
 		}
 		enviadorDeEmail.enviarEmail(email, "Sua conta foi criada com sucesso!", "Seja bem vindo a nossa loja "
 				+ nomeAutor
@@ -41,11 +41,11 @@ public class FachadaAutor {
 		try {
 			autor = autorRepositorio.findById(id).get();
 		} catch (Exception e) {
-			throw new NoSuchElementException("ID invalido 1");
+			throw new NoSuchElementException("[ERRO] ID invalido 1");
 		}
 		autor.setNomeAutor(nomeAutor);
 		if (!AutenticacaoLogin.validarrSenha(senha)) {
-			throw new LoginException("Senha fraca!\nPor favor digite uma senha melhor!");
+			throw new LoginException("[ERRO] Senha fraca!\nPor favor digite uma senha melhor!");
 		}
 		autor.setSenha(senha);
 		autorRepositorio.save(autor);

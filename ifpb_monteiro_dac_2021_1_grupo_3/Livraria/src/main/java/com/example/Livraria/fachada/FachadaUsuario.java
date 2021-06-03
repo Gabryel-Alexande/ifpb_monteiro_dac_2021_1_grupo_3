@@ -48,7 +48,7 @@ public class FachadaUsuario implements Serializable {
 			throws CPFException, LoginException {
 
 		if (usuarioRepositorio.findByEmail(email) != null) {
-			throw new LoginException("Email já cadastrado");
+			throw new LoginException("[ERRO] Email já cadastrado");
 		}
 
 		Usuario usuario = new Usuario(nomeUsusario, email, senha, cpf, admisnistrador);
@@ -56,9 +56,9 @@ public class FachadaUsuario implements Serializable {
 		if (!AutenticacaoCPF.autenticarCPF(cpf)) {
 			throw new CPFException();
 		} else if (!AutenticacaoLogin.validarLogin(email)) {
-			throw new LoginException("Email invalido!");
+			throw new LoginException("[ERRO] Email invalido!");
 		} else if (!AutenticacaoLogin.validarrSenha(senha)) {
-			throw new LoginException("Senha invalido!");
+			throw new LoginException("[ERRO] Senha invalido!");
 		}
 		enviadorDeEmail.enviarEmail(email, "Sua conta foi criada com sucesso!", "Seja bem vindo a nossa loja "
 				+ nomeUsusario
@@ -88,7 +88,7 @@ public class FachadaUsuario implements Serializable {
 			enderecoRegatado.setUsuario(null);
 			enderecoRepositorio.delete(enderecoRegatado);
 		} else {
-			throw new NotFoundException("Email não encontrado");
+			throw new NotFoundException("[ERRO] Email não encontrado");
 		}
 
 	}
@@ -100,7 +100,7 @@ public class FachadaUsuario implements Serializable {
 			System.out.println(usuario.getEnderecos());
 			return usuario;
 		}
-		throw new NotFoundException("Email não cadastrado!");
+		throw new NotFoundException("[ERRO] Email não cadastrado!");
 	}
 
 	public List<Usuario> listarUsuarios() {
@@ -109,13 +109,7 @@ public class FachadaUsuario implements Serializable {
 
 	public List<Pedido> listarPedidos(String email) {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
-		List<Pedido> pedidos = new ArrayList<Pedido>();
-		for (Pedido pedido : pedidoRepositorio.findAll()) {
-			if (pedido.getUsuario().getIdUsusario() == usuario.getIdUsusario()) {
-				pedidos.add(pedido);
-			}
-		}
-		return pedidos;
+		return pedidoRepositorio.findByUsuario(usuario);
 	}
 
 	public void adcionarAoCarinho(String isbn, Integer quantidade, String email) {
@@ -142,31 +136,24 @@ public class FachadaUsuario implements Serializable {
 
 	public List<ItemPedido> verCarrinho(String email) {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
-		List<ItemPedido> itens = new ArrayList<ItemPedido>();
-		for (ItemPedido itemPedido : itemPedidoRepositorio.findAll()) {
-			if (itemPedido.getPedido().getUsuario().getIdUsusario() == usuario.getIdUsusario()
-					&& itemPedido.getPedido().getEstadoPedido() == EstadoPedido.Aberto) {
-				itens.add(itemPedido);
-			}
-		}
-		return itens;
+		return itemPedidoRepositorio.findByPedido(getCarrinho(usuario));
 	}
 
 	public void comprarLivro(String email) throws NotFoundException {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		List<ItemPedido> itens = itemPedidoRepositorio.findAll();
-		for (ItemPedido itemPedido : itens) {
+		Pedido pedido=getCarrinho(usuario);
+		for (ItemPedido itemPedido : itemPedidoRepositorio.findByPedido(pedido)) {
 			if (!itemPedido.getLivro().isEmEstoque()) {
-				throw new NotFoundException("Este livro não estar em estoque!");
-			}
-			if (itemPedido.getPedido().getEstadoPedido() == EstadoPedido.Aberto
-					&& itemPedido.getPedido().getUsuario().getIdUsusario() == usuario.getIdUsusario()) {
-				itemPedido.getLivro().diminuirEtoque(itemPedido.getQuantidade());
-				itemPedido.getPedido().setPreco(itemPedido.getLivro().getPreco().multiply(new BigDecimal(itemPedido.getQuantidade())));
+				throw new NotFoundException("[ERRO] Este livro não estar em estoque!");
 			}
 		}
-		itens.get(0).getPedido().setEstadoPedido(EstadoPedido.Fechado);
+		pedido.setEstadoPedido(EstadoPedido.Fechado);
+		pedidoRepositorio.save(pedido);
 		for (ItemPedido itemPedido : itens) {
+			itemPedido.getLivro().diminuirEtoque(itemPedido.getQuantidade());
+			itemPedido.getPedido()
+			.setPreco(itemPedido.getLivro().getPreco().multiply(new BigDecimal(itemPedido.getQuantidade())));
 			itemPedidoRepositorio.save(itemPedido);
 		}
 		enviadorDeEmail.enviarEmail(usuario.getEmail(), "Sua compra foi feita com sucesso!",
@@ -184,9 +171,8 @@ public class FachadaUsuario implements Serializable {
 	}
 
 	private Pedido getCarrinho(Usuario usuario) {
-		for (Pedido pedidoDaVez : pedidoRepositorio.findAll()) {
-			if (pedidoDaVez.getUsuario().getIdUsusario() == usuario.getIdUsusario()
-					&& pedidoDaVez.getEstadoPedido() == EstadoPedido.Aberto) {
+		for (Pedido pedidoDaVez : pedidoRepositorio.findByUsuario(usuario)) {
+			if (pedidoDaVez.getEstadoPedido() == EstadoPedido.Aberto) {
 				return pedidoDaVez;
 			}
 		}

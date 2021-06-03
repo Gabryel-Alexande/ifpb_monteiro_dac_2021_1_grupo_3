@@ -15,6 +15,6 @@ public class EnviadorDeEmail {
 		msg.setTo(email);
 		msg.setSubject(title);
 		msg.setText(mensagem);
-		javaMailSender.send(msg);
+//		javaMailSender.send(msg);
 	}
 }

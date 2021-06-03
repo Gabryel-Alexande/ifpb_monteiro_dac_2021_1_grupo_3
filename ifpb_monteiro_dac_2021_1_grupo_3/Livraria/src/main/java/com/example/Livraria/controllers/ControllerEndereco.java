@@ -13,7 +13,7 @@ public class ControllerEndereco {
 //			String bairro, String numeroCasa) {
 //		fachadaEndereco.adcionarEndereco(cep, rua, estado, cidade, complemento, pais, bairro, numeroCasa);
 //	}
-	public Object[] listarEnderecos(){
-		return fachadaEndereco.listarEnderecos().toArray();
+	public Object[] listarEnderecos(String email){
+		return fachadaEndereco.listarEnderecos(email).toArray();
 	}
 }
