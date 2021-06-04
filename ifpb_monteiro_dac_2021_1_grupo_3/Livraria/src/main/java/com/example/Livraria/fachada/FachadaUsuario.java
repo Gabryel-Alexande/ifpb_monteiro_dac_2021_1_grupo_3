@@ -2,6 +2,7 @@ package com.example.Livraria.fachada;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import com.example.Livraria.repositorio.UsuarioRepositorio;
 import com.example.Livraria.utilitarios.AutenticacaoCPF;
 import com.example.Livraria.utilitarios.AutenticacaoLogin;
 import com.example.Livraria.utilitarios.EnviadorDeEmail;
+import com.example.Livraria.utilitarios.ValidadorCep;
 
 import javassist.NotFoundException;
 
@@ -43,36 +45,38 @@ public class FachadaUsuario implements Serializable {
 	@Autowired
 	private EnviadorDeEmail enviadorDeEmail;
 
-	public void cadastrarUsuario(String cpf, String nomeUsusario, String email, String senha, boolean admisnistrador)
-			throws CPFException, LoginException {
+	public void cadastrarUsuario(String cpf, String nomeUsusario, String email, String senha, boolean admisnistrador,
+			Integer anoDeNascimento) throws CPFException, LoginException {
 
 		if (usuarioRepositorio.findByEmail(email) != null) {
 			throw new LoginException("[ERRO] Email já cadastrado");
 		}
+		validarDados(cpf, email, senha, anoDeNascimento);
+		Usuario usuario = new Usuario(nomeUsusario, email, senha, cpf, admisnistrador, anoDeNascimento);
 
-		Usuario usuario = new Usuario(nomeUsusario, email, senha, cpf, admisnistrador);
-
-		if (!AutenticacaoCPF.autenticarCPF(cpf)) {
-			throw new CPFException();
-		} else if (!AutenticacaoLogin.validarLogin(email)) {
-			throw new LoginException("[ERRO] Email invalido!");
-		} else if (!AutenticacaoLogin.validarrSenha(senha)) {
-			throw new LoginException("[ERRO] Senha invalido!");
-		}
 		enviadorDeEmail.enviarEmail(email, "Sua conta foi criada com sucesso!", "Seja bem vindo a nossa loja "
 				+ nomeUsusario
 				+ "\nAqui temos uma grande variedade de livros.\nSinta-se a vontade para nos contactar.\nObrigado por nos escolher.");
 		usuarioRepositorio.save(usuario);
 	}
 
-//	  public void adcionarEndereco(Long idEndereco, String email) { Endereco
-//	  enderecoRegatado = enderecoRepositorio.findById(idEndereco).get(); Usuario
-//	  usuario = usuarioRepositorio.findByEmail(email);
-//	  usuario.adcionarEndereco(enderecoRegatado); usuarioRepositorio.save(usuario);
-//	  }
+	public void alteraUsuario(String email, String cpf, String nomeUsusario, String senha, boolean admisnistrador,
+			Integer anoDeNascimento) throws CPFException, LoginException {
+		Usuario usuario = usuarioRepositorio.findByEmail(email);
+		validarDados(cpf, email, senha, anoDeNascimento);
+		usuario.setCpf(cpf);
+		usuario.setSenha(senha);
+		usuario.setAdmisnistrador(admisnistrador);
+		usuario.setNomeUsusario(nomeUsusario);
+		usuario.setAnoDeNascimento(anoDeNascimento);
+		usuarioRepositorio.save(usuario);
+	}
 
 	public void adcionarEndereco(String email, String cep, String rua, String estado, String cidade, String complemento,
-			String pais, String bairro, String numeroCasa) {
+			String pais, String bairro, String numeroCasa) throws IllegalArgumentException{
+		if(ValidadorCep.ValidaCep(cep)) {
+			throw new IllegalArgumentException("[ERRO] Cep invalido!");
+		}
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		Endereco enderecoRegatado = new Endereco(cep, rua, estado, cidade, complemento, pais, bairro, numeroCasa,
 				usuario);
@@ -96,7 +100,6 @@ public class FachadaUsuario implements Serializable {
 
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		if (usuario != null) {
-			//System.out.println(usuario.getEnderecos());
 			return usuario;
 		}
 		throw new NotFoundException("[ERRO] Email não cadastrado!");
@@ -115,7 +118,9 @@ public class FachadaUsuario implements Serializable {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		Livro livro = livroRepositorio.findByIsbn(isbn);
 		Pedido pedido = getCarrinho(usuario);
-
+		if (quantidade < 1) {
+			throw new IllegalArgumentException("Quantidade invalida!");
+		}
 		if (pedido == null) {
 			pedido = new Pedido(usuario);
 			pedidoRepositorio.save(pedido);
@@ -141,7 +146,7 @@ public class FachadaUsuario implements Serializable {
 	public void comprarLivro(String email) throws NotFoundException {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		List<ItemPedido> itens = itemPedidoRepositorio.findAll();
-		Pedido pedido=getCarrinho(usuario);
+		Pedido pedido = getCarrinho(usuario);
 		for (ItemPedido itemPedido : itemPedidoRepositorio.findByPedido(pedido)) {
 			if (!itemPedido.getLivro().isEmEstoque()) {
 				throw new NotFoundException("[ERRO] Este livro não estar em estoque!");
@@ -152,7 +157,7 @@ public class FachadaUsuario implements Serializable {
 		for (ItemPedido itemPedido : itens) {
 			itemPedido.getLivro().diminuirEtoque(itemPedido.getQuantidade());
 			itemPedido.getPedido()
-			.setPreco(itemPedido.getLivro().getPreco().multiply(new BigDecimal(itemPedido.getQuantidade())));
+					.setPreco(itemPedido.getLivro().getPreco().multiply(new BigDecimal(itemPedido.getQuantidade())));
 			itemPedidoRepositorio.save(itemPedido);
 		}
 		enviadorDeEmail.enviarEmail(usuario.getEmail(), "Sua compra foi feita com sucesso!",
@@ -176,5 +181,19 @@ public class FachadaUsuario implements Serializable {
 			}
 		}
 		return null;
+	}
+
+	private void validarDados(String cpf, String email, String senha, Integer anoDeNascimento)
+			throws CPFException, LoginException {
+		if (!AutenticacaoCPF.autenticarCPF(cpf)) {
+			throw new CPFException();
+		} else if (!AutenticacaoLogin.validarLogin(email)) {
+			throw new LoginException("[ERRO] Email invalido!");
+		} else if (!AutenticacaoLogin.validarrSenha(senha)) {
+			throw new LoginException("[ERRO] Senha invalido!");
+		}
+		if (anoDeNascimento > (Calendar.getInstance().get(Calendar.YEAR) - 18)) {
+			throw new IllegalArgumentException("[ERRO] Data invalida!");
+		}
 	}
 }

@@ -44,6 +44,9 @@ public class Usuario implements Serializable{
 	
 	@Column(nullable = false)
 	private String cpf;
+
+	@Column(nullable = false)
+	private Integer anoDeNascimento;
 	
 	@BooleanFlag
 	@Column(nullable = false)
@@ -56,13 +59,14 @@ public class Usuario implements Serializable{
 	private Usuario () {}
 	
 	public Usuario(String nomeUsusario, String email, String senha, String cpf,
-			boolean admisnistrador) {
+			boolean admisnistrador,Integer anoDeNascimento) {
 		super();
 		this.nomeUsusario = nomeUsusario;
 		this.email = email;
 		this.senha = senha;
 		this.cpf = cpf;
 		this.admisnistrador = admisnistrador;
+		this.anoDeNascimento=anoDeNascimento;
 	}
 
 	// Este metodo foi criado com a finalidade de resolver o problema da clausula

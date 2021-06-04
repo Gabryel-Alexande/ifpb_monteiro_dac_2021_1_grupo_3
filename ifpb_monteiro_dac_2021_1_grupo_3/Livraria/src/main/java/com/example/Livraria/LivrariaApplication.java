@@ -77,7 +77,7 @@ public class LivrariaApplication implements CommandLineRunner {
 					+ "\n18 - Remover Endereco V" + "\n19 - Listar Endereco V" + "\n20 - Editar categoria V"
 					+ "\n21 - Ecluir categoria V" + "\n22 - Listar categoria V" + "\n23 - Criar editora V"
 					+ "\n24 - Editar editora V" + "\n25 - Adcionar endereço a editora V" + "\n26 - Listar editora V"
-					+ "\n27 - Ver carrinho V" + "\n28 - Remover endereço de editora V" + "\n29 - Excluir editora V");
+					+ "\n27 - Ver carrinho V" + "\n28 - Remover endereço de editora V" + "\n29 - Excluir editora V"+ "\n30 - Editar usuario V");
 
 			System.out.println("-------------------------------");
 			int opcao = Integer.parseInt(input.nextLine());
@@ -98,6 +98,8 @@ public class LivrariaApplication implements CommandLineRunner {
 					senha = input.nextLine();
 					System.out.println("CPF:");
 					String cpf = input.nextLine();
+					System.out.println("Ano de nascimento");
+					anoLancamento = Integer.parseInt(input.nextLine());
 					System.out.println("Você é Administrador ? (1 = Sim: 2= Não");
 					int opadm = Integer.parseInt(input.nextLine());
 
@@ -105,7 +107,7 @@ public class LivrariaApplication implements CommandLineRunner {
 					if (opadm == 2) {
 						adm = false;
 					}
-					controllerUsuario.cadatrarUsusario(cpf, nome, email, senha, adm);
+					controllerUsuario.cadatrarUsusario(cpf, nome, email, senha, adm, anoLancamento);
 					System.out.println("Cadastrado com Sucesso !!");
 					break;
 				case 2:
@@ -436,6 +438,27 @@ public class LivrariaApplication implements CommandLineRunner {
 					id = Long.parseLong(input.nextLine());
 					controllerEditora.excluirEditora(id);
 					System.out.println("Editora Excluida!");
+					break;
+				case 30:
+					System.out.println("Nome:");
+					nome = input.nextLine();
+					System.out.println("Email:");
+					email = input.nextLine();
+					System.out.println("Senha:");
+					senha = input.nextLine();
+					System.out.println("CPF:");
+					cpf = input.nextLine();
+					System.out.println("Ano de nascimento");
+					anoLancamento = Integer.parseInt(input.nextLine());
+					System.out.println("Você é Administrador ? (1 = Sim: 2= Não");
+					opadm = Integer.parseInt(input.nextLine());
+
+					adm = true;
+					if (opadm == 2) {
+						adm = false;
+					}
+					controllerUsuario.alteraUsuario(email, cpf, nome, senha, adm, anoLancamento);
+					System.out.println("Usuario atualizado!");
 					break;
 				}
 			} catch (NotFoundException | LoginException | IOException | CPFException e) {
