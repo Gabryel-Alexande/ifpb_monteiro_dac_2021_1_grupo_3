@@ -234,14 +234,12 @@ public class LivrariaApplication implements CommandLineRunner {
 					break;
 
 				case 8:
-					System.out.println("Digite a quantidade de paginas");
-					quantidade = Integer.parseInt(input.nextLine());
-					for (Object livro : controllerLivro.listarCincoLivrosComMenorPreco(quantidade)) {
+					for (Object livro : controllerLivro.listarCincoLivrosComMenorPreco()) {
 						System.out.println(livro.toString() + "\n-------------------------------");
 					}
 					break;
 				case 9:
-					System.out.println("Digite a quantidade de paginas");
+					System.out.println("Digite qual página deseja acessar");
 					quantidade = Integer.parseInt(input.nextLine());
 					for (Object livro : controllerLivro.listarLivros("tituloLivro", 2, quantidade)) {
 						System.out.println(livro.toString() + "\n-------------------------------");

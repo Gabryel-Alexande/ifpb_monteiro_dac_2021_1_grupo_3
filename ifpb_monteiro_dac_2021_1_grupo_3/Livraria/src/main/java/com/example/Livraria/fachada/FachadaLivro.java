@@ -69,9 +69,13 @@ public class FachadaLivro {
 
 	public void alterarLivro(Long id, String isbn, String tituloLivro, String descricao, BigDecimal preco,
 			String edicao, Integer anoLancamento, Long idEditora, Integer quantidadeEstoque) {
-		if(livroRepositorio.findByIsbn(isbn)!=null) {
+		
+		Livro validacao =  livroRepositorio.findByIsbn(isbn);
+		
+		if(validacao.getIsbn().equals(isbn)&&validacao.getIdLivro()!=id) {
 			throw new IllegalArgumentException("[ERRO] Este isbn já existe!");
 		}
+		
 		Livro livro = livroRepositorio.findById(id).get();
 		livro.setIsbn(isbn);
 		livro.setTituloLivro(tituloLivro);
@@ -124,24 +128,27 @@ public class FachadaLivro {
 		return livroRepositorio.findAll();
 	}
 
-	public List<Livro> listarLivros(String campoOrdenacao, int ordem, int quantidadeDePaginas) {
+	public List<Livro> listarLivros(String campoOrdenacao, int ordem,int numeroPagina  ) {
 		Direction sortDirection = Sort.Direction.DESC;
 		if (ordem == 2) {
 			sortDirection = Sort.Direction.ASC;
 		}
+		
 		Sort sort = Sort.by(sortDirection, campoOrdenacao);
-		Page<Livro> pagina = livroRepositorio.findAll(PageRequest.of(--quantidadeDePaginas, 5, sort));
+		Page<Livro> pagina = livroRepositorio.findAll(PageRequest.of(--numeroPagina, 5, sort));
+		
 		List<Livro> livros = new ArrayList<Livro>();
+		
 		for (Livro livro : pagina) {
 			livros.add(livro);
 		}
 		return livros;
 	}
 
-	public List<Livro> listarCincoLivrosComMenorPreco(int quantidadeDePagina) {
+	public List<Livro> listarCincoLivrosComMenorPreco() {
 		List<Livro> livros = new ArrayList<Livro>();
-		for (Livro livro : livroRepositorio.livrosEmEstoque(PageRequest.of(--quantidadeDePagina, 5, Sort.Direction.ASC))) {
-			System.out.println(0);
+		int numeroPagina  = 1;
+		for (Livro livro : livroRepositorio.livrosEmEstoque(PageRequest.of(--numeroPagina, 5))) {
 			livros.add(livro);
 		}
 		return livros;

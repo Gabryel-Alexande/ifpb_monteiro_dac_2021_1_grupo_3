@@ -45,8 +45,8 @@ public class ControllerLivro{
 	public Object[] listarLivros() {
 		return fachadaLivro.listarLivros().toArray();
 	}
-	public Object[] listarCincoLivrosComMenorPreco(int quantidadeDePagina){		
-		return fachadaLivro.listarCincoLivrosComMenorPreco(quantidadeDePagina).toArray();
+	public Object[] listarCincoLivrosComMenorPreco(){		
+		return fachadaLivro.listarCincoLivrosComMenorPreco().toArray();
 	}
 	public Object[] listarLivros(String campoOrdenacao, int ordem, int quantidadeDePaginas) {
 		return fachadaLivro.listarLivros(campoOrdenacao, ordem, quantidadeDePaginas).toArray();
