@@ -25,6 +25,7 @@ import com.example.Livraria.utilitarios.AutenticacaoCPF;
 import com.example.Livraria.utilitarios.AutenticacaoLogin;
 import com.example.Livraria.utilitarios.EnviadorDeEmail;
 import com.example.Livraria.utilitarios.ValidadorCep;
+import com.example.Livraria.utilitarios.ValidadorNome;
 
 import javassist.NotFoundException;
 
@@ -47,7 +48,9 @@ public class FachadaUsuario implements Serializable {
 
 	public void cadastrarUsuario(String cpf, String nomeUsusario, String email, String senha, boolean admisnistrador,
 			Integer anoDeNascimento) throws CPFException, LoginException {
-
+		if(!ValidadorNome.validarNome(nomeUsusario)) {
+			throw new IllegalArgumentException("[ERRO] Nome invalido!");
+		}
 		if (usuarioRepositorio.findByEmail(email) != null) {
 			throw new LoginException("[ERRO] Email já cadastrado");
 		}
@@ -63,6 +66,9 @@ public class FachadaUsuario implements Serializable {
 	public void alteraUsuario(String email, String cpf, String nomeUsusario, String senha, boolean admisnistrador,
 			Integer anoDeNascimento) throws CPFException, LoginException {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
+		if(!ValidadorNome.validarNome(nomeUsusario)) {
+			throw new IllegalArgumentException("[ERRO] Nome invalido!");
+		}
 		validarDados(cpf, email, senha, anoDeNascimento);
 		usuario.setCpf(cpf);
 		usuario.setSenha(senha);

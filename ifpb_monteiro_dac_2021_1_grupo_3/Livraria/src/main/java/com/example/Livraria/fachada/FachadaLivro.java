@@ -18,6 +18,7 @@ import com.example.Livraria.repositorio.CategoriaRepositorio;
 import com.example.Livraria.repositorio.EditoraRepositorio;
 import com.example.Livraria.repositorio.LivroRepositorio;
 import com.example.Livraria.utilitarios.EnviadorDeEmail;
+import com.example.Livraria.utilitarios.ValidadorNome;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,6 +43,9 @@ public class FachadaLivro {
 			BigDecimal preco, String edicao, Integer anoLancamento, Long idEditora, List<Image> fotosLivro,
 			List<Long> autores, Integer quantidade) throws IllegalArgumentException {
 		List<Categoria> categoriasResgatados = new ArrayList<Categoria>();
+		if(!ValidadorNome.validarNome(tituloLivro)) {
+			throw new IllegalArgumentException("[ERRO] Nome invalido!");
+		}
 		if (livroRepositorio.findByIsbn(isbn) != null) {
 			throw new IllegalArgumentException("[ERRO] Este isbn já existe!");
 		}
@@ -72,7 +76,9 @@ public class FachadaLivro {
 			String edicao, Integer anoLancamento, Long idEditora, Integer quantidadeEstoque) {
 
 		Livro validacao = livroRepositorio.findByIsbn(isbn);
-
+		if(!ValidadorNome.validarNome(tituloLivro)) {
+			throw new IllegalArgumentException("[ERRO] Nome invalido!");
+		}
 		if (validacao.getIsbn().equals(isbn) && validacao.getIdLivro() != id) {
 			throw new IllegalArgumentException("[ERRO] Este isbn já existe!");
 		}

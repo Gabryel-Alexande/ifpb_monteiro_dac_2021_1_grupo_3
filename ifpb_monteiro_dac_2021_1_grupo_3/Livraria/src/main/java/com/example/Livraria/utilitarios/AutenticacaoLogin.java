@@ -18,7 +18,7 @@ public class AutenticacaoLogin {
 	 * @return
 	 */
 	public static boolean validarrSenha(String senha) {
-		if (senha.length() < 6)
+		if (senha.length() < 6 || senha.length() > 51)
 			return false;
 
 		boolean achouNumero = false;
@@ -42,7 +42,7 @@ public class AutenticacaoLogin {
 	//este metodo sera chamado em tempo real, equanto o ussuario digita a senha repetida
 	public void vereficarSenha(String senha1, String senha2) throws LoginException {
 		if(!senha1.equals(senha2)) {
-			throw new LoginException("As senhas devem ser iguais!");
+			throw new LoginException("[ERRO] As senhas devem ser iguais!");
 		}
 	}
 

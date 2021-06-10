@@ -11,6 +11,7 @@ import com.example.Livraria.model.Autor;
 import com.example.Livraria.repositorio.AutorRepositorio;
 import com.example.Livraria.utilitarios.AutenticacaoLogin;
 import com.example.Livraria.utilitarios.EnviadorDeEmail;
+import com.example.Livraria.utilitarios.ValidadorNome;
 
 @Service
 public class FachadaAutor {
@@ -21,7 +22,9 @@ public class FachadaAutor {
 
 	public void cadastrarAutor(String nomeAutor, String email, String senha) throws LoginException {
 		Autor autor = new Autor(nomeAutor, email, senha);
-		
+		if(!ValidadorNome.validarNome(nomeAutor)) {
+			throw new IllegalArgumentException("[ERRO] Nome invalido!");
+		}
 		if (!AutenticacaoLogin.validarLogin(email)) {
 			throw new LoginException("[ERRO] Email invalido!");
 		} else if (!AutenticacaoLogin.validarrSenha(senha)) {
@@ -38,6 +41,9 @@ public class FachadaAutor {
 	// sua conta
 	public void alterarAutor(Long id, String nomeAutor, String senha) throws LoginException, NoSuchElementException {
 		Autor autor = null;
+		if(!ValidadorNome.validarNome(nomeAutor)) {
+			throw new IllegalArgumentException("[ERRO] Nome invalido!");
+		}
 		try {
 			autor = autorRepositorio.findById(id).get();
 		} catch (Exception e) {
