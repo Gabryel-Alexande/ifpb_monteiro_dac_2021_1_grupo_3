@@ -26,31 +26,31 @@ import lombok.Data;
 public class Livro implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@Column(name = "id_livro")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long idLivro;
-	
+
 	@Column(name = "titulo_livro", nullable = false)
 	private String tituloLivro;
-	
+
 	@Column(nullable = false)
 	private String isbn;
-	
+
 	@ManyToMany
 	@Column(nullable = false)
 	private List<Categoria> categorias;
-	
+
 	@Column(nullable = false)
 	private String descricao;
-	
+
 	@Column(nullable = false)
 	private BigDecimal preco;
-	
+
 	@Column(nullable = false)
 	private String edicao;
-	
+
 	@Column(name = "ano_lancamento", nullable = false)
 	private Integer anoLancamento;
 
@@ -64,7 +64,7 @@ public class Livro implements Serializable {
 	@ManyToMany(cascade = { CascadeType.MERGE })
 	@JoinTable(name = "livro_autor", joinColumns = @JoinColumn(name = "idLivro"), inverseJoinColumns = @JoinColumn(name = "idAutor"))
 	private List<Autor> autores;
-	
+
 	@Column(nullable = false)
 	private Integer quantidadeEstoque;
 
@@ -131,7 +131,8 @@ public class Livro implements Serializable {
 	public String toString() {
 		return "Titulo: " + tituloLivro + "\nISBN: " + isbn + "\nID: " + idLivro + "\nDescrição: " + descricao
 				+ "\nPreço: " + preco + "\nEdição: " + edicao + "\nAno de lançamento: " + anoLancamento + "\nEditora: "
-				+ editora.getNomeEditora() + "\nQuantidade em estoque: " + quantidadeEstoque;
+				+ editora.getNomeEditora() + "\nQuantidade em estoque: " + quantidadeEstoque + "\nEm estoque: "
+				+ isEmEstoque();
 	}
 
 	private Livro() {

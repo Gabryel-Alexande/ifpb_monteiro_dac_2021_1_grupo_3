@@ -175,6 +175,9 @@ public class FachadaLivro {
 		}
 		return livros;
 	}
+	public Livro bucarLivrosPorId(String isbn){
+		return livroRepositorio.findByIsbn(isbn);
+	}
 	private void validarValoresLivro(Integer anoLancamento, BigDecimal preco,Integer quantidade) {
 		if (anoLancamento > Calendar.getInstance().get(Calendar.YEAR) || anoLancamento < 0) {
 			throw new IllegalArgumentException("[ERRO] Data invalida!");

@@ -8,24 +8,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.example.Livraria.fachada.FachadaLivro;
+import com.example.Livraria.model.Livro;
+
 @Controller
-public class ControllerLivro{
+public class ControllerLivro {
 	@Autowired
 	private FachadaLivro fachadaLivro;
-	
+
 	public void cadastrarLivro(String isbn, String tituloLivro, List<Long> categoria, String descricao,
-			BigDecimal preco,String edicao, Integer anoLancamento, Long idEditora,
-			List<Image> fotosLivro, List<Long> autores, Integer quantidade) throws IllegalArgumentException{
-		fachadaLivro.cadastrarLivro(isbn, tituloLivro, categoria, descricao, preco,edicao, anoLancamento, idEditora, fotosLivro, autores, quantidade);
+			BigDecimal preco, String edicao, Integer anoLancamento, Long idEditora, List<Image> fotosLivro,
+			List<Long> autores, Integer quantidade) throws IllegalArgumentException {
+		fachadaLivro.cadastrarLivro(isbn, tituloLivro, categoria, descricao, preco, edicao, anoLancamento, idEditora,
+				fotosLivro, autores, quantidade);
 	}
 
-	public void alterarLivro(Long id,String isbn, String tituloLivro, String descricao, BigDecimal preco,
-			 String edicao, Integer anoLancamento, Long idEditora, Integer quantidadeEstoque) {
-		fachadaLivro.alterarLivro(id,isbn, tituloLivro, descricao, preco, edicao, anoLancamento, idEditora, quantidadeEstoque);
+	public void alterarLivro(Long id, String isbn, String tituloLivro, String descricao, BigDecimal preco,
+			String edicao, Integer anoLancamento, Long idEditora, Integer quantidadeEstoque) {
+		fachadaLivro.alterarLivro(id, isbn, tituloLivro, descricao, preco, edicao, anoLancamento, idEditora,
+				quantidadeEstoque);
 	}
+
 	public void removerLivro(String isbn) {
 		fachadaLivro.removerLivro(isbn);
 	}
+
 	public void adcionarFoto(String isbn, Image imagem) {
 		fachadaLivro.adcionarFoto(isbn, imagem);
 	}
@@ -42,19 +48,27 @@ public class ControllerLivro{
 		fachadaLivro.removerCategoria(isbn, idCategoria);
 	}
 
+	public Object bucarLivrosPorId(String isbn) {
+		return fachadaLivro.bucarLivrosPorId(isbn);
+	}
+
 	public Object[] listarLivros() {
 		return fachadaLivro.listarLivros().toArray();
 	}
-	public Object[] listarCincoLivrosComMenorPreco(){		
+
+	public Object[] listarCincoLivrosComMenorPreco() {
 		return fachadaLivro.listarCincoLivrosComMenorPreco().toArray();
 	}
+
 	public Object[] listarLivros(String campoOrdenacao, int ordem, int quantidadeDePaginas) {
 		return fachadaLivro.listarLivros(campoOrdenacao, ordem, quantidadeDePaginas).toArray();
 	}
-	public Object[] bucarLivroPorNome(String nome){
+
+	public Object[] bucarLivroPorNome(String nome) {
 		return fachadaLivro.bucarLivroPorNome(nome).toArray();
 	}
-	public Object[] bucarLivrosPorCategoria(Long id){
+
+	public Object[] bucarLivrosPorCategoria(Long id) {
 		return fachadaLivro.bucarLivrosPorCategoria(id).toArray();
 	}
 }
