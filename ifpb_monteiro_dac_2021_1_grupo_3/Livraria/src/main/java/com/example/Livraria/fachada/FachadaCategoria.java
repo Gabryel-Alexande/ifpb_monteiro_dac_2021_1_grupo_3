@@ -15,6 +15,7 @@ public class FachadaCategoria {
 	@Autowired
 	private CategoriaRepositorio categoriaRepositorio;
 	
+	//Aqui o cadastro so pode ser feito se não ouver outra categoria com o mesmo nome 
 	public void criarCategoria(String nome) {
 		if(!ValidadorNome.validarNome(nome)) {
 			throw new IllegalArgumentException("[ERRO] Nome invalido!");
@@ -22,6 +23,8 @@ public class FachadaCategoria {
 		Categoria categoria= new Categoria(nome);
 		categoriaRepositorio.save(categoria);
 	}
+	
+	//Aqui a edição so pode ser feito se não ouver outra categoria com o mesmo nome 
 	public void editarCategoria(Long id,String nome) {
 		Categoria categoria=categoriaRepositorio.findById(id).get();
 		if(!ValidadorNome.validarNome(nome)) {

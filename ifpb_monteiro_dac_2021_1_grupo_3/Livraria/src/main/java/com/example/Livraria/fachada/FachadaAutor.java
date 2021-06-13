@@ -20,6 +20,7 @@ public class FachadaAutor {
 	@Autowired
 	private EnviadorDeEmail enviadorDeEmail;
 
+	//Cadastro de Autor só pode acontecer se não ouver outro autor com o mesmo nome ou mesmo email
 	public void cadastrarAutor(String nomeAutor, String email, String senha) throws LoginException {
 		Autor autor = new Autor(nomeAutor, email, senha);
 		if(!ValidadorNome.validarNome(nomeAutor)) {

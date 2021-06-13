@@ -38,11 +38,16 @@ public class FachadaLivro {
 	private EditoraRepositorio editoraRepositorio;
 	@Autowired
 	private EnviadorDeEmail enviadorDeEmail;
-
+	/*
+	 * Este metodo cadastra um livro no banco recenbendo todos os seus parametros e o id da editora que pertece
+	 * e uma coleção de id de categoria, autor e imagens que pertencem a este livro
+	 */
 	public void cadastrarLivro(String isbn, String tituloLivro, List<Long> categorias, String descricao,
 			BigDecimal preco, String edicao, Integer anoLancamento, Long idEditora, List<Image> fotosLivro,
 			List<Long> autores, Integer quantidade) throws IllegalArgumentException {
 		List<Categoria> categoriasResgatados = new ArrayList<Categoria>();
+		
+		//Aqui ocorre a valição dos dados,o isbn não podeser igual a nenhuma ja existente no banco
 		if(!ValidadorNome.validarNome(tituloLivro)) {
 			throw new IllegalArgumentException("[ERRO] Nome invalido!");
 		}
@@ -50,6 +55,8 @@ public class FachadaLivro {
 			throw new IllegalArgumentException("[ERRO] Este isbn já existe!");
 		}
 		validarValoresLivro(anoLancamento, preco, quantidade);
+		
+		//parte responsavel por buscar todas a categoria requisitadas pelo id
 		for (Long idCategoria : categorias) {
 			Categoria categoria = categoriaRepositorio.findById(idCategoria).get();
 			if (categoria != null) {
@@ -60,6 +67,8 @@ public class FachadaLivro {
 		Livro livro = new Livro(isbn, tituloLivro, categoriasResgatados, descricao, preco, edicao, anoLancamento,
 				editora, fotosLivro, null, quantidade);
 		List<Autor> autoresRegatados = new ArrayList<Autor>();
+		
+		//parte responsavel por buscar todas os autores requisitados pelo id
 		for (Long autorDaVez : autores) {
 			Autor autor = autorRepositorio.findById(autorDaVez).get();
 			if (autor != null) {
@@ -71,11 +80,14 @@ public class FachadaLivro {
 		livro.setAutores(autoresRegatados);
 		livroRepositorio.save(livro);
 	}
-
+	/*
+	 * Todos os parametros de livro são setados aqui, aqueles que não mudam veem com o mesmo valor
+	 */
 	public void alterarLivro(Long id, String isbn, String tituloLivro, String descricao, BigDecimal preco,
 			String edicao, Integer anoLancamento, Long idEditora, Integer quantidadeEstoque) {
-
 		Livro validacao = livroRepositorio.findByIsbn(isbn);
+		
+		//Aqui ocorre a valição dos dados,o isbn não podeser igual a nenhuma ja existente no banco
 		if(!ValidadorNome.validarNome(tituloLivro)) {
 			throw new IllegalArgumentException("[ERRO] Nome invalido!");
 		}
@@ -178,6 +190,10 @@ public class FachadaLivro {
 	public Livro bucarLivrosPorId(String isbn){
 		return livroRepositorio.findByIsbn(isbn);
 	}
+	
+	/*
+	 * Metodo validador de dados do livro, aqui é testado se todos os valores correspondem as restrições do banco
+	 */
 	private void validarValoresLivro(Integer anoLancamento, BigDecimal preco,Integer quantidade) {
 		if (anoLancamento > Calendar.getInstance().get(Calendar.YEAR) || anoLancamento < 0) {
 			throw new IllegalArgumentException("[ERRO] Data invalida!");
