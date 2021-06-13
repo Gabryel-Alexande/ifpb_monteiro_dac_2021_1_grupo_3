@@ -78,7 +78,7 @@ public class LivrariaApplication implements CommandLineRunner {
 					+ "\n21 - Ecluir categoria V" + "\n22 - Listar categoria V" + "\n23 - Criar editora V"
 					+ "\n24 - Editar editora V" + "\n25 - Adcionar endereço a editora V" + "\n26 - Listar editora V"
 					+ "\n27 - Ver carrinho V" + "\n28 - Remover endereço de editora V" + "\n29 - Excluir editora V" 
-					+ "\n30 - Editar usuario V" + "\n31 - Buscar Livro pelo nome V");
+					+ "\n30 - Editar usuario V" + "\n31 - Buscar Livro pelo nome V" + "\n32 - Buscar Livro pela categoria V");
 
 			System.out.println("-------------------------------");
 			int opcao = Integer.parseInt(input.nextLine());
@@ -465,6 +465,13 @@ public class LivrariaApplication implements CommandLineRunner {
 					System.out.println("Nome:");
 					nome = input.nextLine();
 					for (Object livro : controllerLivro.bucarLivroPorNome(nome)) {
+						System.out.println(livro.toString());
+					}
+					break;
+				case 32:
+					System.out.println("Digite o id da categoria:");
+					id = Long.parseLong(input.nextLine());
+					for (Object livro : controllerLivro.bucarLivrosPorCategoria(id)) {
 						System.out.println(livro.toString());
 					}
 					break;

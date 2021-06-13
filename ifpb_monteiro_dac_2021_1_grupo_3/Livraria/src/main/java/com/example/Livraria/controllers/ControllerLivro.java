@@ -54,4 +54,7 @@ public class ControllerLivro{
 	public Object[] bucarLivroPorNome(String nome){
 		return fachadaLivro.bucarLivroPorNome(nome).toArray();
 	}
+	public Object[] bucarLivrosPorCategoria(Long id){
+		return fachadaLivro.bucarLivrosPorCategoria(id).toArray();
+	}
 }

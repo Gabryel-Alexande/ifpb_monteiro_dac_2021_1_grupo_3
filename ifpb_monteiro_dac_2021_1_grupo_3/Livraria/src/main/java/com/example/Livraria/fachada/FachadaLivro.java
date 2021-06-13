@@ -167,6 +167,14 @@ public class FachadaLivro {
 		}
 		return livros;
 	}
+	public List<Livro> bucarLivrosPorCategoria(Long id){
+		List<Livro> livros= new ArrayList<Livro>();
+		Categoria categoria= categoriaRepositorio.findByIdCategortia(id);
+		for (Livro livro : livroRepositorio.findByCategorias(categoria)) {
+			livros.add(livro);
+		}
+		return livros;
+	}
 	private void validarValoresLivro(Integer anoLancamento, BigDecimal preco,Integer quantidade) {
 		if (anoLancamento > Calendar.getInstance().get(Calendar.YEAR) || anoLancamento < 0) {
 			throw new IllegalArgumentException("[ERRO] Data invalida!");
