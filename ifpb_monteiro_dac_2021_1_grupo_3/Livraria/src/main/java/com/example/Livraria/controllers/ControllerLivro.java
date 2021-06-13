@@ -51,4 +51,7 @@ public class ControllerLivro{
 	public Object[] listarLivros(String campoOrdenacao, int ordem, int quantidadeDePaginas) {
 		return fachadaLivro.listarLivros(campoOrdenacao, ordem, quantidadeDePaginas).toArray();
 	}
+	public Object[] bucarLivroPorNome(String nome){
+		return fachadaLivro.bucarLivroPorNome(nome).toArray();
+	}
 }

@@ -1,5 +1,7 @@
 package com.example.Livraria.repositorio;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,5 +19,7 @@ public interface LivroRepositorio extends JpaRepository<Livro, Long>{
 	@Query("SELECT l FROM Livro l WHERE l.quantidadeEstoque > 0 ORDER BY preco")
 	public Page<Livro> livrosEmEstoque(Pageable  pageRequest);
 	
+	public List<Livro> findByTituloLivro(String tituloLivro);
+
 	
 }

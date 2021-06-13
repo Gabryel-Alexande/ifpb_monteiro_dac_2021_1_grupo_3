@@ -160,6 +160,13 @@ public class FachadaLivro {
 		}
 		return livros;
 	}
+	public List<Livro> bucarLivroPorNome(String nome){
+		List<Livro> livros= new ArrayList<Livro>();
+		for (Livro livro : livroRepositorio.findByTituloLivro(nome)) {
+			livros.add(livro);
+		}
+		return livros;
+	}
 	private void validarValoresLivro(Integer anoLancamento, BigDecimal preco,Integer quantidade) {
 		if (anoLancamento > Calendar.getInstance().get(Calendar.YEAR) || anoLancamento < 0) {
 			throw new IllegalArgumentException("[ERRO] Data invalida!");

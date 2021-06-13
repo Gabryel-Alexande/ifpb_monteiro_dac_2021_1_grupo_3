@@ -77,7 +77,8 @@ public class LivrariaApplication implements CommandLineRunner {
 					+ "\n18 - Remover Endereco V" + "\n19 - Listar Endereco V" + "\n20 - Editar categoria V"
 					+ "\n21 - Ecluir categoria V" + "\n22 - Listar categoria V" + "\n23 - Criar editora V"
 					+ "\n24 - Editar editora V" + "\n25 - Adcionar endereço a editora V" + "\n26 - Listar editora V"
-					+ "\n27 - Ver carrinho V" + "\n28 - Remover endereço de editora V" + "\n29 - Excluir editora V"+ "\n30 - Editar usuario V");
+					+ "\n27 - Ver carrinho V" + "\n28 - Remover endereço de editora V" + "\n29 - Excluir editora V" 
+					+ "\n30 - Editar usuario V" + "\n31 - Buscar Livro pelo nome V");
 
 			System.out.println("-------------------------------");
 			int opcao = Integer.parseInt(input.nextLine());
@@ -459,6 +460,13 @@ public class LivrariaApplication implements CommandLineRunner {
 					}
 					controllerUsuario.alteraUsuario(email, cpf, nome, senha, adm, anoLancamento);
 					System.out.println("Usuario atualizado!");
+					break;
+				case 31:
+					System.out.println("Nome:");
+					nome = input.nextLine();
+					for (Object livro : controllerLivro.bucarLivroPorNome(nome)) {
+						System.out.println(livro.toString());
+					}
 					break;
 				}
 			} catch (NotFoundException | LoginException | IOException | CPFException e) {
