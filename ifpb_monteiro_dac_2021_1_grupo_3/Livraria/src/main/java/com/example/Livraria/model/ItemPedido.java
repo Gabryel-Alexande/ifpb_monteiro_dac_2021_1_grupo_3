@@ -40,7 +40,7 @@ public class ItemPedido implements Serializable {
 		this.livro = livro;
 		this.quantidade = quantidade;
 		this.pedido = pedido;
-		pedido.setPreco(pedido.getPreco().add(livro.getPreco().multiply(new BigDecimal(quantidade))));
+		pedido.setPreco(livro.getPreco().multiply(new BigDecimal(quantidade)));
 	}
 
 	private ItemPedido() {

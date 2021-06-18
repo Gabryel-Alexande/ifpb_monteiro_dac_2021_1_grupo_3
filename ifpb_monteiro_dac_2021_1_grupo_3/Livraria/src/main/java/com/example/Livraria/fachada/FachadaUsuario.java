@@ -131,6 +131,7 @@ public class FachadaUsuario implements Serializable {
 			pedido = new Pedido(usuario);
 			pedidoRepositorio.save(pedido);
 		}
+		System.out.println(pedido.getPreco());
 		ItemPedido item = new ItemPedido(livro, quantidade, pedido);
 		itemPedidoRepositorio.save(item);
 	}
@@ -165,6 +166,8 @@ public class FachadaUsuario implements Serializable {
 			itemPedido.getPedido()
 					.setPreco(itemPedido.getLivro().getPreco().multiply(new BigDecimal(itemPedido.getQuantidade())));
 			itemPedidoRepositorio.save(itemPedido);
+			livroRepositorio.save(itemPedido.getLivro());
+			System.out.println(itemPedido.getQuantidade());
 		}
 		enviadorDeEmail.enviarEmail(usuario.getEmail(), "Sua compra foi feita com sucesso!",
 				"Obrigado por sua compra.\nSeu pedido chegara em breve!");

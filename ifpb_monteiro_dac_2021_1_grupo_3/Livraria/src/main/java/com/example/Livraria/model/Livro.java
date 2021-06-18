@@ -122,6 +122,7 @@ public class Livro implements Serializable {
 			throw new NotFoundException("Este item nao tem em estoque!");
 		}
 		quantidadeEstoque--;
+	
 	}
 
 	public void aumentarEtoque() {

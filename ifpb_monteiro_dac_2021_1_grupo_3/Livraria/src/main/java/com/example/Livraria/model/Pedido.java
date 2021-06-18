@@ -68,7 +68,7 @@ public class Pedido implements Serializable{
 	}
 
 	public void setPreco(BigDecimal preco) {
-
+		this.preco = preco;
 	}
 	
 	public String toString(){

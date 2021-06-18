@@ -20,7 +20,7 @@ import lombok.Data;
 
 @Entity
 @Data
-@SecondaryTable(name = "usuario_carrinho")
+
 public class Usuario implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
