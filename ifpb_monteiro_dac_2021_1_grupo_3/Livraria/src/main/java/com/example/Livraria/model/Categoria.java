@@ -15,7 +15,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Categoria implements Serializable{
+public class Categoria implements Serializable {
 	/**
 	 * 
 	 */
@@ -29,25 +29,35 @@ public class Categoria implements Serializable{
 	@Column(nullable = false)
 	@ManyToMany
 	private List<Livro> livros;
-	
+
+	@SuppressWarnings("unused")
+	private Categoria() {
+	}
+
 	public Categoria(String nomeCategoria) {
 		super();
 		this.nomeCategoria = nomeCategoria;
-	}	
-	//Este metodo foi criado com a finalidade de resolver o problema da clausula @Data,
-	//pois, a mesa cria um metodo plublico que permiti a alteração do atributo indetificador
-	//da entendiade, assim trazendo inconsistencia para o codiogo.
-	private void setIdCategortia(Long idCategortia){
-		
 	}
+
+	// Este metodo foi criado com a finalidade de resolver o problema da clausula
+	// @Data,
+	// pois, a mesa cria um metodo plublico que permiti a alteração do atributo
+	// indetificador
+	// da entendiade, assim trazendo inconsistencia para o codiogo.
+	@SuppressWarnings("unused")
+	private void setIdCategortia(Long idCategortia) {
+
+	}
+
 	public void adcionarLivro(Livro livro) {
 		livros.add(livro);
 	}
+
 	public void removerLivro(Livro livro) {
 		livros.remove(livro);
 	}
+
 	public String toString() {
-		return "Id: " + idCategortia+"\nCategoira: " + nomeCategoria;
+		return "Id: " + idCategortia + "\nCategoira: " + nomeCategoria;
 	}
-	private Categoria() {}
 }

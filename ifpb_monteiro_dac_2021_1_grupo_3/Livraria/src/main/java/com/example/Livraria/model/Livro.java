@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
@@ -68,6 +67,10 @@ public class Livro implements Serializable {
 	@Column(nullable = false)
 	private Integer quantidadeEstoque;
 
+	@SuppressWarnings("unused")
+	private Livro() {
+	}
+
 	public Livro(String isbn, String tituloLivro, List<Categoria> categorias, String descricao, BigDecimal preco,
 			String edicao, Integer anoLancamento, Editora editora, List<Image> fotosLivro, List<Autor> autores,
 			Integer quantidadeEstoque) {
@@ -93,6 +96,7 @@ public class Livro implements Serializable {
 	// pois, a mesa cria um metodo plublico que permiti a alteração do atributo
 	// indetificador
 	// da entendiade, assim trazendo inconsistencia para o codiogo.
+	@SuppressWarnings("unused")
 	private void setIdLivro(String idLivro) {
 
 	}
@@ -121,12 +125,12 @@ public class Livro implements Serializable {
 		if (quantidadeEstoque < quantidade) {
 			throw new NotFoundException("Este item nao tem em estoque!");
 		}
-		quantidadeEstoque--;
-	
+		quantidadeEstoque = -quantidade;
+
 	}
 
-	public void aumentarEtoque() {
-		quantidadeEstoque++;
+	public void aumentarEtoque(int quantidade) {
+		quantidadeEstoque = +quantidade;
 	}
 
 	public String toString() {
@@ -136,6 +140,4 @@ public class Livro implements Serializable {
 				+ isEmEstoque();
 	}
 
-	private Livro() {
-	}
 }

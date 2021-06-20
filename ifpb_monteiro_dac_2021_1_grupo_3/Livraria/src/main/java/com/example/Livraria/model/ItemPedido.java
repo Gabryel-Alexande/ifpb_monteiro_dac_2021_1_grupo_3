@@ -35,17 +35,18 @@ public class ItemPedido implements Serializable {
 	@Column(nullable = false)
 	private Integer quantidade;
 
+	@SuppressWarnings("unused")
+	private ItemPedido() {
+	}
 	public ItemPedido(Livro livro, Integer quantidade, Pedido pedido) {
 		super();
 		this.livro = livro;
 		this.quantidade = quantidade;
 		this.pedido = pedido;
-		pedido.setPreco(livro.getPreco().multiply(new BigDecimal(quantidade)));
 	}
 
-	private ItemPedido() {
-	}
 
+	@SuppressWarnings("unused")
 	private void setIdItemPedido(Long id) {
 
 	}

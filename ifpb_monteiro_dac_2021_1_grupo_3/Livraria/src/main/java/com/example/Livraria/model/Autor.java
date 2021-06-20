@@ -43,6 +43,7 @@ public class Autor implements Serializable {
 
 	}
 
+	@SuppressWarnings("unused")
 	private Autor() {
 	}
 
@@ -51,6 +52,7 @@ public class Autor implements Serializable {
 	// pois, a mesa cria um metodo plublico que permiti a alteração do atributo
 	// indetificador
 	// da entendiade, assim trazendo inconsistencia para o codiogo.
+	@SuppressWarnings("unused")
 	private void setAutorId(Long autorId) {
 
 	}

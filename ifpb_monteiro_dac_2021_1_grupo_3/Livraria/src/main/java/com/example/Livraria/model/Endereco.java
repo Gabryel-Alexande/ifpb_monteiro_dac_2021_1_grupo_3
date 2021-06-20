@@ -50,6 +50,10 @@ public class Endereco implements Serializable {
 	@JoinColumn(name = "idUsusario")
 	private Usuario usuario;
 
+	@SuppressWarnings("unused")
+	private Endereco() {
+	};
+
 	public Endereco(String cep, String rua, String estado, String cidade, String complemento, String pais,
 			String bairro, String numeroCasa, Usuario usuario) {
 		super();
@@ -64,14 +68,12 @@ public class Endereco implements Serializable {
 		this.usuario = usuario;
 	}
 
-	private Endereco() {
-	};
-
 	// Este metodo foi criado com a finalidade de resolver o problema da clausula
 	// @Data,
 	// pois, a mesa cria um metodo plublico que permiti a alteração do atributo
 	// indetificador
 	// da entendiade, assim trazendo inconsistencia para o codiogo.
+	@SuppressWarnings("unused")
 	private void setIdEndereco(Long idEndereco) {
 
 	}

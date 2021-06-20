@@ -1,7 +1,6 @@
 package com.example.Livraria.fachada;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
 
@@ -131,8 +130,8 @@ public class FachadaUsuario implements Serializable {
 			pedido = new Pedido(usuario);
 			pedidoRepositorio.save(pedido);
 		}
-		System.out.println(pedido.getPreco());
 		ItemPedido item = new ItemPedido(livro, quantidade, pedido);
+		pedido.setPreco(item);
 		itemPedidoRepositorio.save(item);
 	}
 
@@ -163,11 +162,7 @@ public class FachadaUsuario implements Serializable {
 		pedidoRepositorio.save(pedido);
 		for (ItemPedido itemPedido : itens) {
 			itemPedido.getLivro().diminuirEtoque(itemPedido.getQuantidade());
-			itemPedido.getPedido()
-					.setPreco(itemPedido.getLivro().getPreco().multiply(new BigDecimal(itemPedido.getQuantidade())));
 			itemPedidoRepositorio.save(itemPedido);
-			livroRepositorio.save(itemPedido.getLivro());
-			System.out.println(itemPedido.getQuantidade());
 		}
 		enviadorDeEmail.enviarEmail(usuario.getEmail(), "Sua compra foi feita com sucesso!",
 				"Obrigado por sua compra.\nSeu pedido chegara em breve!");
@@ -177,6 +172,9 @@ public class FachadaUsuario implements Serializable {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		Pedido pedido = pedidoRepositorio.findById(idPedido).get();
 		if (usuario.getIdUsusario() == pedido.getUsuario().getIdUsusario()) {
+			for (ItemPedido itemPedido : itemPedidoRepositorio.findByPedido(pedido)) {
+				itemPedido.getLivro().aumentarEtoque(itemPedido.getQuantidade());
+			}
 			pedidoRepositorio.delete(pedido);
 		}
 		enviadorDeEmail.enviarEmail(usuario.getEmail(), "Sua compra cancelada com sucesso!",
@@ -191,7 +189,7 @@ public class FachadaUsuario implements Serializable {
 		}
 		return null;
 	}
-
+	
 	private void validarDados(String cpf, String email, String senha, Integer anoDeNascimento)
 			throws CPFException, LoginException {
 		if (!AutenticacaoCPF.autenticarCPF(cpf)) {

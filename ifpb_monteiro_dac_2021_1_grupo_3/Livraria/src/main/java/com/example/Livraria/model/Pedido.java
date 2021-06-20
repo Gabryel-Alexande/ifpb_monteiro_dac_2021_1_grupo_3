@@ -18,11 +18,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import lombok.Data;
-import lombok.ToString;
 
 @Entity
 @Data
-public class Pedido implements Serializable{
+public class Pedido implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -32,7 +31,7 @@ public class Pedido implements Serializable{
 	private Long idPedido;
 
 	@ManyToOne
-	@JoinColumn(name ="idUsusario")
+	@JoinColumn(name = "idUsusario")
 	private Usuario usuario;
 
 	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "pedido")
@@ -44,16 +43,17 @@ public class Pedido implements Serializable{
 	@Enumerated(EnumType.STRING)
 	private EstadoPedido estadoPedido;
 
+	@SuppressWarnings("unused")
+	private Pedido() {
+		
+	}
 	public Pedido(Usuario cliente) {
 		super();
 		this.usuario = cliente;
 		estadoPedido = EstadoPedido.Aberto;
 	}
 
-	private Pedido() {
-		
-	}
-	
+
 	public void removerClienteDoPedido() {
 		usuario = null;
 	}
@@ -63,16 +63,17 @@ public class Pedido implements Serializable{
 	// pois, a mesa cria um metodo plublico que permiti a alteração do atributo
 	// indetificador
 	// da entendiade, assim trazendo inconsistencia para o codiogo.
+	@SuppressWarnings("unused")
 	private void setIdPedido(Long idPedido) {
 
 	}
 
-	public void setPreco(BigDecimal preco) {
-		this.preco = preco;
+	public void setPreco(ItemPedido itemPedido) {
+		this.preco.add(itemPedido.getPreco());
 	}
-	
-	public String toString(){
-		return "Id: "+idPedido+"\nEstado: "+estadoPedido.toString()+"\nCliente: \n"+usuario.toString();
+
+	public String toString() {
+		return "Id: " + idPedido + "\nEstado: " + estadoPedido.toString() + "\nCliente: \n" + usuario.toString();
 	}
-	
+
 }

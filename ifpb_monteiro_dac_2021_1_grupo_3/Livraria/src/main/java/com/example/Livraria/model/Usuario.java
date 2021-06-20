@@ -1,19 +1,15 @@
 package com.example.Livraria.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.SecondaryTable;
 
 import jdk.jfr.BooleanFlag;
 import lombok.Data;
@@ -56,6 +52,7 @@ public class Usuario implements Serializable{
 	private List<Pedido> pedidos;
 
 	
+	@SuppressWarnings("unused")
 	private Usuario () {}
 	
 	public Usuario(String nomeUsusario, String email, String senha, String cpf,
@@ -74,6 +71,7 @@ public class Usuario implements Serializable{
 	// pois, a mesa cria um metodo plublico que permiti a alteração do atributo
 	// indetificador
 	// da entendiade, assim trazendo inconsistencia para o codiogo.
+	@SuppressWarnings("unused")
 	private void setIdUsusario(Long idUsusario) {
 
 	}
