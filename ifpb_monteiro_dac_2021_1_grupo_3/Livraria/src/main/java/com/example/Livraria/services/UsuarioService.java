@@ -1,7 +1,8 @@
-package com.example.Livraria.fachada;
+package com.example.Livraria.services;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Calendar;
 import java.util.List;
 
@@ -31,7 +32,7 @@ import com.example.Livraria.utilitarios.ValidadorNome;
 import javassist.NotFoundException;
 
 @Service
-public class FachadaUsuario implements Serializable {
+public class UsuarioService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Autowired
@@ -191,7 +192,7 @@ public class FachadaUsuario implements Serializable {
 		return null;
 	}
 	
-	private void validarDados(String cpf, String email, String senha, LocalDate anoDeNascimento)
+	private void validarDados(String cpf, String email, String senha, LocalDate dataDeNascimento)
 			throws CPFException, LoginException {
 		if (!AutenticacaoCPF.autenticarCPF(cpf)) {
 			throw new CPFException();
@@ -200,8 +201,13 @@ public class FachadaUsuario implements Serializable {
 		} else if (!AutenticacaoLogin.validarrSenha(senha)) {
 			throw new LoginException("[ERRO] Senha invalido!");
 		}
-//		if (anoDeNascimento > (Calendar.getInstance().get(Calendar.YEAR) - 18)) {
-//			throw new IllegalArgumentException("[ERRO] Data invalida!");
+		
+		LocalDate dataAtual = LocalDate.now();
+		if(Period.between(dataDeNascimento, dataAtual).getYears()<18) {
+			throw new IllegalArgumentException("[ERRO] Data invalida!");
+		}
+//	if (anoDeNascimento > (Calendar.getInstance().get(Calendar.YEAR) - 18)) {
+//			
 //		}
 	}
 }

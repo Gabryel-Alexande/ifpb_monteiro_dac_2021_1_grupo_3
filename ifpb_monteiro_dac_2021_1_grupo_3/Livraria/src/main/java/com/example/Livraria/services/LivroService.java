@@ -1,4 +1,4 @@
-package com.example.Livraria.fachada;
+package com.example.Livraria.services;
 
 import java.awt.Image;
 import java.math.BigDecimal;
@@ -26,7 +26,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
 @Service
-public class FachadaLivro {
+public class LivroService {
 
 	@Autowired
 	private LivroRepositorio livroRepositorio;

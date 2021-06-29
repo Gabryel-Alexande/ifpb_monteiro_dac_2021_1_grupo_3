@@ -1,4 +1,4 @@
-package com.example.Livraria.fachada;
+package com.example.Livraria.services;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,7 +11,7 @@ import com.example.Livraria.repositorio.EnderecoRepositorio;
 import com.example.Livraria.repositorio.UsuarioRepositorio;
 
 @Service
-public class FachadaEndereco implements Serializable {
+public class EnderecoService implements Serializable {
 	/**
 	 * 
 	 */

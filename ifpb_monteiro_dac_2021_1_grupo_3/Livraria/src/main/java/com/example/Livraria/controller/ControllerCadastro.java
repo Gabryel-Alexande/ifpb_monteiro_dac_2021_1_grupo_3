@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.Livraria.dto.UsuarioDTO;
-import com.example.Livraria.fachada.FachadaUsuario;
+import com.example.Livraria.services.UsuarioService;
 @Controller
-public class Cadastro {
+public class ControllerCadastro {
 	@Autowired
-	private FachadaUsuario fachadaUsuario;
+	private UsuarioService fachadaUsuario;
 	
 	@GetMapping("/cadastro")
 	public String cadastro () {

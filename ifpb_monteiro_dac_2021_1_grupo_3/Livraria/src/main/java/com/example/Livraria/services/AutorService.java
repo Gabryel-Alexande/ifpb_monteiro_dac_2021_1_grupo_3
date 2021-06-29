@@ -1,4 +1,4 @@
-package com.example.Livraria.fachada;
+package com.example.Livraria.services;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -14,7 +14,7 @@ import com.example.Livraria.utilitarios.EnviadorDeEmail;
 import com.example.Livraria.utilitarios.ValidadorNome;
 
 @Service
-public class FachadaAutor {
+public class AutorService {
 	@Autowired
 	private AutorRepositorio autorRepositorio;
 	@Autowired

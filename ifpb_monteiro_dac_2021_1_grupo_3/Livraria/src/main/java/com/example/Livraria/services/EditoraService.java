@@ -1,4 +1,4 @@
-package com.example.Livraria.fachada;
+package com.example.Livraria.services;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import com.example.Livraria.model.Editora;
 import com.example.Livraria.repositorio.EditoraRepositorio;
 import com.example.Livraria.utilitarios.ValidadorNome;
 @Service
-public class FachadaEditora {
+public class EditoraService {
 	@Autowired
 	private EditoraRepositorio editoraRepositorio;
 	

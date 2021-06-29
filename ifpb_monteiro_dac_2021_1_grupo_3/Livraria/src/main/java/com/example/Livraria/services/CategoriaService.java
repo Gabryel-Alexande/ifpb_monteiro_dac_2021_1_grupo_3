@@ -1,4 +1,4 @@
-package com.example.Livraria.fachada;
+package com.example.Livraria.services;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import com.example.Livraria.repositorio.CategoriaRepositorio;
 import com.example.Livraria.utilitarios.ValidadorNome;
 
 @Service
-public class FachadaCategoria {
+public class CategoriaService {
 	
 	@Autowired
 	private CategoriaRepositorio categoriaRepositorio;
