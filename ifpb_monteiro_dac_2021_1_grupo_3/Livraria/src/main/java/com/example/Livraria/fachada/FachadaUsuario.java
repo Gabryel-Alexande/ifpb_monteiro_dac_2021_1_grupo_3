@@ -1,12 +1,14 @@
 package com.example.Livraria.fachada;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.Livraria.dto.UsuarioDTO;
 import com.example.Livraria.exeception.CPFException;
 import com.example.Livraria.exeception.LoginException;
 import com.example.Livraria.model.Endereco;
@@ -45,25 +47,24 @@ public class FachadaUsuario implements Serializable {
 	@Autowired
 	private EnviadorDeEmail enviadorDeEmail;
 
-	public void cadastrarUsuario(String cpf, String nomeUsusario, String email, String senha, boolean admisnistrador,
-			Integer anoDeNascimento) throws CPFException, LoginException {
-		if(!ValidadorNome.validarNome(nomeUsusario)) {
+	public void cadastrarUsuario(UsuarioDTO usuarioDTO) throws CPFException, LoginException {
+		Usuario usuario = usuarioDTO.parser();
+		
+		if(!ValidadorNome.validarNome(usuario.getNomeUsuario())) {
 			throw new IllegalArgumentException("[ERRO] Nome invalido!");
 		}
-		if (usuarioRepositorio.findByEmail(email) != null) {
+		if (usuarioRepositorio.findByEmail(usuario.getEmail()) != null) {
 			throw new LoginException("[ERRO] Email já cadastrado");
 		}
-		validarDados(cpf, email, senha, anoDeNascimento);
-		Usuario usuario = new Usuario(nomeUsusario, email, senha, cpf, admisnistrador, anoDeNascimento);
+		validarDados(usuario.getCpf(),usuario.getEmail(),usuario.getSenha(),usuario.getDataDeNascimento());
 
-		enviadorDeEmail.enviarEmail(email, "Sua conta foi criada com sucesso!", "Seja bem vindo a nossa loja "
-				+ nomeUsusario
+		enviadorDeEmail.enviarEmail(usuario.getEmail(), "Sua conta foi criada com sucesso!", "Seja bem vindo a nossa loja "
+				+ usuario.getNomeUsuario()
 				+ "\nAqui temos uma grande variedade de livros.\nSinta-se a vontade para nos contactar.\nObrigado por nos escolher.");
 		usuarioRepositorio.save(usuario);
 	}
-
 	public void alteraUsuario(String email, String cpf, String nomeUsusario, String senha, boolean admisnistrador,
-			Integer anoDeNascimento) throws CPFException, LoginException {
+			LocalDate anoDeNascimento) throws CPFException, LoginException {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		if(!ValidadorNome.validarNome(nomeUsusario)) {
 			throw new IllegalArgumentException("[ERRO] Nome invalido!");
@@ -72,8 +73,8 @@ public class FachadaUsuario implements Serializable {
 		usuario.setCpf(cpf);
 		usuario.setSenha(senha);
 		usuario.setAdmisnistrador(admisnistrador);
-		usuario.setNomeUsusario(nomeUsusario);
-		usuario.setAnoDeNascimento(anoDeNascimento);
+		usuario.setNomeUsuario(nomeUsusario);
+		usuario.setDataDeNascimento(anoDeNascimento);
 		usuarioRepositorio.save(usuario);
 	}
 
@@ -190,7 +191,7 @@ public class FachadaUsuario implements Serializable {
 		return null;
 	}
 	
-	private void validarDados(String cpf, String email, String senha, Integer anoDeNascimento)
+	private void validarDados(String cpf, String email, String senha, LocalDate anoDeNascimento)
 			throws CPFException, LoginException {
 		if (!AutenticacaoCPF.autenticarCPF(cpf)) {
 			throw new CPFException();
@@ -199,8 +200,8 @@ public class FachadaUsuario implements Serializable {
 		} else if (!AutenticacaoLogin.validarrSenha(senha)) {
 			throw new LoginException("[ERRO] Senha invalido!");
 		}
-		if (anoDeNascimento > (Calendar.getInstance().get(Calendar.YEAR) - 18)) {
-			throw new IllegalArgumentException("[ERRO] Data invalida!");
-		}
+//		if (anoDeNascimento > (Calendar.getInstance().get(Calendar.YEAR) - 18)) {
+//			throw new IllegalArgumentException("[ERRO] Data invalida!");
+//		}
 	}
 }

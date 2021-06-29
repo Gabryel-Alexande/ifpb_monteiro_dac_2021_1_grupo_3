@@ -1,6 +1,7 @@
 package com.example.Livraria.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -27,7 +28,7 @@ public class Usuario implements Serializable{
 	private Long idUsusario;
 	
 	@Column(name = "nome_usuario", nullable = false)
-	private String nomeUsusario;
+	private String nomeUsuario;
 	
 	@Column(nullable = false)
 	private String email;
@@ -42,7 +43,7 @@ public class Usuario implements Serializable{
 	private String cpf;
 
 	@Column(nullable = false)
-	private Integer anoDeNascimento;
+	private LocalDate dataDeNascimento;
 	
 	@BooleanFlag
 	@Column(nullable = false)
@@ -53,17 +54,17 @@ public class Usuario implements Serializable{
 
 	
 	@SuppressWarnings("unused")
-	private Usuario () {}
+	public Usuario () {}
 	
 	public Usuario(String nomeUsusario, String email, String senha, String cpf,
-			boolean admisnistrador,Integer anoDeNascimento) {
+			boolean admisnistrador,LocalDate anoDeNascimento) {
 		super();
-		this.nomeUsusario = nomeUsusario;
+		this.nomeUsuario = nomeUsusario;
 		this.email = email;
 		this.senha = senha;
 		this.cpf = cpf;
 		this.admisnistrador = admisnistrador;
-		this.anoDeNascimento=anoDeNascimento;
+		this.dataDeNascimento=anoDeNascimento;
 	}
 
 	// Este metodo foi criado com a finalidade de resolver o problema da clausula
@@ -72,13 +73,13 @@ public class Usuario implements Serializable{
 	// indetificador
 	// da entendiade, assim trazendo inconsistencia para o codiogo.
 	@SuppressWarnings("unused")
-	private void setIdUsusario(Long idUsusario) {
+	private void setIdUsuario(String nomeUsusario) {
 
 	}
 	
 	public String toString() {
 
-		return "Id: "+idUsusario+"\nNome: "+this.nomeUsusario+"\nCpf: "+this.cpf+"\nEmail: "+this.email+"\nÉ ADM ? "+this.admisnistrador;
+		return "Id: "+idUsusario+"\nNome: "+this.nomeUsuario+"\nCpf: "+this.cpf+"\nEmail: "+this.email+"\nÉ ADM ? "+this.admisnistrador;
 	}
 
 	public void adcionarPedido(Pedido pedido) {

@@ -109,7 +109,7 @@ public class LivrariaApplication implements CommandLineRunner {
 					if (opadm == 2) {
 						adm = false;
 					}
-					controllerUsuario.cadatrarUsusario(cpf, nome, email, senha, adm, anoLancamento);
+					//controllerUsuario.cadatrarUsusario(cpf, nome, email, senha, adm, anoLancamento);
 					System.out.println("Cadastrado com Sucesso !!");
 					break;
 				case 2:
@@ -459,7 +459,7 @@ public class LivrariaApplication implements CommandLineRunner {
 					if (opadm == 2) {
 						adm = false;
 					}
-					controllerUsuario.alteraUsuario(email, cpf, nome, senha, adm, anoLancamento);
+					//controllerUsuario.alteraUsuario(email, cpf, nome, senha, adm, anoLancamento);
 					System.out.println("Usuario atualizado!");
 					break;
 				case 31:
@@ -483,7 +483,7 @@ public class LivrariaApplication implements CommandLineRunner {
 					break;
 				
 				}
-			} catch (NotFoundException | LoginException | IOException | CPFException e) {
+			} catch (NotFoundException | LoginException | IOException e) {
 				System.out.println(e.getMessage());
 			}
 			System.out.println("-------------------------------");

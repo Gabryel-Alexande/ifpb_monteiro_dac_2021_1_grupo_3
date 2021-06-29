@@ -1,5 +1,7 @@
 package com.example.Livraria.controllers;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -16,11 +18,11 @@ public class ControllerUsuario {
 	private FachadaUsuario fachadaUsuario;
 
 	public void cadatrarUsusario(String cpf, String nomeUsusario, String email, String senha, boolean admisnistrador,
-			Integer anoDeNascimento) throws CPFException, LoginException {
-		fachadaUsuario.cadastrarUsuario(cpf, nomeUsusario, email, senha, admisnistrador, anoDeNascimento);
+			LocalDate dataDeNascimento) throws CPFException, LoginException {
+		fachadaUsuario.cadastrarUsuario(cpf, nomeUsusario, email, senha, admisnistrador, dataDeNascimento);
 	}
 	public void alteraUsuario(String email, String cpf, String nomeUsusario, String senha, boolean admisnistrador,
-			Integer anoDeNascimento) throws CPFException, LoginException {
+			LocalDate anoDeNascimento) throws CPFException, LoginException {
 		fachadaUsuario.alteraUsuario(email, cpf, nomeUsusario, senha, admisnistrador, anoDeNascimento);
 	}
 
