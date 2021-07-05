@@ -1,6 +1,6 @@
  <!--FORMULÁRIO DE CADASTRO-->
  <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th = "http://www.thymeleaf.org" >
 
 <head>
     <meta charset="UTF-8">
@@ -8,30 +8,31 @@
 </head>
  <body>
  <div id="cadastro">
-    <form method="post" action="/cadastro"> 
+    <form method="post" th:action="@{/cadastro}" th:object="${usuario}" > 
       <h1>Cadastro</h1> 
        
       <p> 
         <label for="nome">Nome</label>
-        <input id="nome" name="nome" required="required" type="text" placeholder="nome" />
+        <input id="nome" name="nome" required="required" type="text" placeholder="nome" th:field=*{nome} />
       </p>
       <p>
           <label for = "data">Data de Nascimento</label>
-          <input id="data" name="data" required = "required" type="text"/>
+          <input id="data" name="data" required = "required" type="text" th:field=*{data}/>
       </p>
        
       <p> 
         <label for="email">E-mail</label>
-        <input id="email" name="email" required="required" type="email" placeholder="contato@email.com"/> 
+        <input id="email" name="email" required="required" type="email" placeholder="contato@email.com" th:field=*{email}/> 
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
       </p>
        
       <p> 
         <label for="senha">Senha</label>
-        <input id="senha" name="senha" required="required" type="password" placeholder="ex. 1234"/>
+        <input id="senha" name="senha" required="required" type="password" placeholder="ex. 1234" th:field=*{senha}/>
       </p>
       <p>
           <label for="cpf">CPF</label>
-          <input id = "cpf" name = "cpf" required = "required" type ="text"placeholder = "ex.111.111.111-11"/>
+          <input id = "cpf" name = "cpf" required = "required" type ="text"placeholder = "ex.111.111.111-11" th:field=*{cpf}/>
       </p>
        
       <p> 

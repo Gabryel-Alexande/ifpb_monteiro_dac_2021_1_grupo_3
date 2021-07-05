@@ -6,6 +6,7 @@ import java.time.Period;
 import java.util.Calendar;
 import java.util.List;
 
+import org.hibernate.loader.plan.exec.process.internal.AbstractRowReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -101,6 +102,23 @@ public class UsuarioService implements Serializable {
 			throw new NotFoundException("[ERRO] Email não encontrado");
 		}
 
+	}
+	
+	public UsuarioDTO logarNoSistema(UsuarioDTO usuario) throws NotFoundException {
+		
+		
+		
+			Usuario usuarioSistema =  this.consultarUsuarioPorEmail(usuario.getEmail());
+		
+		
+			if(usuarioSistema.getSenha().equals(usuario.getSenha())) {
+				
+				return usuario;
+			}
+			
+			throw new NotFoundException("Email ou Senha Inválidos");
+		
+		
 	}
 
 	public Usuario consultarUsuarioPorEmail(String email) throws NotFoundException {
@@ -206,8 +224,6 @@ public class UsuarioService implements Serializable {
 		if(Period.between(dataDeNascimento, dataAtual).getYears()<18) {
 			throw new IllegalArgumentException("[ERRO] Data invalida!");
 		}
-//	if (anoDeNascimento > (Calendar.getInstance().get(Calendar.YEAR) - 18)) {
-//			
-//		}
+
 	}
 }

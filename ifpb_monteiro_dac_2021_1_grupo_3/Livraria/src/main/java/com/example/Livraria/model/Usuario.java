@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
 
 import jdk.jfr.BooleanFlag;
 import lombok.Data;
@@ -30,7 +31,7 @@ public class Usuario implements Serializable{
 	@Column(name = "nome_usuario", nullable = false)
 	private String nomeUsuario;
 	
-	@Column(nullable = false)
+	@Column(nullable = false) 
 	private String email;
 	
 	@Column(nullable = false)

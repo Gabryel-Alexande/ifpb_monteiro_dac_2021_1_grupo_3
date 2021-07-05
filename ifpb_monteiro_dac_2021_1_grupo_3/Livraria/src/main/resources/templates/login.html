@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th = "http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8" />
-	<title>Formulário de Login e Registro com HTML5 e CSS3</title>
+	<title>Tela de Login</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="style.css" />
 </head>
@@ -16,21 +16,21 @@
 		<div class="content">
 			<!--FORMULÁRIO DE LOGIN-->
 			<div id="login">
-				<form method="post" action="">
+				<form method="post" th:action="@{/login}"th:object="${loginUser}" >
 					<h1>Login</h1>
 					<p>
 						<label for="email">Email</label>
 						<input id="email" name="email" required="required" type="email"
-							placeholder="ex. contato@email.com" />
+							placeholder="ex. contato@email.com" th:field=*{email} />
 					</p>
 
 					<p>
 						<label for="senha_login">Senha</label>
 						<input id="senha" name="senha" required="required" type="password"
-							placeholder="ex. senha" />
+							placeholder="ex. senha" th:field=*{senha}/>
 					</p>
 					<p>
-						<input type="submit" value="Logar" />
+						<input type="submit" value="logar" />
 					</p>
 
 					<p class="link">
