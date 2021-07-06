@@ -1,6 +1,6 @@
  <!--FORMULÁRIO DE CADASTRO-->
  <!DOCTYPE html>
-<html lang="pt-br" xmlns:th = "http://www.thymeleaf.org" >
+<html lang="pt-br" xmlns:th ="http://www.thymeleaf.org" >
 
 <head>
     <meta charset="UTF-8">
@@ -8,7 +8,7 @@
 </head>
  <body>
  <div id="cadastro">
-    <form method="post" th:action="@{/cadastro}" th:object="${usuario}" > 
+    <form method="post" th:action="@{/cadastro}" th:object="${usuarioDTO}" > 
       <h1>Cadastro</h1> 
        
       <p> 
@@ -17,13 +17,13 @@
       </p>
       <p>
           <label for = "data">Data de Nascimento</label>
-          <input id="data" name="data" required = "required" type="text" th:field=*{data}/>
+          <input id="data" name="data" required = "required" type="text" placeholder="22/01/2003" th:field=*{data}/>
       </p>
        
       <p> 
         <label for="email">E-mail</label>
         <input id="email" name="email" required="required" type="email" placeholder="contato@email.com" th:field=*{email}/> 
-        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        <span  th:errors="*{email}"></span>
       </p>
        
       <p> 
@@ -32,7 +32,8 @@
       </p>
       <p>
           <label for="cpf">CPF</label>
-          <input id = "cpf" name = "cpf" required = "required" type ="text"placeholder = "ex.111.111.111-11" th:field=*{cpf}/>
+          <input id = "cpf" name = "cpf"  type ="text"placeholder = "ex.111.111.111-11" th:field=*{cpf}/>
+          <span  th:errors="*{cpf}"></span>
       </p>
        
       <p> 
@@ -42,7 +43,7 @@
        
       <p class="link">  
         Já tem conta?
-        <a href="#paralogin"> Ir para Login </a>
+        <a href="login"> Ir para Login </a>
       </p>
     </form>
   </div>

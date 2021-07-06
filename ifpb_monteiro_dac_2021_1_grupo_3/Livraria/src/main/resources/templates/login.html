@@ -16,7 +16,7 @@
 		<div class="content">
 			<!--FORMULÁRIO DE LOGIN-->
 			<div id="login">
-				<form method="post" th:action="@{/login}"th:object="${loginUser}" >
+				<form method="post" th:action="@{/login}"th:object="${usuarioDTO}" >
 					<h1>Login</h1>
 					<p>
 						<label for="email">Email</label>
@@ -35,7 +35,7 @@
 
 					<p class="link">
 						Ainda não tem conta?
-						<a href="#paracadastro">Cadastre-se</a>
+						<a href="cadastro">Cadastre-se</a>
 					</p>
 				</form>
 			</div>

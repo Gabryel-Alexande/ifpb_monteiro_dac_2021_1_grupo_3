@@ -18,8 +18,8 @@ public class ControllerLogin {
 	UsuarioService	usuarioService;
 	
 	@GetMapping("/login")
-	public String login(Model modelo) {
-		modelo.addAttribute("loginUser", new UsuarioDTO());
+	public String login(UsuarioDTO usuario ,Model modelo) {
+	
 		
 		return "login";
 	}
@@ -36,7 +36,7 @@ public class ControllerLogin {
 		
 		
 		
-		return "home";
+		return "redirect:/home";
 		
 	}
 	
