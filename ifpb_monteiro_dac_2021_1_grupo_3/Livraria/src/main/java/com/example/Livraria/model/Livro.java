@@ -4,7 +4,6 @@ import java.awt.Image;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +15,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
-
 import javassist.NotFoundException;
 import lombok.Data;
 
@@ -68,7 +66,7 @@ public class Livro implements Serializable {
 	private Integer quantidadeEstoque;
 
 	@SuppressWarnings("unused")
-	private Livro() {
+	public Livro() {
 	}
 
 	public Livro(String isbn, String tituloLivro, List<Categoria> categorias, String descricao, BigDecimal preco,

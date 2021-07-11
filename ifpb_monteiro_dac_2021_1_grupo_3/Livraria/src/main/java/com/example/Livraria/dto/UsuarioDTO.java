@@ -1,11 +1,9 @@
 package com.example.Livraria.dto;
 
 import java.time.LocalDate;
-
-
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-
 import com.example.Livraria.model.Usuario;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -17,11 +15,16 @@ import lombok.Data;
 
 @Data
 public class UsuarioDTO {
+	
 	@NotBlank
 	private String nome;
+	
+	@Email
 	private String email;
+	
 	@NotBlank
 	private String senha;
+	
 	@NotBlank
 	@Pattern(regexp ="[0-9]{3}.?[0-9]{3}.?[0-9]{3}-?[0-9]{2}",message = "CPF Não Está no Formato Aceito")
 	private String cpf;
