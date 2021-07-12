@@ -1,20 +1,19 @@
 package com.example.Livraria.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
-
 @Controller
-@RequestMapping("/livraria")
-public class ControllerHome {
+@RequestMapping("/livraria/home")
+public class ControllerCarrinho {
 	
-	@GetMapping("/home")
-	public String solicitarHome(Model modelo) {
+	
+	@GetMapping("/carrinho")
+	public String solicitarCarrinho() {
+		return "carrinho";
 		
-		
-		return "home";
 	}
+	
+
 }

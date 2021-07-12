@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.Livraria.dto.UsuarioDTO;
 import com.example.Livraria.services.UsuarioService;
@@ -13,38 +14,28 @@ import com.example.Livraria.services.UsuarioService;
 import javassist.NotFoundException;
 
 @Controller
+@RequestMapping("/livraria")
 public class ControllerLogin {
 	@Autowired
-	UsuarioService	usuarioService;
-	
+	UsuarioService usuarioService;
+
 	@GetMapping("/login")
-	public String login(UsuarioDTO usuario ,Model modelo) {
-	
-		
+	public String login(UsuarioDTO usuario, Model modelo) {
+
 		return "login";
 	}
-	
+
 	@PostMapping("/login")
 	public String logar(@ModelAttribute UsuarioDTO usuario) {
-		
-		
+
 		try {
 			usuarioService.logarNoSistema(usuario);
 		} catch (NotFoundException e) {
 			return "/login";
 		}
-		
-		
-		
+
 		return "redirect:/home";
-		
+
 	}
-	
-	
-	
-	
-	
-	
-	
 
 }
