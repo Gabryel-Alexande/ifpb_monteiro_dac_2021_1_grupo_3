@@ -7,16 +7,13 @@ import org.springframework.stereotype.Service;
 
 import com.example.Livraria.model.Editora;
 import com.example.Livraria.repositorio.EditoraRepositorio;
-import com.example.Livraria.utilitarios.ValidadorNome;
 @Service
 public class EditoraService {
 	@Autowired
 	private EditoraRepositorio editoraRepositorio;
 	
 	public void cadastrarEditora(String nomeEditora) {
-		if(!ValidadorNome.validarNome(nomeEditora)) {
-			throw new IllegalArgumentException("[ERRO] Nome invalido!");
-		}
+
 		Editora editora = new Editora(nomeEditora);
 		editoraRepositorio.save(editora);
 	}

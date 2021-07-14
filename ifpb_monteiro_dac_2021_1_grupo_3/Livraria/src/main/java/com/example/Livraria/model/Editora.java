@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 
@@ -22,6 +23,7 @@ public class Editora implements Serializable {
 	private Long idEditora;
 
 	@Column(name = "nome_editora", nullable = false)
+	@Size(min=3,max=50)
 	private String nomeEditora;
 
 //	@OneToMany(mappedBy = "idLivro")

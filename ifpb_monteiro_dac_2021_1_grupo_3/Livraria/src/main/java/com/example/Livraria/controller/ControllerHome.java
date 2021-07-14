@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-@RequestMapping("/livraria")
+@RequestMapping("/livraria/public")
 public class ControllerHome {
 	
 	@GetMapping("/home")
 	public String solicitarHome(Model modelo) {
 		
 		
-		return "home";
+		return "/public/home";
 	}
 }

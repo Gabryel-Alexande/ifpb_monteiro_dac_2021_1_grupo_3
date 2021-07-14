@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.hibernate.loader.plan.exec.process.internal.AbstractRowReader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.Livraria.dto.UsuarioDTO;
@@ -28,7 +29,6 @@ import com.example.Livraria.utilitarios.AutenticacaoCPF;
 import com.example.Livraria.utilitarios.AutenticacaoLogin;
 import com.example.Livraria.utilitarios.EnviadorDeEmail;
 import com.example.Livraria.utilitarios.ValidadorCep;
-import com.example.Livraria.utilitarios.ValidadorNome;
 
 import javassist.NotFoundException;
 
@@ -51,26 +51,26 @@ public class UsuarioService implements Serializable {
 
 	public void cadastrarUsuario(UsuarioDTO usuarioDTO) throws CPFException, LoginException {
 		Usuario usuario = usuarioDTO.parser();
-		
-		if(!ValidadorNome.validarNome(usuario.getNomeUsuario())) {
-			throw new IllegalArgumentException("[ERRO] Nome invalido!");
-		}
+
 		if (usuarioRepositorio.findByEmail(usuario.getEmail()) != null) {
 			throw new LoginException("[ERRO] Email já cadastrado");
 		}
-		validarDados(usuario.getCpf(),usuario.getEmail(),usuario.getSenha(),usuario.getDataDeNascimento());
+		validarDados(usuario.getCpf(), usuario.getEmail(), usuario.getSenha(), usuario.getDataDeNascimento());
+		
+		
+		//usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
+		
 
-		enviadorDeEmail.enviarEmail(usuario.getEmail(), "Sua conta foi criada com sucesso!", "Seja bem vindo a nossa loja "
-				+ usuario.getNomeUsuario()
-				+ "\nAqui temos uma grande variedade de livros.\nSinta-se a vontade para nos contactar.\nObrigado por nos escolher.");
+		enviadorDeEmail.enviarEmail(usuario.getEmail(), "Sua conta foi criada com sucesso!",
+				"Seja bem vindo a nossa loja " + usuario.getNomeUsuario()
+						+ "\nAqui temos uma grande variedade de livros.\nSinta-se a vontade para nos contactar.\nObrigado por nos escolher.");
 		usuarioRepositorio.save(usuario);
 	}
+
 	public void alteraUsuario(String email, String cpf, String nomeUsusario, String senha, boolean admisnistrador,
 			LocalDate anoDeNascimento) throws CPFException, LoginException {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
-		if(!ValidadorNome.validarNome(nomeUsusario)) {
-			throw new IllegalArgumentException("[ERRO] Nome invalido!");
-		}
+		
 		validarDados(cpf, email, senha, anoDeNascimento);
 		usuario.setCpf(cpf);
 		usuario.setSenha(senha);
@@ -81,8 +81,8 @@ public class UsuarioService implements Serializable {
 	}
 
 	public void adcionarEndereco(String email, String cep, String rua, String estado, String cidade, String complemento,
-			String pais, String bairro, String numeroCasa) throws IllegalArgumentException{
-		if(ValidadorCep.ValidaCep(cep)) {
+			String pais, String bairro, String numeroCasa) throws IllegalArgumentException {
+		if (ValidadorCep.ValidaCep(cep)) {
 			throw new IllegalArgumentException("[ERRO] Cep invalido!");
 		}
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
@@ -103,22 +103,18 @@ public class UsuarioService implements Serializable {
 		}
 
 	}
-	
+
 	public UsuarioDTO logarNoSistema(UsuarioDTO usuario) throws NotFoundException {
-		
-		
-		
-			Usuario usuarioSistema =  this.consultarUsuarioPorEmail(usuario.getEmail());
-		
-		
-			if(usuarioSistema.getSenha().equals(usuario.getSenha())) {
-				
-				return usuario;
-			}
-			
-			throw new NotFoundException("Email ou Senha Inválidos");
-		
-		
+
+		Usuario usuarioSistema = this.consultarUsuarioPorEmail(usuario.getEmail());
+
+		if (usuarioSistema.getSenha().equals(usuario.getSenha())) {
+
+			return usuario;
+		}
+
+		throw new NotFoundException("Email ou Senha Inválidos");
+
 	}
 
 	public Usuario consultarUsuarioPorEmail(String email) throws NotFoundException {
@@ -209,7 +205,7 @@ public class UsuarioService implements Serializable {
 		}
 		return null;
 	}
-	
+
 	private void validarDados(String cpf, String email, String senha, LocalDate dataDeNascimento)
 			throws CPFException, LoginException {
 		if (!AutenticacaoCPF.autenticarCPF(cpf)) {
@@ -219,9 +215,9 @@ public class UsuarioService implements Serializable {
 		} else if (!AutenticacaoLogin.validarrSenha(senha)) {
 			throw new LoginException("[ERRO] Senha invalido!");
 		}
-		
+
 		LocalDate dataAtual = LocalDate.now();
-		if(Period.between(dataDeNascimento, dataAtual).getYears()<18) {
+		if (Period.between(dataDeNascimento, dataAtual).getYears() < 18) {
 			throw new IllegalArgumentException("[ERRO] Data invalida!");
 		}
 

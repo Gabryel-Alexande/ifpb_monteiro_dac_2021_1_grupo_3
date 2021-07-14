@@ -18,7 +18,7 @@ import com.example.Livraria.repositorio.CategoriaRepositorio;
 import com.example.Livraria.repositorio.EditoraRepositorio;
 import com.example.Livraria.repositorio.LivroRepositorio;
 import com.example.Livraria.utilitarios.EnviadorDeEmail;
-import com.example.Livraria.utilitarios.ValidadorNome;
+
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -48,9 +48,7 @@ public class LivroService {
 		List<Categoria> categoriasResgatados = new ArrayList<Categoria>();
 		
 		//Aqui ocorre a valição dos dados,o isbn não podeser igual a nenhuma ja existente no banco
-		if(!ValidadorNome.validarNome(tituloLivro)) {
-			throw new IllegalArgumentException("[ERRO] Nome invalido!");
-		}
+
 		if (livroRepositorio.findByIsbn(isbn) != null) {
 			throw new IllegalArgumentException("[ERRO] Este isbn já existe!");
 		}
@@ -88,9 +86,7 @@ public class LivroService {
 		Livro validacao = livroRepositorio.findByIsbn(isbn);
 		
 		//Aqui ocorre a valição dos dados,o isbn não podeser igual a nenhuma ja existente no banco
-		if(!ValidadorNome.validarNome(tituloLivro)) {
-			throw new IllegalArgumentException("[ERRO] Nome invalido!");
-		}
+		
 		if (validacao.getIsbn().equals(isbn) && validacao.getIdLivro() != id) {
 			throw new IllegalArgumentException("[ERRO] Este isbn já existe!");
 		}

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.Livraria.model.Categoria;
 import com.example.Livraria.repositorio.CategoriaRepositorio;
-import com.example.Livraria.utilitarios.ValidadorNome;
+
 
 @Service
 public class CategoriaService {
@@ -17,9 +17,6 @@ public class CategoriaService {
 	
 	//Aqui o cadastro so pode ser feito se não ouver outra categoria com o mesmo nome 
 	public void criarCategoria(String nome) {
-		if(!ValidadorNome.validarNome(nome)) {
-			throw new IllegalArgumentException("[ERRO] Nome invalido!");
-		}
 		Categoria categoria= new Categoria(nome);
 		categoriaRepositorio.save(categoria);
 	}
@@ -27,9 +24,7 @@ public class CategoriaService {
 	//Aqui a edição so pode ser feito se não ouver outra categoria com o mesmo nome 
 	public void editarCategoria(Long id,String nome) {
 		Categoria categoria=categoriaRepositorio.findById(id).get();
-		if(!ValidadorNome.validarNome(nome)) {
-			throw new IllegalArgumentException("[ERRO] Nome invalido!");
-		}
+		
 		categoria.setNomeCategoria(nome);
 		categoriaRepositorio.save(categoria);
 	}

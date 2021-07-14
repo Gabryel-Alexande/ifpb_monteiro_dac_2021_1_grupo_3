@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 
@@ -24,6 +25,7 @@ public class Autor implements Serializable {
 	private Long idAutor;
 
 	@Column(name = "nome_autor", nullable = false)
+	@Size(min=3,max=50)
 	private String nomeAutor;
 
 	@Column(nullable = false)

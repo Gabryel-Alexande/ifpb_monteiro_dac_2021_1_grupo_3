@@ -8,11 +8,15 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,6 +37,7 @@ public class Usuario implements Serializable,UserDetails{
 	private Long idUsusario;
 	
 	@Column(name = "nome_usuario", nullable = false)
+	@Size(min=3,max=50)
 	private String nomeUsuario;
 	
 	@Column(nullable = false) 
@@ -53,6 +58,9 @@ public class Usuario implements Serializable,UserDetails{
 	@BooleanFlag
 	@Column(nullable = false)
 	private boolean admisnistrador;
+	
+	@ManyToMany
+	private List<Perfil> perfis;
 
 	@OneToMany(cascade = CascadeType.MERGE,mappedBy = "usuario")
 	private List<Pedido> pedidos;
@@ -114,6 +122,7 @@ public class Usuario implements Serializable,UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
+//		return this.perfis;
 		return null;
 	}
 

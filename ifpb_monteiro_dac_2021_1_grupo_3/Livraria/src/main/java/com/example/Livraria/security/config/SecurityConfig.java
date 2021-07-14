@@ -27,14 +27,13 @@ private  AutenticacaoService autenticacaoService;
 protected void configure(HttpSecurity http) throws Exception {
 	// TODO Auto-generated method stub
 	http.authorizeRequests()
-	.antMatchers(HttpMethod.GET,"/livraria/cadastro").permitAll()
-	.antMatchers(HttpMethod.GET,"/livraria/login").permitAll()
-	.antMatchers(HttpMethod.GET,"/livraria/home").permitAll()
-	//.antMatchers(HttpMethod.GET,"/livraria/home/carrinho").hasAuthority("USUARIO LOGADO")
+	.antMatchers(HttpMethod.GET,"/livraria/public/*").permitAll()
+	.antMatchers(HttpMethod.GET,"/livraria/protected/*").hasAuthority("ADMIN")
+	.antMatchers(HttpMethod.POST,"/livraria/public/*").permitAll()
 	.anyRequest()
 	.authenticated()
 	.and()
-	.formLogin().defaultSuccessUrl("/livraria/home");
+	.formLogin().defaultSuccessUrl("/livraria/public/home",true);
 	
 	
 	
@@ -43,7 +42,7 @@ protected void configure(HttpSecurity http) throws Exception {
 
 
 //public static void main(String[] args) {
-//	System.out.println(new BCryptPasswordEncoder().encode("GGGaaa!!8888822"));
+//	System.out.println(new BCryptPasswordEncoder().encode("AAAAaaaa!!!2222"));
 //}
 
 }

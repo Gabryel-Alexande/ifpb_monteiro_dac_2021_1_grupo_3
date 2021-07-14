@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 
@@ -25,6 +26,7 @@ public class Categoria implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long idCategortia;
 	@Column(name = "nome_categoria", nullable = false)
+	@Size(min=3,max=50)
 	private String nomeCategoria;
 	@Column(nullable = false)
 	@ManyToMany
