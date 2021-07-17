@@ -1,9 +1,15 @@
 package com.example.Livraria;
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.example.Livraria.model.Categoria;
+import com.example.Livraria.model.Perfil;
+import com.example.Livraria.model.Usuario;
+import com.example.Livraria.repositorio.UsuarioRepositorio;
 
 
 @SpringBootApplication
@@ -21,12 +27,41 @@ public class LivrariaApplication implements CommandLineRunner {
 //	@Autowired
 //	ControllerEndereco controllerEndereco;
 
+//	@Autowired
+//	UsuarioRepositorio  usuarioR ;
 	public static void main(String[] args) {
 		SpringApplication.run(LivrariaApplication.class, args);
 	}
 
 	public void run(String... args) {
-//		boolean con = true;
+////		
+//		ArrayList<Perfil> perfis = new ArrayList<>();
+//		
+//		Perfil a = new Perfil();
+//		a.setIdPerfil(1l);
+//		a.setNomePerfil("ADMIN");		
+//		
+//		perfis.add(a);
+//		
+//		Usuario u  = usuarioR.getById("2");
+//		
+//		u.setPerfis(perfis);
+//		
+//		usuarioR.save(u);
+//		
+//		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//boolean con = true;
 //
 //		@SuppressWarnings("resource")
 //		Scanner input = new Scanner(System.in);

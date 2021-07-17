@@ -44,7 +44,7 @@ public class ControllerCadastro {
 			System.out.println(e.getMessage());
 		}
 		
-		return"livraria/public/cadastro";		
+		return"/livraria/public/cadastro";		
 		
 		
 	}

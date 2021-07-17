@@ -1,10 +1,273 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Livro Tela</title>
-</head>
-<body>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livraria</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script type="text/javascript">
+        function mudarAoPassar() {
+            document.getElementById("bnt_comprar").style.backgroundColor = "#a50a98";
+            document.getElementById("bnt_comprar").style.color = "white";
+
+        }
+        function mudarAoSair() {
+            document.getElementById("bnt_comprar").style.backgroundColor = "white";
+            document.getElementById("bnt_comprar").style.color = "#a50a98";
+
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            box-sizing: border-box;
+        }
+        
+        .container {
+            border-color: #000000 !important;
+            border-radius: 1%;
+            background: white;
+            margin: 80%;
+        }
+
+        .abc {
+            padding-left: 40px
+        }
+
+        .pqr {
+            padding-right: 70px;
+            padding-top: 14px
+        }
+
+        #imagem {
+            margin-left: 80%;
+        }
+
+        .para {
+            float: right;
+            margin-right: 0;
+            padding-left: 80%;
+            top: 0;
+        }
+
+        .fa-star {
+            color: #a50a98;
+        }
+
+        li {
+            list-style: none;
+            line-height: 50px;
+            color: #000;
+            margin-top: 1px;
+        }
+
+        .col-md-2 {
+            padding-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .col-md-2 a {
+            text-decoration: none;
+            color: #000;
+        }
+
+        .col-md-2.mio {
+            font-size: 12px;
+            padding-top: 7px;
+        }
+
+        .des::after {
+            content: '.';
+            font-size: 0;
+            display: block;
+            border-radius: 20px;
+            height: 6px;
+            width: 55%;
+            background: #a50a98;
+            margin: 14px 0;
+        }
+
+        .r4 {
+            padding-left: 25px
+        }
+
+        .btn-outline-warning {
+            border-radius: 0;
+            border: 2px solid #a50a98;
+            color: #000;
+            font-size: 12px;
+            font-weight: bold;
+            width: 70%;
+        }
+
+        @media screen and (max-width: 620px) {
+            .container {
+                width: 98%;
+                display: flex;
+                flex-flow: column;
+                text-align: center;
+            }
+
+            .des::after {
+                content: '.';
+                font-size: 0;
+                display: block;
+                border-radius: 20px;
+                height: 6px;
+                width: 35%;
+                background: #a50a98;
+                margin: 10px auto;
+            }
+
+            .pqr {
+                text-align: center;
+                margin: 0 30px;
+            }
+
+            .para {
+                text-align: center;
+                padding-left: 90px;
+                padding-top: 10px;
+            }
+
+            .klo {
+                display: flex;
+                text-align: center;
+                margin: 0 auto;
+                margin-right: 40px;
+            }
+        }
+
+        #bnt_comprar {
+            border-color: #a50a98;
+            color: #a50a98 !important;
+        }
+
+        #container_imagem {
+            display: flex;
+            object-fit: contain;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-light " style="background-color: #a50a98;">
+        <nav style="margin-left: 2%;">
+            <img src="http://cdn.onlinewebfonts.com/svg/img_323457.png" class="card-img-top" alt="..."
+                style="width: 40px;">
+            <a class="navbar-brand m-3" href="#" style="color: #000000;">Livraria</a>
+        </nav>
+        <nav class="navbar navbar-light bg" style="display: flex; justify-content: center;">
+            <form class="form-inline">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            </form>
+            <button type="button" class="btn" style="background: white;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
+                    </path>
+                </svg>
+            </button>
+        </nav>
+        <nav style="margin-right: 2%; ">
+            <button type="button" class="btn" style="color: #000000; border: none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                    class="bi bi-cart-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                </svg>
+            </button>
+            <button type="button" class="btn" style="color: #000000; border: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                    class="bi bi-person-circle m-3" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                    <path fill-rule="evenodd"
+                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                </svg>
+            </button>
+        </nav>
+    </nav>
+
+    <div class="container py-4 my-4 mx-auto d-flex flex-column border border-dark">
+        <div class="header">
+            <div class="row r1">
+                <div class="col-md-9 abc">
+                    <h1>Battle Royale</h1>
+                </div>
+                <div class="col-md-3 text-right pqr"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+                        class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+            </div>
+        </div>
+        <div id="container-body" class="container-body mt-4">
+            <div class="row r3">
+                <div class="col-md-5 p-0 klo">
+                    <ul>
+                        <h4 class="md-4">Preço:</h4>
+                        <ul>
+                            <li>R$ 58,99</li>
+                        </ul>
+                        <h4>Autores:</h4>
+                        <ul>
+                            <li>Antonio</li>
+                            <li>Gabryel</li>
+                            <li>Isac</li>
+                        </ul>
+                        <h4 class="mt-4">Editora:</h4>
+                        <ul>
+                            <li>Globo</li>
+                        </ul>
+                    </ul>
+                </div>
+                <div id="conteiner_imagem" class="col-md-7">
+                    <img
+                        src="http://supernovo.net/wp-content/uploads/2014/05/battle-royale-livro.jpg" width="40%"
+                        height="95%"/> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer d-flex flex-column mt-5">
+        <div class="row r4">
+            <div class="col-md-2 myt des"><a href="#">Descrição</a></div>
+            <div class="col-md-2 myt "><a href="#"></a></div>
+            <div class="col-md-2 mio offset-md-4"><a href="#">ADICIONAR AO CARRINHO</a></div>
+            <div class="col-md-2 myt ">
+                <button id="bnt_comprar" type="button" class="btn btn-outline-warning"
+                    onmouseover="javascript:mudarAoPassar();" onmouseout="javascript:mudarAoSair();">
+                    <a href="#">COMPRAR</a>
+                </button>
+            </div>
+
+        </div>
+        <ul>
+            <p>Battle Royale é um thriller de alta octanagem sobre violência juvenil em um mundo distópico,
+                além de ser um
+                dos best-sellers japoneses e mais polêmico entre os romances. Como parte de um programa implacável pelo
+                governo totalitário, os alunos do nono ano são levados para uma pequena ilha isolada e recebem um mapa,
+                comida e várias armas. Forçados a usarem coleiras especiais, que explodem quando eles quebram uma regra,
+                eles devem lutar entre si por três dias até que apenas um “vencedor” sobreviva. O jogo de eliminação se
+                torna a principal atração televisiva de reality shows. Esse clássico japonês é uma alegoria potente do
+                que
+                significa ser jovem e sobreviver no mundo de hoje. O primeiro romance do jornalista Koushun Takami,
+                tornou-se um filme ainda mais notório pelo diretor de 70 anos de idade, Kinji Fukusaku.</p>
+        </ul>
+    </div>
+    </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>

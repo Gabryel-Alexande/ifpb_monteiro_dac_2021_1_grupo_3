@@ -16,7 +16,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Perfil implements GrantedAuthority {
+public class Perfil{
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long idPerfil;
@@ -25,11 +25,7 @@ public class Perfil implements GrantedAuthority {
 	@Column
 	private String nomePerfil;
 
-	@Override
-	public String getAuthority() {
-		// TODO Auto-generated method stub
-		return nomePerfil;
-	}
+	
 	
 	
 

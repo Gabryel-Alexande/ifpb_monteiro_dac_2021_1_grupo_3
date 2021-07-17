@@ -26,8 +26,7 @@ import lombok.Data;
 
 @Entity
 @Data
-
-public class Usuario implements Serializable,UserDetails{
+public class Usuario implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -117,49 +116,6 @@ public class Usuario implements Serializable,UserDetails{
 			}
 		}
 		return null;
-	}
-	//CHANCE DE NULL POINTER PERGUNTAR AO PROFESSOR O QUE FAZER 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-//		return this.perfis;
-		return null;
-	}
-
-	@Override
-	public String getPassword() {
-		// TODO Auto-generated method stub
-		return senha;
-	}
-
-	@Override
-	public String getUsername() {
-		// TODO Auto-generated method stub
-		return email;
-	}
-
-	@Override
-	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return true;
 	}
 	
 }
