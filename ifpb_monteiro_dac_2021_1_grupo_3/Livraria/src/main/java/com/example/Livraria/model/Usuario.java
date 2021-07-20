@@ -57,9 +57,6 @@ public class Usuario implements Serializable{
 	@BooleanFlag
 	@Column(nullable = false)
 	private boolean admisnistrador;
-	
-	@ManyToMany
-	private List<Perfil> perfis;
 
 	@OneToMany(cascade = CascadeType.MERGE,mappedBy = "usuario")
 	private List<Pedido> pedidos;

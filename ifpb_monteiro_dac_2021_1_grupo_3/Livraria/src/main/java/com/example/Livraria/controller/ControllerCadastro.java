@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.Livraria.dto.UsuarioDTO;
 import com.example.Livraria.services.UsuarioService;
 @Controller
-@RequestMapping("/livraria/public")
+@RequestMapping("/livraria")
 public class ControllerCadastro {
 	@Autowired
 	private UsuarioService usuarioService;

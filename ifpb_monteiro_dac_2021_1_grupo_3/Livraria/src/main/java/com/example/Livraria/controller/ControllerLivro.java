@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.Livraria.dto.LivroDTO;
 
 @Controller
-@RequestMapping("/livraria/public")
+@RequestMapping("/livraria")
 public class ControllerLivro {
 	
 	@GetMapping("/livro")

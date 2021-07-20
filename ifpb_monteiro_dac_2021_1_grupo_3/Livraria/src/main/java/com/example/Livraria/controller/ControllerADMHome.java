@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/livraria/protected")
+@RequestMapping("/livraria")
 public class ControllerADMHome {
 	
 	@GetMapping("/homeADM")

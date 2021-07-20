@@ -43,7 +43,7 @@ public class LivroService {
 	 * e uma coleção de id de categoria, autor e imagens que pertencem a este livro
 	 */
 	public void cadastrarLivro(String isbn, String tituloLivro, List<Long> categorias, String descricao,
-			BigDecimal preco, String edicao, Integer anoLancamento, Long idEditora, List<Image> fotosLivro,
+			BigDecimal preco, String edicao, Integer anoLancamento, Long idEditora, String fotoLivro,
 			List<Long> autores, Integer quantidade) throws IllegalArgumentException {
 		List<Categoria> categoriasResgatados = new ArrayList<Categoria>();
 		
@@ -63,7 +63,7 @@ public class LivroService {
 		}
 		Editora editora = editoraRepositorio.findById(idEditora).get();
 		Livro livro = new Livro(isbn, tituloLivro, categoriasResgatados, descricao, preco, edicao, anoLancamento,
-				editora, fotosLivro, null, quantidade);
+				editora, fotoLivro, null, quantidade);
 		List<Autor> autoresRegatados = new ArrayList<Autor>();
 		
 		//parte responsavel por buscar todas os autores requisitados pelo id
@@ -111,15 +111,15 @@ public class LivroService {
 
 	}
 
-	public void adcionarFoto(String isbn, Image imagem) {
+	public void adcionarFoto(String isbn, String imagem) {
 		Livro livro = livroRepositorio.findByIsbn(isbn);
-		livro.adcionarFoto(imagem);
+		livro.setFotoLivro(imagem);
 		livroRepositorio.save(livro);
 	}
 
 	public void removerFoto(String isbn, Image imagem) {
 		Livro livro = livroRepositorio.findByIsbn(isbn);
-		livro.removerFoto(imagem);
+		livro.setFotoLivro(null);
 		livroRepositorio.save(livro);
 	}
 

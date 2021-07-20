@@ -49,63 +49,18 @@
     <div class="conteiner" style="margin-left: 8%; margin-top: 2%;">
 
         <div class="row row-cols-4">
-            <div class="col m-4" style="width: 14rem;display: flex; justify-content: center;">
+            <div class="col m-4" th:each="livro : ${livros}" style="width: 14rem;display: flex; justify-content: center;">
                 <div class="card" style="width: 14rem;display: flex; justify-content:center;">
                     <div style="display: flex; justify-content: center; margin-top: 5%;">
-                        <img src="http://supernovo.net/wp-content/uploads/2014/05/battle-royale-livro.jpg"
+                        <img th:src="${livro.fotoLivro}"
                             class="card-img-top" alt="..." style="width: 185px;">
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">Battle Royale</h5>
-                        <p class="card-text">R$ 58,99</p>
-                        <div style="display: flex; justify-content: center;">
-                            <button type="button" class="btn btn-dark" style="font-size: 11px;">Adicionar ao
-                                Carrinho</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col m-4" style="width: 14rem;display: flex; justify-content: center;">
-                <div class="card" style="width: 14rem;display: flex; justify-content:center;">
-                    <div style="display: flex; justify-content: center; margin-top: 5%;">
-                        <img src="http://supernovo.net/wp-content/uploads/2014/05/battle-royale-livro.jpg"
-                            class="card-img-top" alt="..." style="width: 185px;">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Battle Royale</h5>
-                        <p class="card-text">R$ 58,99</p>
-                        <div style="display: flex; justify-content: center;">
-                            <button type="button" class="btn btn-dark" style="font-size: 11px;">Adicionar ao
-                                Carrinho</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col m-4" style="width: 14rem;display: flex; justify-content: center;">
-                <div class="card" style="width: 14rem;display: flex; justify-content:center;">
-                    <div style="display: flex; justify-content: center; margin-top: 5%;">
-                        <img src="http://supernovo.net/wp-content/uploads/2014/05/battle-royale-livro.jpg"
-                            class="card-img-top" alt="..." style="width: 185px;">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Battle Royale</h5>
-                        <p class="card-text">R$ 58,99</p>
-                        <div style="display: flex; justify-content: center;">
-                            <button type="button" class="btn btn-dark" style="font-size: 11px;">Adicionar ao
-                                Carrinho</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col m-4" style="width: 14rem;display: flex; justify-content: center;">
-                <div class="card" style="width: 14rem;display: flex; justify-content:center;">
-                    <div style="display: flex; justify-content: center; margin-top: 5%;">
-                        <img src="http://supernovo.net/wp-content/uploads/2014/05/battle-royale-livro.jpg"
-                            class="card-img-top" alt="..." style="width: 185px;">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Battle Royale</h5>
-                        <p class="card-text">R$ 58,99</p>
+                        <h5 class="card-title" th:text="${livro.tituloLivro}">Battle Royale</h5>
+                        <p class="card-text" >R$:
+                            <span th:text="${livro.preco}"> 
+                            58,99
+                            </span> </p>
                         <div style="display: flex; justify-content: center;">
                             <button type="button" class="btn btn-dark" style="font-size: 11px;">Adicionar ao
                                 Carrinho</button>

@@ -1,29 +1,38 @@
 package com.example.Livraria;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.example.Livraria.exeception.LoginException;
+import com.example.Livraria.model.Autor;
 import com.example.Livraria.model.Categoria;
-import com.example.Livraria.model.Perfil;
+import com.example.Livraria.model.Editora;
 import com.example.Livraria.model.Usuario;
 import com.example.Livraria.repositorio.UsuarioRepositorio;
+import com.example.Livraria.services.AutorService;
+import com.example.Livraria.services.CategoriaService;
+import com.example.Livraria.services.EditoraService;
+import com.example.Livraria.services.LivroService;
 
 
 @SpringBootApplication
 public class LivrariaApplication implements CommandLineRunner {
 //	@Autowired
 //	ControllerUsuario controllerUsuario;
-//	@Autowired
-//	ControllerAutor controllerAutor;
-//	@Autowired
-//	ControllerCategoria controllerCategoria;
-//	@Autowired
-//	ControllerEditora controllerEditora;
-//	@Autowired
-//	ControllerLivro controllerLivro;
+	@Autowired
+	AutorService autorService;
+	@Autowired
+	CategoriaService categoriaService;
+	@Autowired
+	EditoraService editoraService;
+	@Autowired
+	LivroService livroService;
+	
 //	@Autowired
 //	ControllerEndereco controllerEndereco;
 
@@ -50,6 +59,28 @@ public class LivrariaApplication implements CommandLineRunner {
 //		usuarioR.save(u);
 //		
 //		
+		
+//		categoriaService.criarCategoria("Terror");
+//		editoraService.cadastrarEditora("Sopa de Letrinhas");
+//		try {
+//			autorService.cadastrarAutor("Bras Cubas","Bras@gmail.com","GGGGaaaa!!!!111111");
+//		} catch (LoginException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+//		List<Long>editora =new ArrayList<>();
+//		editora.add(1l);
+//		
+//		List<Long> autor = new ArrayList<Long>();
+//		autor.add(3l);
+//		
+//		livroService.cadastrarLivro("999999","Livro de Letrinhas ", editora , "Bla bla bla ",new BigDecimal(59.99),"Ed- 9",2000, 2l, 
+//				"https://cdn.pixabay.com/photo/2013/07/12/15/20/author-149694_640.png", 
+//				autor, 5);
+//		
+
+		
 		
 		
 		

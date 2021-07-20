@@ -55,8 +55,8 @@ public class Livro implements Serializable {
 	@JoinColumn(name = "id_editora")
 	private Editora editora;
 
-	@Transient
-	private List<Image> fotosLivro;
+	@Column(nullable = false)
+	private String fotoLivro;
 
 	@ManyToMany(cascade = { CascadeType.MERGE })
 	@JoinTable(name = "livro_autor", joinColumns = @JoinColumn(name = "idLivro"), inverseJoinColumns = @JoinColumn(name = "idAutor"))
@@ -70,7 +70,7 @@ public class Livro implements Serializable {
 	}
 
 	public Livro(String isbn, String tituloLivro, List<Categoria> categorias, String descricao, BigDecimal preco,
-			String edicao, Integer anoLancamento, Editora editora, List<Image> fotosLivro, List<Autor> autores,
+			String edicao, Integer anoLancamento, Editora editora, String fotoLivro, List<Autor> autores,
 			Integer quantidadeEstoque) {
 		this.isbn = isbn;
 		this.tituloLivro = tituloLivro;
@@ -80,7 +80,7 @@ public class Livro implements Serializable {
 		this.edicao = edicao;
 		this.anoLancamento = anoLancamento;
 		this.editora = editora;
-		this.fotosLivro = fotosLivro;
+		this.fotoLivro = fotoLivro;
 		this.quantidadeEstoque = quantidadeEstoque;
 		this.autores = autores;
 	}
@@ -101,14 +101,6 @@ public class Livro implements Serializable {
 
 	public void adcionarAutor(Autor autor) {
 		autores.add(autor);
-	}
-
-	public void adcionarFoto(Image imagem) {
-		fotosLivro.add(imagem);
-	}
-
-	public void removerFoto(Image imagem) {
-		fotosLivro.remove(imagem);
 	}
 
 	public void adcionarCategoria(Categoria categoria) {

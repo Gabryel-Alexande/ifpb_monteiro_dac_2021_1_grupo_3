@@ -14,7 +14,7 @@ import com.example.Livraria.services.UsuarioService;
 import javassist.NotFoundException;
 
 @Controller
-@RequestMapping("/livraria/public")
+@RequestMapping("/livraria")
 public class ControllerLogin {
 	@Autowired
 	UsuarioService usuarioService;
