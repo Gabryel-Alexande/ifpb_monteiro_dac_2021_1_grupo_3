@@ -27,21 +27,13 @@ public class Autor implements Serializable {
 	@Column(name = "nome_autor", nullable = false)
 	@Size(min=3,max=50)
 	private String nomeAutor;
-
-	@Column(nullable = false)
-	private String email;
-
-	@Column(nullable = false)
-	private String senha;
-
+	
 	@ManyToMany(mappedBy = "autores")
 	private List<Livro> lirvosPublicados;
 
-	public Autor(String nomeAutor, String email, String senha) {
+	public Autor(String nomeAutor) {
 		super();
 		this.nomeAutor = nomeAutor;
-		this.email = email;
-		this.senha = senha;
 
 	}
 
@@ -64,6 +56,6 @@ public class Autor implements Serializable {
 	}
 
 	public String toString() {
-		return "Id: " + idAutor + "\nNome do autor: " + nomeAutor + "\nEmail: " + email + "\nSenha: " + senha;
+		return "Id: " + idAutor + "\nNome do autor: " + nomeAutor ;
 	}
 }

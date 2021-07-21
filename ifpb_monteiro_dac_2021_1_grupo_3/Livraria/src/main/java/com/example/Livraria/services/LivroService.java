@@ -72,8 +72,6 @@ public class LivroService {
 			Autor autor = autorRepositorio.findById(autorDaVez).get();
 			if (autor != null) {
 				autoresRegatados.add(autor);
-				enviadorDeEmail.enviarEmail(autor.getEmail(), "Novo livro cadastrado.",
-						"Você foi adcionado como autor do livro " + livro.getTituloLivro() + "!");
 			}
 		}
 		livro.setAutores(autoresRegatados);

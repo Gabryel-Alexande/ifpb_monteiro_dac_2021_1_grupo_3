@@ -20,17 +20,9 @@ public class AutorService {
 	private EnviadorDeEmail enviadorDeEmail;
 
 	//Cadastro de Autor só pode acontecer se não ouver outro autor com o mesmo nome ou mesmo email
-	public void cadastrarAutor(String nomeAutor, String email, String senha) throws LoginException {
-		Autor autor = new Autor(nomeAutor, email, senha);
-	
-		if (!AutenticacaoLogin.validarLogin(email)) {
-			throw new LoginException("[ERRO] Email invalido!");
-		} else if (!AutenticacaoLogin.validarrSenha(senha)) {
-			throw new LoginException("[ERRO] Senha fraca!\nPor favor digite uma senha melhor!");
-		}
-		enviadorDeEmail.enviarEmail(email, "Sua conta foi criada com sucesso!", "Seja bem vindo a nossa loja "
-				+ nomeAutor
-				+ "\nAqui você terá liberdade de publicar e vender seus livros.\nSinta-se avontade para nos catactar.\nObrigado Por nos escolher.");
+	public void cadastrarAutor(String nomeAutor) throws LoginException {
+		Autor autor = new Autor(nomeAutor);
+		
 		autorRepositorio.save(autor);
 	}
 
@@ -46,10 +38,7 @@ public class AutorService {
 			throw new NoSuchElementException("[ERRO] ID invalido 1");
 		}
 		autor.setNomeAutor(nomeAutor);
-		if (!AutenticacaoLogin.validarrSenha(senha)) {
-			throw new LoginException("[ERRO] Senha fraca!\nPor favor digite uma senha melhor!");
-		}
-		autor.setSenha(senha);
+		
 		autorRepositorio.save(autor);
 	
 	}
