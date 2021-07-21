@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -183,8 +184,17 @@ public class LivroService {
 		}
 		return livros;
 	}
-	public Livro bucarLivrosPorId(String isbn){
+	public Livro bucarLivrosPorIsbn(String isbn){
 		return livroRepositorio.findByIsbn(isbn);
+	}
+	public Livro bucarLivrosPorId(Long id){
+		Optional<Livro> livro = livroRepositorio.findById(id);
+		if(livro.isPresent()) {
+			return livro.get();
+			
+		}
+		return null;
+		
 	}
 	
 	/*

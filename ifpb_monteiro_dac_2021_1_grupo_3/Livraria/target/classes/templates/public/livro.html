@@ -141,15 +141,25 @@
             }
         }
 
+
         #bnt_comprar {
             border-color: #a50a98;
             color: #a50a98 !important;
         }
 
         #container_imagem {
-            display: flex;
             object-fit: contain;
+            display: flex;
+            width: 50%;
+            height: 50%;
+            justify-content: center;
+            
         }
+        .object-fit {
+           object-fit:cover; 
+        }
+
+
     </style>
 </head>
 
@@ -196,7 +206,8 @@
         <div class="header">
             <div class="row r1">
                 <div class="col-md-9 abc">
-                    <h1>Battle Royale</h1>
+                
+                    <h1 th:text="${livro.tituloLivro}">Battle Royale</h1>
                 </div>
                 <div class="col-md-3 text-right pqr"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
                         class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
@@ -211,10 +222,9 @@
                             <li>R$ 58,99</li>
                         </ul>
                         <h4>Autores:</h4>
-                        <ul>
-                            <li>Antonio</li>
-                            <li>Gabryel</li>
-                            <li>Isac</li>
+                        <ul th:each="autor : ${livro.autores}">
+                            <li th:text="${autor.nomeAutor}"></li>
+            
                         </ul>
                         <h4 class="mt-4">Editora:</h4>
                         <ul>
@@ -224,8 +234,9 @@
                 </div>
                 <div id="conteiner_imagem" class="col-md-7">
                     <img
-                        src="http://supernovo.net/wp-content/uploads/2014/05/battle-royale-livro.jpg" width="40%"
-                        height="95%"/> 
+                        class ="object-fit rounded float-center "margin-rigth-ml-5
+                        th:src="${livro.fotoLivro}"
+                        /> 
                 </div>
             </div>
         </div>
@@ -244,16 +255,7 @@
 
         </div>
         <ul>
-            <p>Battle Royale é um thriller de alta octanagem sobre violência juvenil em um mundo distópico,
-                além de ser um
-                dos best-sellers japoneses e mais polêmico entre os romances. Como parte de um programa implacável pelo
-                governo totalitário, os alunos do nono ano são levados para uma pequena ilha isolada e recebem um mapa,
-                comida e várias armas. Forçados a usarem coleiras especiais, que explodem quando eles quebram uma regra,
-                eles devem lutar entre si por três dias até que apenas um “vencedor” sobreviva. O jogo de eliminação se
-                torna a principal atração televisiva de reality shows. Esse clássico japonês é uma alegoria potente do
-                que
-                significa ser jovem e sobreviver no mundo de hoje. O primeiro romance do jornalista Koushun Takami,
-                tornou-se um filme ainda mais notório pelo diretor de 70 anos de idade, Kinji Fukusaku.</p>
+            <p th:text="${livro.descricao}"> </p>
         </ul>
     </div>
     </div>
