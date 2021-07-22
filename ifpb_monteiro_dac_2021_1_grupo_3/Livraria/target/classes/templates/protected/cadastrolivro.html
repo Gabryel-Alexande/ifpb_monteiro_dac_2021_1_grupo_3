@@ -18,7 +18,7 @@
         }
     </script>
     <style>
-        #bnt_salvar {
+        #bnt_salvar, #bnt_excluir {
             background-color: #a50a98;
             color: white;
             border-color: #a50a98;
@@ -30,6 +30,17 @@
 
         select {
             overflow: auto;
+        }
+
+        .isbn {
+            display: flex;
+            justify-content: left;
+        }
+
+        #bnt_excluir {
+
+        margin-left: 20px;
+
         }
     </style>
 </head>
@@ -85,7 +96,17 @@
     <div class="container-fluid my-4">
 
         <form method="get" class="form-vertical  js-form-loading">
-
+            <label for="input-produto-nome">ISBN</label>
+            <div class="isbn col-sm-6">
+                <div class="form-group">
+                    <input id="input-produto-isbn" type="text" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <button id="bnt_excluir" class="btn  btn-primary" type="submit"
+                        onmouseover="javascript:mudarAoPassar();" onmouseout="javascript:mudarAoSair();"
+                        onclick="validarDados();">Excluir</button>
+                </div>
+            </div>
             <div class="form-group">
                 <label for="input-produto-nome">Titulo</label>
                 <input id="input-produto-nome" type="text" class="form-control" />
@@ -147,7 +168,7 @@
                         <option value="1">One</option>
                         <option value="2">Two</option>
                         <option value="3">Three</option>
-                    </select>            
+                    </select>
                 </div>
                 <div class="form-group">
                     <label class="custom-file-label" for="customInput">Selecione as imagens</label>
