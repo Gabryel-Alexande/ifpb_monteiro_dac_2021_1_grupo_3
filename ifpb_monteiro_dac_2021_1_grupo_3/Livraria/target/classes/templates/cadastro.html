@@ -76,7 +76,7 @@
 
 <body>
     <div id="cadastro" class="card">
-        <form  class="form-inline" method="post" th:action="@{/livraria/cadastro}" th:object="${usuarioDTO}">
+        <form  class="form-inline" method="post" th:action="@{/cadastro}" th:object="${usuarioDTO}">
             <h1>Cadastro</h1>
 
             <div>
@@ -115,7 +115,7 @@
 
             <p class="link" id="sair">
                 Já tem conta?
-                <a href="login"> Ir para Login </a>
+                <a th:href="@{/login}"> Ir para Login </a>
             </p>
         </form>
     </div>

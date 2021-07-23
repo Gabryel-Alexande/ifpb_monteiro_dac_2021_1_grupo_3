@@ -34,8 +34,6 @@ public class UsuarioDTO {
 	@JsonDeserialize(using = LocalDateDeserializer.class)
 	private LocalDate data;
 
-	private boolean admisnistrador;
-
 	public Usuario parser() {
 
 		Usuario usuario = new Usuario();

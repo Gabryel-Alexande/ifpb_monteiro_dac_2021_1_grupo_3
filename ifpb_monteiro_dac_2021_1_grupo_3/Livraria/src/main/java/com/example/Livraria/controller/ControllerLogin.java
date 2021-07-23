@@ -14,7 +14,6 @@ import com.example.Livraria.services.UsuarioService;
 import javassist.NotFoundException;
 
 @Controller
-@RequestMapping("/livraria")
 public class ControllerLogin {
 	@Autowired
 	UsuarioService usuarioService;
@@ -22,20 +21,20 @@ public class ControllerLogin {
 	@GetMapping("/login")
 	public String login(UsuarioDTO usuario, Model modelo) {
 
-		return "/public/login";
+		return "/login";
 	}
 
-	@PostMapping("/login")
-	public String logar(@ModelAttribute UsuarioDTO usuario) {
-
-		try {
-			usuarioService.logarNoSistema(usuario);
-		} catch (NotFoundException e) {
-			return "livraria/public/login";
-		}
-
-		return "/public/home";
-
-	}
+//	@PostMapping("/login")
+//	public String logar(@ModelAttribute UsuarioDTO usuario) {
+//
+//		try {
+//			usuarioService.logarNoSistema(usuario);
+//		} catch (NotFoundException e) {
+//			return "livraria/public/login";
+//		}
+//
+//		return "/public/home";
+//
+//	}
 
 }

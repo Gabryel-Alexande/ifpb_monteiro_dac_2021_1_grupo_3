@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.Livraria.dto.UsuarioDTO;
 import com.example.Livraria.services.UsuarioService;
 @Controller
-@RequestMapping("/livraria")
 public class ControllerCadastro {
 	@Autowired
 	private UsuarioService usuarioService;
@@ -25,7 +24,7 @@ public class ControllerCadastro {
 //		modelo.addAttribute("usuario", new UsuarioDTO());
 		
 		
-		return "/public/cadastro";
+		return "/cadastro";
 	}
 	
 	
@@ -33,18 +32,18 @@ public class ControllerCadastro {
 	public String cadastrar(@Valid  UsuarioDTO usuarioDTO,BindingResult result , Model modelo ){
 
 		if(result.hasErrors()) {
-			return "/public/cadastro";
+			return "redirect:/cadastro";
 		}
 		
 		try{
 			usuarioService.cadastrarUsuario(usuarioDTO);
-			return "/livraria/public/login";
+			return "redirect:/login";
 		
 		} catch (Exception e){
 			System.out.println(e.getMessage());
 		}
 		
-		return"/livraria/public/cadastro";		
+		return"redirect:/cadastro";		
 		
 		
 	}

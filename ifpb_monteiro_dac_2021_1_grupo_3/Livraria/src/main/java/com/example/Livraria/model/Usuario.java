@@ -26,7 +26,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Usuario implements Serializable{
+public class Usuario implements Serializable,UserDetails{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -54,9 +54,9 @@ public class Usuario implements Serializable{
 	@Column(nullable = false)
 	private LocalDate dataDeNascimento;
 	
-	@BooleanFlag
-	@Column(nullable = false)
-	private boolean admisnistrador;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	private List<Autoridades>autoridades;
 
 	@OneToMany(cascade = CascadeType.MERGE,mappedBy = "usuario")
 	private List<Pedido> pedidos;
@@ -72,7 +72,6 @@ public class Usuario implements Serializable{
 		this.email = email;
 		this.senha = senha;
 		this.cpf = cpf;
-		this.admisnistrador = admisnistrador;
 		this.dataDeNascimento=anoDeNascimento;
 	}
 
@@ -88,7 +87,7 @@ public class Usuario implements Serializable{
 	
 	public String toString() {
 
-		return "Id: "+idUsusario+"\nNome: "+this.nomeUsuario+"\nCpf: "+this.cpf+"\nEmail: "+this.email+"\nÉ ADM ? "+this.admisnistrador;
+		return "Id: "+idUsusario+"\nNome: "+this.nomeUsuario+"\nCpf: "+this.cpf+"\nEmail: "+this.email;
 	}
 
 	public void adcionarPedido(Pedido pedido) {
@@ -113,6 +112,48 @@ public class Usuario implements Serializable{
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return this.autoridades;
+	}
+
+	@Override
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return this.senha;
+	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return this.email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 	
 }

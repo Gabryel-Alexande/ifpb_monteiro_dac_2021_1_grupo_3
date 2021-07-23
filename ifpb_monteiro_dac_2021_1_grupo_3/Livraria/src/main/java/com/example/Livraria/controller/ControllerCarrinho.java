@@ -11,7 +11,7 @@ public class ControllerCarrinho {
 	
 	@GetMapping("/carrinho")
 	public String solicitarCarrinho() {
-		return "/public/carrinho";
+		return "/protected/carrinho";
 		
 	}
 	

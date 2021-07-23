@@ -3,6 +3,7 @@ package com.example.Livraria.services;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.example.Livraria.dto.UsuarioDTO;
 import com.example.Livraria.exeception.CPFException;
 import com.example.Livraria.exeception.LoginException;
+import com.example.Livraria.model.Autoridades;
 import com.example.Livraria.model.Endereco;
 import com.example.Livraria.model.EstadoPedido;
 import com.example.Livraria.model.ItemPedido;
@@ -51,19 +53,30 @@ public class UsuarioService implements Serializable {
 
 	public void cadastrarUsuario(UsuarioDTO usuarioDTO) throws CPFException, LoginException {
 		Usuario usuario = usuarioDTO.parser();
-
+		List<Autoridades>autoridades = new ArrayList<>();
+		
+		
 		if (usuarioRepositorio.findByEmail(usuario.getEmail()) != null) {
 			throw new LoginException("[ERRO] Email já cadastrado");
 		}
+		
+		
 		validarDados(usuario.getCpf(), usuario.getEmail(), usuario.getSenha(), usuario.getDataDeNascimento());
 		
 		
-		//usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
+		usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
 		
+		Autoridades auto = new Autoridades();
+		
+		auto.setId(Autoridades.CLIENTE);
+		autoridades.add(auto);
+		usuario.setAutoridades(autoridades);
 
 		enviadorDeEmail.enviarEmail(usuario.getEmail(), "Sua conta foi criada com sucesso!",
 				"Seja bem vindo a nossa loja " + usuario.getNomeUsuario()
 						+ "\nAqui temos uma grande variedade de livros.\nSinta-se a vontade para nos contactar.\nObrigado por nos escolher.");
+		
+		
 		usuarioRepositorio.save(usuario);
 	}
 
@@ -74,7 +87,6 @@ public class UsuarioService implements Serializable {
 		validarDados(cpf, email, senha, anoDeNascimento);
 		usuario.setCpf(cpf);
 		usuario.setSenha(senha);
-		usuario.setAdmisnistrador(admisnistrador);
 		usuario.setNomeUsuario(nomeUsusario);
 		usuario.setDataDeNascimento(anoDeNascimento);
 		usuarioRepositorio.save(usuario);
