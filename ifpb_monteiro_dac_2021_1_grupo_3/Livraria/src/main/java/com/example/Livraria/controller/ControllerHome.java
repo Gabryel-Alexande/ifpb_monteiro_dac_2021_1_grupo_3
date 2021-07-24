@@ -15,7 +15,7 @@ import com.example.Livraria.model.Livro;
 import com.example.Livraria.services.LivroService;
 
 @Controller
-@RequestMapping("/livraria")
+@RequestMapping("/livraria/publico")
 public class ControllerHome {
 
 	@Autowired
@@ -41,6 +41,8 @@ public class ControllerHome {
 		return "/public/livro";
 
 	}
+	
+	
 
 	private List<LivroDTO> listarLivrosDTO(List<Livro> livros) {
 

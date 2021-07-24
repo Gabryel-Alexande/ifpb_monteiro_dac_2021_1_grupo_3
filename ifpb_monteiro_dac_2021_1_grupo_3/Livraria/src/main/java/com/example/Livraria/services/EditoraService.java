@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.Livraria.dto.EditoraDTO;
 import com.example.Livraria.model.Editora;
 import com.example.Livraria.repositorio.EditoraRepositorio;
 @Service
@@ -12,9 +13,10 @@ public class EditoraService {
 	@Autowired
 	private EditoraRepositorio editoraRepositorio;
 	
-	public void cadastrarEditora(String nomeEditora) {
+	public void cadastrarEditora(EditoraDTO editoraDTO) {
 
-		Editora editora = new Editora(nomeEditora);
+		
+		Editora editora = editoraDTO.parser();
 		editoraRepositorio.save(editora);
 	}
 	

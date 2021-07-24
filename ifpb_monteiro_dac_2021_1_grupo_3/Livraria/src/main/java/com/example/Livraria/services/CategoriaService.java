@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.Livraria.dto.CategoriaDTO;
 import com.example.Livraria.model.Categoria;
 import com.example.Livraria.repositorio.CategoriaRepositorio;
 
@@ -16,8 +17,9 @@ public class CategoriaService {
 	private CategoriaRepositorio categoriaRepositorio;
 	
 	//Aqui o cadastro so pode ser feito se não ouver outra categoria com o mesmo nome 
-	public void criarCategoria(String nome) {
-		Categoria categoria= new Categoria(nome);
+	
+	public void criarCategoria(CategoriaDTO cat) {
+		Categoria categoria= cat.parser();
 		categoriaRepositorio.save(categoria);
 	}
 	

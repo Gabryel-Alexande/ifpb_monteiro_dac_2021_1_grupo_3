@@ -56,12 +56,13 @@
         #container-bnt-cliente {
             margin-left: 72%;
         }
-        #container-op{
+
+        #container-op {
             display: flex;
             justify-content: center;
         }
-        
-        .col-sm-5{
+
+        .col-sm-5 {
             margin: 20px;
             display: flex;
             justify-content: center;
@@ -109,30 +110,36 @@
     </nav>
 
     <div id="container-profile" class="m-4">
-        <h2>Você precisa logar ou criar uma conta</h2>
-        <h2>para acessar estas opções</h2>
-        <div id="container-login">
-            <button type="submit" class="btn botao">Fazer Login</button>
-            <button type="submit" class="btn botao">Fazer cadastro</button>
+        <div sec:authorize="!isAuthenticated()">
+            <h2>Você precisa logar ou criar uma conta</h2>
+            <h2>para acessar estas opções</h2>
+            <div id="container-login">
+                <button type="submit" class="btn botao">Fazer Login</button>
+                <button type="submit" class="btn botao">Fazer cadastro</button>
+            </div>
         </div>
-        <h1>Nome do cliente</h1>
-        <div id="detalhes">
-            <span id="topico">Email</span>
-            <span id="detalhe">exemplo@gmail.com</span>
-            <span id="topico">Data de Nascimento</span>
-            <span id="detalhe">11/11/1111</span>
-            <div id="container-bnt-cliente">
-                <button type="submit" class="btn botao">Pedidos</button>
-                <button type="submit" class="btn botao">Editar</button>
-                <button type="submit" class="btn botao">Sair</button>
+        <div sec:authorize="isAuthenticated()">
+            <h1>Nome do cliente</h1>
+            <div id="detalhes">
+                <span id="topico">Email</span>
+                <span id="detalhe">exemplo@gmail.com</span>
+                <span id="topico">Data de Nascimento</span>
+                <span id="detalhe">11/11/1111</span>
+                <div id="container-bnt-cliente">
+                    <button type="submit" class="btn botao">Pedidos</button>
+                    <button type="submit" class="btn botao">Editar</button>
+                    <button type="submit" class="btn botao">Sair</button>
+                </div>
             </div>
         </div>
     </div>
-    <div id="container-op" class="row">
-        <button class="col-sm-5 btn btn-outline-secondary">Gerenciar Livro</button>
-        <button class="col-sm-5 btn btn-outline-secondary">Gerenciar Editora</button>
-        <button class="col-sm-5 btn btn-outline-secondary">Gerenciar Autor</button>
-        <button class="col-sm-5 btn btn-outline-secondary">Gerenciar Categoria</button>
+    <div sec:authorize="hasRole('ADMINISTRADOR')">
+        <div id="container-op" class="row">
+            <button class="col-sm-5 btn btn-outline-secondary">Gerenciar Livro</button>
+            <button class="col-sm-5 btn btn-outline-secondary">Gerenciar Editora</button>
+            <button class="col-sm-5 btn btn-outline-secondary">Gerenciar Autor</button>
+            <button class="col-sm-5 btn btn-outline-secondary">Gerenciar Categoria</button>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.Livraria.dto.AutorDTO;
 import com.example.Livraria.exeception.LoginException;
 import com.example.Livraria.model.Autor;
 import com.example.Livraria.repositorio.AutorRepositorio;
@@ -16,12 +17,11 @@ import com.example.Livraria.utilitarios.EnviadorDeEmail;
 public class AutorService {
 	@Autowired
 	private AutorRepositorio autorRepositorio;
-	@Autowired
-	private EnviadorDeEmail enviadorDeEmail;
 
 	//Cadastro de Autor só pode acontecer se não ouver outro autor com o mesmo nome ou mesmo email
-	public void cadastrarAutor(String nomeAutor) throws LoginException {
-		Autor autor = new Autor(nomeAutor);
+	public void cadastrarAutor(AutorDTO autorDto) throws LoginException {
+		Autor autor = autorDto.parser();
+		
 		
 		autorRepositorio.save(autor);
 	}
@@ -29,7 +29,7 @@ public class AutorService {
 	// Aqui decidimos que o usuario não podera alterar o email, visto que isso pode
 	// trazer problemas para
 	// sua conta
-	public void alterarAutor(Long id, String nomeAutor, String senha) throws LoginException, NoSuchElementException {
+	public void alterarAutor(Long id, String nomeAutor) throws LoginException, NoSuchElementException {
 		Autor autor = null;
 	
 		try {

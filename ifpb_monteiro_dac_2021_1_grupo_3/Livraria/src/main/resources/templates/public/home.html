@@ -65,14 +65,14 @@
         <div class="row row-cols-4">
             <div class="col m-4" th:each="livro : ${livros}" style="width: 14rem;display: flex; justify-content: center;">
                 <div class="card" style="width: 14rem;display: flex; justify-content:center;">
-                    <a th:href="@{/livraria/home/livro?(id=${livro.idLivro})}">
+                    <a th:href="@{/livraria/publico/home/livro?(id=${livro.idLivro})}">
                         <div style="display: flex; justify-content: center; margin-top: 5%;">
                              <img th:src="${livro.fotoLivro}"
                                  class="card-img-top" alt="..." style="width: 185px;">
                         </div>
                     </a>
                     <div class="card-body">
-                        <a th:href="@{/livraria/home/livro?(id=${livro.idLivro})}" class="tituloAncora">
+                        <a th:href="@{/livraria/publico/home/livro?(id=${livro.idLivro})}" class="tituloAncora">
                         <h5 class="card-title" th:text="${livro.tituloLivro}"></h5>
                         </a>
                         <p class="card-text" >R$:

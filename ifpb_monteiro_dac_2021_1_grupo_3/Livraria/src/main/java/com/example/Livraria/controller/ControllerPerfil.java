@@ -1,18 +1,17 @@
 package com.example.Livraria.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/livraria")
-public class ControllerADMHome {
+@RequestMapping("/livraria/publico")
+public class ControllerPerfil {
 	
-	@GetMapping("/homeADM")
-	public String solicitarHomeADM(Model modelo) {
+	@GetMapping("/perfil")
+	public String solicitarPerfil() {
 		
-		return "/protected/homeADM";
+		return "/public/perfil_usuario";
 		
 	}
 

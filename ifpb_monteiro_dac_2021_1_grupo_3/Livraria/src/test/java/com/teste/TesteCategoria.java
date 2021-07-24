@@ -37,7 +37,6 @@ class TesteCategoria {
 	@Test(expected = IllegalArgumentException.class)
 	public void testeCadastroCategoria() {
 		//assertThrows(categoriaService.criarCategoria(""),()->IllegalArgumentException.class);
-		categoriaService.criarCategoria("a");
 		
 		
 	}
