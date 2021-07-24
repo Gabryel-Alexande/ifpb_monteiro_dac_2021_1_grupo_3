@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org/">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script type="text/javascript">
+        function mudarAoPassar() {
+            document.getElementById("bnt_salvar").style.backgroundColor = "white";
+            document.getElementById("bnt_salvar").style.color = "#a50a98";
+        }
+        function mudarAoSair() {
+            document.getElementById("bnt_salvar").style.backgroundColor = "#a50a98";
+            document.getElementById("bnt_salvar").style.color = "white";
+        }
+    </script>
+    <style>
+        span {
+            background-color: rgba(0, 0, 0, 0.178);
+            border-radius: 5px;
+        }
+
+        .detalhe{
+            margin-right: 1%;
+        }
+
+        .container {
+            display: flex;
+            justify-content: left;
+            margin-top: 3%;
+        }
+
+        .detalhes {
+            margin-left: 60%;
+            text-align: right;
+        }
+        .detalhes-produto{
+            margin-left: 68%;
+            text-align: right;
+        }
+        .container-enederco {
+            margin-top: 3%;
+            display: flex;
+            justify-content: right;
+            margin-left: 2%;
+            width: 96%;
+        }
+
+        .add {
+            margin-bottom: 4%;
+            margin-left: 4%;
+            margin-top: 3%;
+            width: 90%;
+        }
+
+        .finalizar-pedido {
+            margin-bottom: 4%;
+            margin-right: 3%;
+            width: 90%;
+        }
+
+        .total {
+            margin-top: 2%;
+            margin-left: 3%;
+            display: flex;
+            justify-content: left;
+        }
+
+        .valor {
+            margin-left: 80%;
+        }
+
+        .finalizar-pedido {
+            margin-left: 2%;
+            margin-top: 1%;
+            width: 95%;
+        }
+        .preco{  
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-light " style="background-color: #a50a98;">
+        <nav style="margin-left: 2%;">
+            <img src="http://cdn.onlinewebfonts.com/svg/img_323457.png" class="card-img-top" alt="..."
+                style="width: 40px;">
+            <a class="navbar-brand m-3" href="#" style="color: #000000;">Livraria</a>
+        </nav>
+        <nav class="navbar navbar-light bg" style="display: flex; justify-content: center;">
+            <form class="form-inline">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            </form>
+            <button type="button" class="btn" style="background: white;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
+                    </path>
+                </svg>
+            </button>
+        </nav>
+        <nav style="margin-right: 2%; ">
+            <button type="button" class="btn" style="color: #000000; border: none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                    class="bi bi-cart-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                </svg>
+            </button>
+            <button type="button" class="btn" style="color: #000000; border: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                    class="bi bi-person-circle m-3" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                    <path fill-rule="evenodd"
+                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                </svg>
+            </button>
+        </nav>
+
+    </nav>
+
+    <div class="row container-enederco">
+
+        <span class="col detalhe">
+            <div class="container">
+                <div>
+                    <h6 class="detalhe">Bairro:</h6>
+                    <h6 class="detalhe">Rua:</h6>
+                    <h6 class="detalhe">CEP:</h6>
+                    <h6 class="detalhe">Número:</h6>
+                    <h6 class="detalhe">Complemento:</h6>
+                    <h6 class="detalhe">Cidade:</h6>
+                    <h6 class="detalhe">Estado:</h6>
+                    <h6 class="detalhe">Pais:</h6>
+                </div>
+                <div class="detalhes">
+
+                    <div class="detalhe-endereco">Centro</div>
+                    <div class="detalhe-endereco">AV: Rua Projetada</div>
+                    <div class="detalhe-endereco">66666-2222</div>
+                    <div class="detalhe-endereco">11</div>
+                    <div class="detalhe-endereco">NA</div>
+                    <div class="detalhe-endereco">Jabam</div>
+                    <div class="detalhe-endereco">Lisco</div>
+                    <div class="detalhe-endereco">Shinakata</div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-dark add">Adcionar endereço</button>
+        </span>
+        <span class="col detalhe-produto">
+            <div class="container">
+                <div>
+                    <h5 class="detalhe">Produto:</h5><br>
+                    <h5 class="detalhe">Frete:</h5><br>
+                    <h5 class="detalhe">Cupom:</h5><br><br>
+                    <h5 class="detalhe">Subtotal:</h5>
+                </div>
+                <div class="detalhes-produto">
+                    <div class="detalhe-preco preco">R$ 353,94</div><br>
+                    <div class="detalhe-preco preco">R$ 0</div><br>
+                    <div class="detalhe-preco preco">R$ 0</div><br><br>
+                    <div class="detalhe-preco preco">R$ 353,94</div>
+                    <div class="detalhe-preco preco text-danger">-R$ 0</div>
+                </div>
+            </div>
+    </div>
+    <div class="total">
+        <h3>Total: </h3>
+        <h3 class="valor">R$ 353,94 </h3>
+    </div>
+    <button type="button" class="btn btn-dark finalizar-pedido">Adcionar endereço</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+    </form>
+    </div>
+
+    </section>
+
+    </div>
+</body>
+
+</html>
