@@ -2,6 +2,7 @@ package com.example.Livraria;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.example.Livraria.exeception.LoginException;
 import com.example.Livraria.model.Autor;
+import com.example.Livraria.model.Autoridades;
 import com.example.Livraria.model.Categoria;
 import com.example.Livraria.model.Editora;
 import com.example.Livraria.model.Usuario;
@@ -18,6 +20,9 @@ import com.example.Livraria.services.AutorService;
 import com.example.Livraria.services.CategoriaService;
 import com.example.Livraria.services.EditoraService;
 import com.example.Livraria.services.LivroService;
+import com.example.Livraria.services.UsuarioService;
+
+import javassist.NotFoundException;
 
 
 @SpringBootApplication
@@ -33,6 +38,8 @@ public class LivrariaApplication implements CommandLineRunner {
 	@Autowired
 	LivroService livroService;
 	
+	@Autowired
+	UsuarioRepositorio usuarioRepositorio;
 //	@Autowired
 //	ControllerEndereco controllerEndereco;
 
@@ -43,6 +50,20 @@ public class LivrariaApplication implements CommandLineRunner {
 	}
 
 	public void run(String... args) {
+		
+		
+		
+		
+//	Usuario usu = usuarioRepositorio.findByCpf("71865875007");
+//	
+//	Autoridades auto =  new Autoridades();
+//	auto.setId(Autoridades.ADMINISTRADOR);
+//	usu.getAutoridades().add(auto);
+//	usuarioRepositorio.save(usu);
+//		
+		
+		
+		
 ////		
 //		ArrayList<Perfil> perfis = new ArrayList<>();
 //		

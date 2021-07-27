@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.Livraria.dto.AutorDTO;
 import com.example.Livraria.dto.CategoriaDTO;
 import com.example.Livraria.dto.EditoraDTO;
+import com.example.Livraria.dto.LivroDTO;
 import com.example.Livraria.exeception.LoginException;
 import com.example.Livraria.services.AutorService;
 import com.example.Livraria.services.CategoriaService;
@@ -28,6 +29,12 @@ public class ControllerAdm {
 	@Autowired
 	private CategoriaService categoriaService;
 
+	
+	@GetMapping("/cadastrarLivro")
+	public String solicitarCadastroLivro(LivroDTO livroDTO) {
+		return "/adm/cadastro_livro";
+	}
+	
 	@GetMapping("/cadastrarEditora")
 	public String solicitarCadastroEditora(EditoraDTO editoraDTO) {
 
@@ -83,5 +90,9 @@ public class ControllerAdm {
 
 		return "/adm/cadastro_editora";
 	}
+	
+	
+	
+	
 
 }

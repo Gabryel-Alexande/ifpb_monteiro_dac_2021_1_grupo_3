@@ -66,7 +66,7 @@ public class Usuario implements Serializable,UserDetails{
 	public Usuario () {}
 	
 	public Usuario(String nomeUsusario, String email, String senha, String cpf,
-			boolean admisnistrador,LocalDate anoDeNascimento) {
+			LocalDate anoDeNascimento) {
 		super();
 		this.nomeUsuario = nomeUsusario;
 		this.email = email;
