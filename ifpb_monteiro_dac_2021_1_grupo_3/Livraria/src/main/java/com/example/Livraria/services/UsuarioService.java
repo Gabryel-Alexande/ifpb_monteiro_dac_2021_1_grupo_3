@@ -80,15 +80,14 @@ public class UsuarioService implements Serializable {
 		usuarioRepositorio.save(usuario);
 	}
 
-	public void alteraUsuario(String email, String cpf, String nomeUsusario, String senha, boolean admisnistrador,
-			LocalDate anoDeNascimento) throws CPFException, LoginException {
-		Usuario usuario = usuarioRepositorio.findByEmail(email);
+	public void alteraUsuario(UsuarioDTO usuarioDTO) throws CPFException, LoginException {
+		Usuario usuario = usuarioRepositorio.findByEmail(usuarioDTO.getEmail());
 		
-		validarDados(cpf, email, senha, anoDeNascimento);
-		usuario.setCpf(cpf);
-		usuario.setSenha(senha);
-		usuario.setNomeUsuario(nomeUsusario);
-		usuario.setDataDeNascimento(anoDeNascimento);
+		validarDados(usuarioDTO.getCpf(),usuarioDTO.getEmail(),usuarioDTO.getSenha(),usuarioDTO.getData());
+		usuario.setCpf(usuarioDTO.getCpf());
+		usuario.setSenha(new BCryptPasswordEncoder().encode(usuarioDTO.getSenha()));
+		usuario.setNomeUsuario(usuarioDTO.getNome());
+		usuario.setDataDeNascimento(usuarioDTO.getData());
 		usuarioRepositorio.save(usuario);
 	}
 
@@ -116,18 +115,7 @@ public class UsuarioService implements Serializable {
 
 	}
 
-	public UsuarioDTO logarNoSistema(UsuarioDTO usuario) throws NotFoundException {
-
-		Usuario usuarioSistema = this.consultarUsuarioPorEmail(usuario.getEmail());
-
-		if (usuarioSistema.getSenha().equals(usuario.getSenha())) {
-
-			return usuario;
-		}
-
-		throw new NotFoundException("Email ou Senha Inválidos");
-
-	}
+	
 
 	public Usuario consultarUsuarioPorEmail(String email) throws NotFoundException {
 
@@ -140,6 +128,12 @@ public class UsuarioService implements Serializable {
 
 	public List<Usuario> listarUsuarios() {
 		return usuarioRepositorio.findAll();
+	}
+	
+	public List<Pedido>listarCarrinho(String email){
+		Usuario user = usuarioRepositorio.findByEmail(email);
+		return pedidoRepositorio.findCarrinho(user);
+		
 	}
 
 	public List<Pedido> listarPedidos(String email) {

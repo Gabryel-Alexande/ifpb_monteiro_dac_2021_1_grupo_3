@@ -71,28 +71,28 @@
     <h1 class="mt-4 m-4">Editar usuario</h1>
     <div class="container-fluid my-4">
 
-        <form method="get" class="form-vertical  js-form-loading">
+        <form method="post" th:action="@{/livraria/protegido/editar_usuario}" th:object="${usuarioDTO}" class="form-vertical  js-form-loading">
 
             <div class="row m-4">
                 <div class="form-group col-sm-3">
                     <label for="input-produto-nome">Nome</label>
-                    <input id="input-produto-nome" type="text" class="form-control" />
+                    <input id="input-produto-nome" type="text" class="form-control" th:field="*{nome}" />
                 </div>
                 <div class="form-group col-sm-9">
                     <label for="input-produto-email">Email</label>
-                    <input id="input-produto-email" type="text" class="form-control" />
+                    <input id="input-produto-email" type="email" class="form-control"  th:field="*{email}" />
                 </div>
                 <div class="form-group col-sm-3">
                     <label for="input-produto-email">Senha</label>
-                    <input id="input-produto-email" type="text" class="form-control" />
+                    <input id="input-produto-email" type="password" class="form-control" th:field="*{senha}"/>
                 </div>
                 <div class="form-group col-sm-3">
                     <label for="input-produto-email">CPF</label>
-                    <input id="input-produto-email" type="text" class="form-control" />
+                    <input id="input-produto-email" type="text" class="form-control" th:field="*{cpf}" />
                 </div>
                 <div class="form-group col-sm-3">
                     <label for="input-produto-email">Data de nascimento</label>
-                    <input id="input-produto-email" type="data" class="form-control" />
+                    <input id="input-produto-email" type="text" class="form-control" th:field="*{data}" />
                 </div>
             </div>
 
@@ -101,9 +101,10 @@
         <div class="form-group mt-4">
             <a th:href="@{/livraria/publico/perfil}" class="btn  btn-default">Cancelar</a>
             <button id="bnt_salvar" class="btn  btn-primary" type="submit" onmouseover="javascript:mudarAoPassar();"
-                onmouseout="javascript:mudarAoSair();" onclick="validarDados();">Salvar</button>
+                onmouseout="javascript:mudarAoSair();">Salvar</button>
         </div>
     </div>
+</form>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>

@@ -139,7 +139,7 @@
                 <span id="topico" >Data de Nascimento</span>
                 <span id="detalhe" sec:authentication="principal.dataDeNascimento">11/11/1111</span>
                 <div id="container-bnt-cliente" sec:authorize="isAuthenticated()">
-                    <a th:href="@{/livraria/protegido/pedidos}"><button type="submit" th:action class="btn botao">Pedidos</button> </a>
+                    <a th:href="@{/livraria/protegido/pedidos}"><button type="submit" class="btn botao">Pedidos</button> </a>
                     <a th:href="@{/livraria/protegido/editar_usuario}"><button type="submit" class="btn botao">Editar</button></a>
                     <a th:href="@{/logout}"><button class="btn botao">Sair</button> </a>
                 </div>
