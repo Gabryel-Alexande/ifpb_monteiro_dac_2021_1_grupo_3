@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.Livraria.dto.LivroDTO;
+import com.example.Livraria.dto.PesquisaDTO;
 import com.example.Livraria.model.Livro;
 import com.example.Livraria.services.LivroService;
 
@@ -22,7 +23,7 @@ public class ControllerHome {
 	private LivroService livroService;
 
 	@GetMapping("/home")
-	public String solicitarHome(Model modelo) {
+	public String solicitarHome(PesquisaDTO pesquisa ,Model modelo) {
 		List<LivroDTO>livrosDTO = this.listarLivrosDTO(livroService.listarLivros());
 		
 		modelo.addAttribute("livros", livrosDTO);
@@ -30,9 +31,17 @@ public class ControllerHome {
 		return "/public/home";
 
 	}
+	
+	@GetMapping("/home/pesquisa")
+	public String solicitarLivroPesquisa(PesquisaDTO pesquisa, Model modelo) {
+		
+		modelo.addAttribute("livros",livroService.bucarLivroPorNome(pesquisa.getCampo().toUpperCase())); 
+		return"/public/home";
+		
+	}
 
 	@GetMapping("/home/livro")
-	public String solicitarLivro(@RequestParam(name = "id") Long idLivro, Model modelo) {
+	public String solicitarLivro(@RequestParam(name = "id") Long idLivro,PesquisaDTO pesquisa , Model modelo) {
 		LivroDTO livroDTO = this.transformarEmDTO(livroService.bucarLivrosPorId(idLivro));
 		
 		

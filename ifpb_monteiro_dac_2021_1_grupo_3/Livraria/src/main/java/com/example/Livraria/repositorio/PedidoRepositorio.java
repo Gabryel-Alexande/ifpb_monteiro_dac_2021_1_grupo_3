@@ -13,9 +13,13 @@ import com.example.Livraria.model.Usuario;
 public interface PedidoRepositorio extends JpaRepository<Pedido, Long>{
 	public List<Pedido> findByUsuario(Usuario usuario);
 	
-	@Query(value="select * from pedido where estado_pedido='Aberto' and ",nativeQuery = true)
-	public List<Pedido> findCarrinho(Usuario user);
+	@Query(value=
+			"SELECT * FROM pedido p WHERE p.estado_pedido='Aberto' and p.id_ususario= ?1"
+			,nativeQuery = true)
+	public List<Pedido> findCarrinho(Long idUsuario);
 	
-	@Query(value="select * from pedido where estado_pedido='Fechado'",nativeQuery = true)
-	public List<Pedido> findPedidos(Usuario usuario);
+	@Query(value=
+			"SELECT * FROM pedido p WHERE p.estado_pedido='Fechado' and p.id_ususario = ?1 "
+			,nativeQuery = true)
+	public List<Pedido> findPedidos(Long idUsuario);
 }

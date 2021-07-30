@@ -22,4 +22,7 @@ public interface LivroRepositorio extends JpaRepository<Livro, Long>{
 	public List<Livro> findByTituloLivro(String tituloLivro);
 
 	public List<Livro> findByCategorias(Categoria categorias);
+	
+	@Query("SELECT l FROM Livro l WHERE UPPER(l.tituloLivro) LIKE %?1%")
+	public List<Livro> conteinsTitulo(String titulo); 
 }

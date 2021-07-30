@@ -32,17 +32,19 @@
             </a>
         </nav>
         <nav class="navbar navbar-light bg" style="display: flex; justify-content: center;">
-            <form class="form-inline">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <form class="form-inline" method="GET" th:action="@{/livraria/publico/home/pesquisa}" th:object="${pesquisaDTO}" style="display: flex;justify-content: right;">
+                <input class="form-control mr-sm-2" type="search" th:field="*{campo}" placeholder="Search" aria-label="Search">
+
+                <button type="submit" class="btn" style="background: white;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-search" viewBox="0 0 16 16">
+                        <path
+                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
+                        </path>
+                    </svg>
+                </button>
             </form>
-            <button type="button" class="btn" style="background: white;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
-                    viewBox="0 0 16 16">
-                    <path
-                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
-                    </path>
-                </svg>
-            </button>
+
         </nav>
         <nav style="margin-right: 2%; ">
             <a th:href="@{/livraria/protegido/carrinho}" class="carrinho">
@@ -68,7 +70,6 @@
     </nav>
 
     <div class="conteiner" style="margin-left: 8%; margin-top: 2%;">
-
         <div class="row row-cols-4">
             <div class="col m-4" th:each="livro : ${livros}"
                 style="width: 14rem;display: flex; justify-content: center;">
@@ -80,7 +81,7 @@
                     </a>
                     <div class="card-body">
                         <a th:href="@{/livraria/publico/home/livro?(id=${livro.idLivro})}" class="tituloAncora">
-                            <h5 class="card-title" th:text="${livro.tituloLivro}"></h5>
+                            <h5 class="card-title" th:text="${livro.tituloLivro}">Não Foi Possível Encontrar Nenhum Livro</h5>
                         </a>
                         <p class="card-text">R$:
                             <span th:text="${livro.preco}">

@@ -168,11 +168,12 @@ public class LivroService {
 		return livros;
 	}
 	public List<Livro> bucarLivroPorNome(String nome){
-		List<Livro> livros= new ArrayList<Livro>();
-		for (Livro livro : livroRepositorio.findByTituloLivro(nome)) {
-			livros.add(livro);
-		}
-		return livros;
+//		List<Livro> livros= new ArrayList<Livro>();
+//		for (Livro livro : livroRepositorio.findByTituloLivro(nome)) {
+//			livros.add(livro);
+//		}
+		
+		return livroRepositorio.conteinsTitulo(nome) ;
 	}
 	public List<Livro> bucarLivrosPorCategoria(Long id){
 		List<Livro> livros= new ArrayList<Livro>();

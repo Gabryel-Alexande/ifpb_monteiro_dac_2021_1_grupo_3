@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.Livraria.dto.PesquisaDTO;
 import com.example.Livraria.dto.UsuarioDTO;
 import com.example.Livraria.exeception.CPFException;
 import com.example.Livraria.exeception.LoginException;
@@ -34,13 +35,13 @@ public class ControllerPerfil {
 	}
 	
 	@GetMapping("/protegido/pedidos")
-	public String socilitarPedidos(Model model) {
+	public String socilitarPedidos(Model model ,PesquisaDTO pesquisa ) {
 		
 		
 		Authentication autenticado = SecurityContextHolder.getContext().getAuthentication();
 		
 		
-		model.addAttribute("pedidos",usuarioService.listarPedidos(autenticado.getName()));
+		model.addAttribute("pedidos",usuarioService.listarPedidosUsuario(autenticado.getName()));
 		
 		
 		return "/protected/pedidos";
@@ -69,5 +70,5 @@ public class ControllerPerfil {
 		return "redirect:/login";
 		
 	}
-
+	
 }

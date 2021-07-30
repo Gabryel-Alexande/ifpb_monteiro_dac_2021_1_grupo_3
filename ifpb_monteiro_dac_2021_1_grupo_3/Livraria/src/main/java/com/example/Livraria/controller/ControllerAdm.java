@@ -14,6 +14,7 @@ import com.example.Livraria.dto.AutorDTO;
 import com.example.Livraria.dto.CategoriaDTO;
 import com.example.Livraria.dto.EditoraDTO;
 import com.example.Livraria.dto.LivroDTO;
+import com.example.Livraria.dto.PesquisaDTO;
 import com.example.Livraria.exeception.LoginException;
 import com.example.Livraria.services.AutorService;
 import com.example.Livraria.services.CategoriaService;

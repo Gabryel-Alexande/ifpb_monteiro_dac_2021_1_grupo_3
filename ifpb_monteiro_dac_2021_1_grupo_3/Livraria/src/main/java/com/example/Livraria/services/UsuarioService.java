@@ -130,16 +130,18 @@ public class UsuarioService implements Serializable {
 		return usuarioRepositorio.findAll();
 	}
 	
-	public List<Pedido>listarCarrinho(String email){
+	public List<Pedido>listarCarrinhoUsuario(String email){
 		Usuario user = usuarioRepositorio.findByEmail(email);
-		return pedidoRepositorio.findCarrinho(user);
+		
+		return pedidoRepositorio.findCarrinho(user.getIdUsusario());
 		
 	}
-
-	public List<Pedido> listarPedidos(String email) {
-		Usuario usuario = usuarioRepositorio.findByEmail(email);
-		return pedidoRepositorio.findByUsuario(usuario);
+	
+	public List<Pedido>listarPedidosUsuario(String email){
+		Usuario user = usuarioRepositorio.findByEmail(email);
+		return pedidoRepositorio.findPedidos(user.getIdUsusario());
 	}
+
 
 	public void adcionarAoCarinho(String isbn, Integer quantidade, String email) {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
