@@ -88,10 +88,12 @@
                                 58,99
                             </span>
                         </p>
+                        <form th:action="@{/livraria/protegido/carrinho?(id=${livro.idLivro})}" method="post" >
                         <div style="display: flex; justify-content: center;">
-                            <button type="button" class="btn btn-dark" style="font-size: 11px;">Adicionar ao
+                            <button type="submit" class="btn btn-dark" style="font-size: 11px;">Adicionar ao
                                 Carrinho</button>
                         </div>
+                    </form>
                     </div>
                 </div>
             </div>

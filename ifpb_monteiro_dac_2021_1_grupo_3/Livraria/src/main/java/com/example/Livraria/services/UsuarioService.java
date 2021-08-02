@@ -1,11 +1,13 @@
 package com.example.Livraria.services;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.loader.plan.exec.process.internal.AbstractRowReader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,21 +55,18 @@ public class UsuarioService implements Serializable {
 
 	public void cadastrarUsuario(UsuarioDTO usuarioDTO) throws CPFException, LoginException {
 		Usuario usuario = usuarioDTO.parser();
-		List<Autoridades>autoridades = new ArrayList<>();
-		
-		
+		List<Autoridades> autoridades = new ArrayList<>();
+
 		if (usuarioRepositorio.findByEmail(usuario.getEmail()) != null) {
 			throw new LoginException("[ERRO] Email já cadastrado");
 		}
-		
-		
+
 		validarDados(usuario.getCpf(), usuario.getEmail(), usuario.getSenha(), usuario.getDataDeNascimento());
-		
-		
+
 		usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
-		
+
 		Autoridades auto = new Autoridades();
-		
+
 		auto.setId(Autoridades.CLIENTE);
 		autoridades.add(auto);
 		usuario.setAutoridades(autoridades);
@@ -75,15 +74,14 @@ public class UsuarioService implements Serializable {
 		enviadorDeEmail.enviarEmail(usuario.getEmail(), "Sua conta foi criada com sucesso!",
 				"Seja bem vindo a nossa loja " + usuario.getNomeUsuario()
 						+ "\nAqui temos uma grande variedade de livros.\nSinta-se a vontade para nos contactar.\nObrigado por nos escolher.");
-		
-		
+
 		usuarioRepositorio.save(usuario);
 	}
 
 	public void alteraUsuario(UsuarioDTO usuarioDTO) throws CPFException, LoginException {
 		Usuario usuario = usuarioRepositorio.findByEmail(usuarioDTO.getEmail());
-		
-		validarDados(usuarioDTO.getCpf(),usuarioDTO.getEmail(),usuarioDTO.getSenha(),usuarioDTO.getData());
+
+		validarDados(usuarioDTO.getCpf(), usuarioDTO.getEmail(), usuarioDTO.getSenha(), usuarioDTO.getData());
 		usuario.setCpf(usuarioDTO.getCpf());
 		usuario.setSenha(new BCryptPasswordEncoder().encode(usuarioDTO.getSenha()));
 		usuario.setNomeUsuario(usuarioDTO.getNome());
@@ -115,8 +113,6 @@ public class UsuarioService implements Serializable {
 
 	}
 
-	
-
 	public Usuario consultarUsuarioPorEmail(String email) throws NotFoundException {
 
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
@@ -129,34 +125,79 @@ public class UsuarioService implements Serializable {
 	public List<Usuario> listarUsuarios() {
 		return usuarioRepositorio.findAll();
 	}
-	
-	public List<Pedido>listarCarrinhoUsuario(String email){
+
+	public Pedido listarCarrinhoUsuario(String email) {
 		Usuario user = usuarioRepositorio.findByEmail(email);
-		
-		return pedidoRepositorio.findCarrinho(user.getIdUsusario());
-		
+
+		try {
+			Pedido p = pedidoRepositorio.findCarrinho(user.getIdUsusario()).get(0);
+			p.setItemPedido(itemPedidoRepositorio.findByPedido(p));
+
+			return p;
+
+		} catch (Exception e) {
+
+			Pedido pedido = new Pedido(user);
+			pedido.setEstadoPedido(EstadoPedido.Aberto);
+			user.getPedidos().add(pedido);
+			pedidoRepositorio.save(pedido);
+			usuarioRepositorio.save(user);
+
+			return pedido;
+
+		}
+
 	}
-	
-	public List<Pedido>listarPedidosUsuario(String email){
+
+	public List<Pedido> listarPedidosUsuario(String email) {
 		Usuario user = usuarioRepositorio.findByEmail(email);
 		return pedidoRepositorio.findPedidos(user.getIdUsusario());
 	}
 
-
-	public void adcionarAoCarinho(String isbn, Integer quantidade, String email) {
-		Usuario usuario = usuarioRepositorio.findByEmail(email);
-		Livro livro = livroRepositorio.findByIsbn(isbn);
-		Pedido pedido = getCarrinho(usuario);
+	public void adcionarAoCarinho(Long idLivro, Integer quantidade, String email) {
+		
+		Pedido pedido = this.listarCarrinhoUsuario(email);
+		Livro livro = livroRepositorio.findById(idLivro).get();
+		
 		if (quantidade < 1) {
 			throw new IllegalArgumentException("Quantidade invalida!");
 		}
-		if (pedido == null) {
-			pedido = new Pedido(usuario);
-			pedidoRepositorio.save(pedido);
-		}
+		
+			
 		ItemPedido item = new ItemPedido(livro, quantidade, pedido);
-		pedido.setPreco(item);
+		
+		pedido.addPreco(item);
+		
 		itemPedidoRepositorio.save(item);
+		pedidoRepositorio.save(pedido);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+//		Usuario usuario = usuarioRepositorio.findByEmail(email);
+//		Optional<Livro> livro = livroRepositorio.findById(idLivro);
+//		Pedido pedido = getCarrinho(usuario);
+//		if (quantidade < 1) {
+//			throw new IllegalArgumentException("Quantidade invalida!");
+//		}
+//		if (pedido == null) {
+//			pedido = new Pedido(usuario);
+//			pedido.setEstadoPedido(EstadoPedido.Aberto);
+//		}
+//		ItemPedido item = new ItemPedido(livro.get(), quantidade, pedido);
+//		pedido.setPreco(item);
+//		itemPedidoRepositorio.save(item);
+//		pedidoRepositorio.save(pedido);
 	}
 
 	public void removerDoCarinho(Long id, String email) {

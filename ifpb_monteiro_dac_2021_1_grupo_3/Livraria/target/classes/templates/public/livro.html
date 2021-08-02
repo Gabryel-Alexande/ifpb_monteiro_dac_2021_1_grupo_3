@@ -227,7 +227,7 @@
                     <ul>
                         <h4 class="md-4">Preço:</h4>
                         <ul>
-                            <li>R$ 58,99</li>
+                            <li th:text="${livro.preco}">R$58,99</li>
                         </ul>
                         <h4>Autores:</h4>
                         <ul th:each="autor : ${livro.autores}">

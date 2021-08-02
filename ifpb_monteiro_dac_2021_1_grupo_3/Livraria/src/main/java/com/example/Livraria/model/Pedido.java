@@ -2,6 +2,7 @@ package com.example.Livraria.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -38,7 +39,7 @@ public class Pedido implements Serializable {
 	private List<ItemPedido> itemPedido;
 
 	@Transient
-	private BigDecimal preco;
+	private BigDecimal preco ;
 
 	@Enumerated(EnumType.STRING)
 	private EstadoPedido estadoPedido;
@@ -49,8 +50,11 @@ public class Pedido implements Serializable {
 	}
 	public Pedido(Usuario cliente) {
 		super();
+		
+		this.preco = new BigDecimal(0);
 		this.usuario = cliente;
 		estadoPedido = EstadoPedido.Aberto;
+		this.itemPedido = new ArrayList<ItemPedido>();
 	}
 
 
@@ -68,7 +72,10 @@ public class Pedido implements Serializable {
 
 	}
 
-	public void setPreco(ItemPedido itemPedido) {
+	public void addPreco(ItemPedido itemPedido) {
+		if(this.preco==null) {
+			this.preco = new BigDecimal(0);
+		}
 		this.preco.add(itemPedido.getPreco());
 	}
 

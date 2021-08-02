@@ -27,7 +27,7 @@ public class ControllerHome {
 		List<LivroDTO>livrosDTO = this.listarLivrosDTO(livroService.listarLivros());
 		
 		modelo.addAttribute("livros", livrosDTO);
-
+		
 		return "/public/home";
 
 	}
