@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +43,16 @@ public class ControllerCarrinho {
 		return "redirect:/livraria/publico/home";
 		
 		
+	}
+	
+	@PostMapping("/carrinho/del")
+	public String removerDoCarrinho(@RequestParam(name = "id") Long idItemPedido, Model modelo) {
+		
+		
+		Authentication autenticado = SecurityContextHolder.getContext().getAuthentication();
+		usuarioService.removerDoCarinho(idItemPedido,autenticado.getName());
+		
+		return "redirect:/livraria/protegido/carrinho";
 	}
 	
 

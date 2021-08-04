@@ -38,25 +38,24 @@ public class Pedido implements Serializable {
 	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "pedido")
 	private List<ItemPedido> itemPedido;
 
-	@Transient
-	private BigDecimal preco ;
+	private BigDecimal preco;
 
 	@Enumerated(EnumType.STRING)
 	private EstadoPedido estadoPedido;
 
 	@SuppressWarnings("unused")
 	private Pedido() {
-		
+
 	}
+
 	public Pedido(Usuario cliente) {
 		super();
-		
+
 		this.preco = new BigDecimal(0);
 		this.usuario = cliente;
 		estadoPedido = EstadoPedido.Aberto;
 		this.itemPedido = new ArrayList<ItemPedido>();
 	}
-
 
 	public void removerClienteDoPedido() {
 		usuario = null;
@@ -71,12 +70,19 @@ public class Pedido implements Serializable {
 	private void setIdPedido(Long idPedido) {
 
 	}
+	public void removerPreco(ItemPedido item) {
+		float preco = this.preco.floatValue();
 
-	public void addPreco(ItemPedido itemPedido) {
-		if(this.preco==null) {
-			this.preco = new BigDecimal(0);
-		}
-		this.preco.add(itemPedido.getPreco());
+		preco -= item.getPreco();
+		this.preco = new BigDecimal(preco);
+	}
+
+
+	public void addPreco(ItemPedido item) {
+		float preco = this.preco.floatValue();
+
+		preco += item.getPreco();
+		this.preco = new BigDecimal(preco);
 	}
 
 	public String toString() {

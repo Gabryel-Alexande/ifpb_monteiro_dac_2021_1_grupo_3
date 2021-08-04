@@ -2,8 +2,10 @@ package com.example.Livraria.dto;
 
 import java.util.List;
 
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
 
 import com.example.Livraria.model.Categoria;
 import com.example.Livraria.model.Livro;

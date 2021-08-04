@@ -16,17 +16,20 @@
             border: 1px solid black;
         }
 
-        .btn-dark, .finalizar {
+        .btn-dark,
+        .finalizar {
 
             font-size: 17px;
             margin-top: 70%;
             width: 90%;
             margin-left: 5%;
         }
-        .finalizar{
+
+        .finalizar {
             margin-top: 1%;
             margin-bottom: 3%;
         }
+
         img {
             width: 185px;
             margin-left: 10%;
@@ -37,20 +40,24 @@
             margin-top: 1%;
             margin-left: 5%;
         }
-        .form-group{
+
+        .form-group {
             color: black;
         }
-        .estoque{
-           margin-top:3%;
-           margin-left: 30%;
+
+        .estoque {
+            margin-top: 3%;
+            margin-left: 30%;
         }
-        .total{
+
+        .total {
             margin-top: 2%;
             margin-left: 5%;
             display: flex;
             justify-content: left;
         }
-        .valor{
+
+        .valor {
             margin-left: 78%;
         }
     </style>
@@ -67,8 +74,10 @@
             </a>
         </nav>
         <nav class="navbar navbar-light bg" style="display: flex; justify-content: center;">
-            <form class="form-inline" method="GET" th:action="@{/livraria/publico/home/pesquisa}" th:object="${pesquisaDTO}" style="display: flex;justify-content: right;">
-                <input class="form-control mr-sm-2" type="search" th:field="*{campo}" placeholder="Search" aria-label="Search">
+            <form class="form-inline" method="GET" th:action="@{/livraria/publico/home/pesquisa}"
+                th:object="${pesquisaDTO}" style="display: flex;justify-content: right;">
+                <input class="form-control mr-sm-2" type="search" th:field="*{campo}" placeholder="Search"
+                    aria-label="Search">
 
                 <button type="submit" class="btn" style="background: white;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -104,18 +113,22 @@
         </nav>
     </nav>
     <h1 class="m-5">Pedidos</h1>
-    <div class="container" th:each="pedido: ${pedidos}">
-        <img src="http://supernovo.net/wp-content/uploads/2014/05/battle-royale-livro.jpg" class="mt-4" alt="...">
-        <div class="container-detalhes">
-            <h5 class="card-title mt-4">Battle Royale</h5>
-            <div class="card-text mt-5">
-                <span>R$ 58,99</span>
-                <span class="quantidade">x3</span>
+    <div th:each="pedido: ${pedidos}">
+        <div class="container" th:each="itens: ${pedido.itemPedido}">
+            <div>
+                <img th:src="${itens.livro.fotoLivro}" class="mt-4" alt="...">
+                <div class="container-detalhes">
+                    <h5 class="card-title mt-4" th:text="${itens.livro.tituloLivro}">Battle Royale</h5>
+                    <div class="card-text mt-5">
+                        <span th:text="${itens.livro.preco}">R$ 58,99</span>
+                        <span class="quantidade">x3</span>
+                    </div>
+                </div>
+                <div class="estoque">
+                    <h5 for="input-produto-estoque">Quantidade</h5>
+                    <h6 id="input-produto-estoque" th:text="${itens.quantidade}">3</h6>
+                </div>
             </div>
-        </div>
-        <div class="estoque">
-            <h5 for="input-produto-estoque">Quantidade</h5>
-            <h6 id="input-produto-estoque">3</h6>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

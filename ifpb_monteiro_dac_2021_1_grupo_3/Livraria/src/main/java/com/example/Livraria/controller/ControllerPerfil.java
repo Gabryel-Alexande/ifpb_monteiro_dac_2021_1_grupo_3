@@ -19,6 +19,8 @@ import com.example.Livraria.exeception.CPFException;
 import com.example.Livraria.exeception.LoginException;
 import com.example.Livraria.services.UsuarioService;
 
+import javassist.NotFoundException;
+
 @Controller
 @RequestMapping("/livraria")
 public class ControllerPerfil {
@@ -49,7 +51,14 @@ public class ControllerPerfil {
 	}
 	
 	@GetMapping("/protegido/editar_usuario")
-	public String solicitarEditarUsuario(UsuarioDTO usuario) {
+	public String solicitarEditarUsuario(UsuarioDTO usuario, Model modelo) {
+		Authentication autenticado = SecurityContextHolder.getContext().getAuthentication();
+		
+		try {
+			modelo.addAttribute("usuario",usuarioService.consultarUsuarioPorEmail(autenticado.getName()));
+		} catch (NotFoundException e) {
+			e.printStackTrace();
+		}
 		return "/protected/editar_usuario";
 	}
 	

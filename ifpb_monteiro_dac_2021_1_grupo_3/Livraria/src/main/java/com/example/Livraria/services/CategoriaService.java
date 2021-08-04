@@ -1,11 +1,13 @@
 package com.example.Livraria.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.Livraria.dto.CategoriaDTO;
+import com.example.Livraria.model.Autor;
 import com.example.Livraria.model.Categoria;
 import com.example.Livraria.repositorio.CategoriaRepositorio;
 
@@ -29,6 +31,16 @@ public class CategoriaService {
 		
 		categoria.setNomeCategoria(nome);
 		categoriaRepositorio.save(categoria);
+	}
+	
+	public void removerCategoria(Long idCat) {
+		Optional<Categoria> cat = categoriaRepositorio.findById(idCat);
+		
+		if(cat.isPresent()) {
+			categoriaRepositorio.delete(cat.get());
+		}
+		
+		
 	}
 	public List<Categoria> listarCategoria() {
 		return categoriaRepositorio.findAll();

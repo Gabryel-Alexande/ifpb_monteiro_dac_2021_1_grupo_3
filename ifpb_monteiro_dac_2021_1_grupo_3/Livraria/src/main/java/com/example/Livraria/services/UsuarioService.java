@@ -151,25 +151,56 @@ public class UsuarioService implements Serializable {
 
 	public List<Pedido> listarPedidosUsuario(String email) {
 		Usuario user = usuarioRepositorio.findByEmail(email);
-		return pedidoRepositorio.findPedidos(user.getIdUsusario());
+		
+		List<Pedido> pedidos = pedidoRepositorio.findPedidos(user.getIdUsusario());
+		
+		
+		
+//		if (pedidos==null) {
+//
+//			Pedido pedido = new Pedido(user);
+//			pedido.setEstadoPedido(EstadoPedido.Fechado);
+//			user.getPedidos().add(pedido);
+//			pedidoRepositorio.save(pedido);
+//			usuarioRepositorio.save(user);
+//			pedidos.add(pedido);
+//			
+//		}
+		return pedidos;
 	}
 
 	public void adcionarAoCarinho(Long idLivro, Integer quantidade, String email) {
-		
 		Pedido pedido = this.listarCarrinhoUsuario(email);
 		Livro livro = livroRepositorio.findById(idLivro).get();
-		
+		boolean chave = false;
 		if (quantidade < 1) {
 			throw new IllegalArgumentException("Quantidade invalida!");
 		}
 		
+		for (ItemPedido itemPedido : itemPedidoRepositorio.findByPedido(pedido)) {
+			if(itemPedido.getLivro().getIdLivro()==livro.getIdLivro()) {
+				itemPedido.setQuantidade(quantidade+itemPedido.getQuantidade());
+				pedido.setPreco(new BigDecimal(pedido.getPreco().floatValue()+(livro.getPreco().floatValue()*quantidade)));
+				itemPedidoRepositorio.save(itemPedido);
+				chave = true;
+				break;
+			}
 			
-		ItemPedido item = new ItemPedido(livro, quantidade, pedido);
+		}
 		
-		pedido.addPreco(item);
 		
-		itemPedidoRepositorio.save(item);
-		pedidoRepositorio.save(pedido);
+		
+		if(!chave) {
+			
+			ItemPedido item = new ItemPedido(livro, quantidade, pedido);
+			
+			
+			pedido.addPreco(item);
+			
+			itemPedidoRepositorio.save(item);
+			pedidoRepositorio.save(pedido);
+		}
+			
 		
 		
 		
@@ -203,8 +234,12 @@ public class UsuarioService implements Serializable {
 	public void removerDoCarinho(Long id, String email) {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		ItemPedido item = itemPedidoRepositorio.findById(id).get();
+		Pedido pedido = pedidoRepositorio.findCarrinho(usuario.getIdUsusario()).get(0);
+		
 		if (usuario.getIdUsusario() == item.getPedido().getUsuario().getIdUsusario()) {
 			item.setPedido(null);
+			pedido.removerPreco(item);
+			pedidoRepositorio.save(pedido);
 			itemPedidoRepositorio.delete(item);
 		}
 	}

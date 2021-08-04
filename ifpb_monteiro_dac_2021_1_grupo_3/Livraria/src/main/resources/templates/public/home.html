@@ -17,7 +17,93 @@
             text-decoration: underline;
             color: #000000;
         }
+
+        .hidden {
+            display: none;
+        }
+
+        .modal-novo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%;
+
+            background-color: white;
+            padding: 6rem;
+            border-radius: 5px;
+            box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px);
+            z-index: 5;
+        }
+
+        .show-modal {
+            font-size: 2rem;
+            font-weight: 600;
+            padding: 1.75rem 3.5rem;
+            margin: 5rem 2rem;
+            border: none;
+            background-color: #fff;
+            color: #444;
+            border-radius: 10rem;
+            cursor: pointer;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.2rem;
+            right: 2rem;
+            font-size: 5rem;
+            color: #333;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .conteiner_btn {
+            margin-left: 75%;
+        }
+
+        #btn_excluir {
+            background-color: #a50a98;
+            color: white;
+            border-color: #a50a98;
+        }
     </style>
+    <script>
+        
+        function excluir(){
+            console.log(document.getElementById("btn_login"));
+        }
+
+        function showModal() {
+            document.querySelector(".modal-novo").classList.remove("hidden");
+            document.querySelector(".overlay").classList.remove("hidden");
+        }
+        function closeModal() {
+            document.querySelector(".modal-novo").classList.add("hidden");
+            document.querySelector(".overlay").classList.add("hidden");
+        }
+        function mudarAoPassar() {
+            document.getElementById("btn_excluir").style.backgroundColor = "white";
+            document.getElementById("btn_excluir").style.color = "#a50a98";
+        }
+        function mudarAoSair() {
+            document.getElementById("btn_excluir").style.backgroundColor = "#a50a98";
+            document.getElementById("btn_excluir").style.color = "white";
+        }
+
+    </script>
 
 </head>
 
@@ -32,8 +118,10 @@
             </a>
         </nav>
         <nav class="navbar navbar-light bg" style="display: flex; justify-content: center;">
-            <form class="form-inline" method="GET" th:action="@{/livraria/publico/home/pesquisa}" th:object="${pesquisaDTO}" style="display: flex;justify-content: right;">
-                <input class="form-control mr-sm-2" type="search" th:field="*{campo}" placeholder="Search" aria-label="Search">
+            <form class="form-inline" method="GET" th:action="@{/livraria/publico/home/pesquisa}"
+                th:object="${pesquisaDTO}" style="display: flex;justify-content: right;">
+                <input class="form-control mr-sm-2" type="search" th:field="*{campo}" placeholder="Search"
+                    aria-label="Search">
 
                 <button type="submit" class="btn" style="background: white;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -68,32 +156,64 @@
             </a>
         </nav>
     </nav>
+    <div>
+        <div class="modal-novo hidden">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <h1>Excluir Livro ?</h1>
+            <p>
+                Tenha em mente que essa ação não pode ser desfeita !
+            </p>
+            <div>
+                <form class="conteiner_btn">
+                    <button href="pesquisa-produtos.html" onclick="closeModal()"
+                        class="btn  btn-default">Cancelar</button>
+                    <button id="btn_excluir" class="btn  btn-primary" type="submit"
+                        onmouseover="javascript:mudarAoPassar();"
+                        onmouseout="javascript:mudarAoSair();">Excluir</button>
+                </form>
+            </div>
+        </div>
+        <div class="overlay hidden"></div>
 
-    <div class="conteiner" style="margin-left: 8%; margin-top: 2%;">
-        <div class="row row-cols-4">
-            <div class="col m-4" th:each="livro : ${livros}"
-                style="width: 14rem;display: flex; justify-content: center;">
-                <div class="card" style="width: 14rem;display: flex; justify-content:center;">
-                    <a th:href="@{/livraria/publico/home/livro?(id=${livro.idLivro})}">
-                        <div style="display: flex; justify-content: center; margin-top: 5%;">
-                            <img th:src="${livro.fotoLivro}" class="card-img-top" alt="..." style="width: 185px;">
-                        </div>
-                    </a>
-                    <div class="card-body">
-                        <a th:href="@{/livraria/publico/home/livro?(id=${livro.idLivro})}" class="tituloAncora">
-                            <h5 class="card-title" th:text="${livro.tituloLivro}">Não Foi Possível Encontrar Nenhum Livro</h5>
+        <div class="conteiner" style="margin-left: 8%; margin-top: 2%;">
+            <div class="row row-cols-4">
+                <div class="col m-4" th:each="livro : ${livros}"
+                    style="width: 14rem;display: flex; justify-content: center;">
+                    <div class="card" style="width: 14rem;display: flex; justify-content:center;">
+                        <a th:href="@{/livraria/publico/home/livro?(id=${livro.idLivro})}">
+                            <div style="display: flex; justify-content: center; margin-top: 5%;">
+                                <img th:src="${livro.fotoLivro}" class="card-img-top" alt="..." style="width: 185px;">
+                            </div>
                         </a>
-                        <p class="card-text">R$:
-                            <span th:text="${livro.preco}">
-                                58,99
-                            </span>
-                        </p>
-                        <form th:action="@{/livraria/protegido/carrinho?(id=${livro.idLivro})}" method="post" >
-                        <div style="display: flex; justify-content: center;">
-                            <button type="submit" class="btn btn-dark" style="font-size: 11px;">Adicionar ao
-                                Carrinho</button>
+                        <div class="card-body">
+                            <a th:href="@{/livraria/publico/home/livro?(id=${livro.idLivro})}" class="tituloAncora">
+                                <h5 class="card-title" th:text="${livro.tituloLivro}">Não Foi Possível Encontrar Nenhum
+                                    Livro</h5>
+                            </a>
+                            <p class="card-text">R$:
+                                <span th:text="${livro.preco}">
+                                    58,99
+                                </span>
+                            </p>
+                            <form th:action="@{/livraria/protegido/carrinho?(id=${livro.idLivro})}" method="post">
+                                <div style="display: flex; justify-content: center;">
+                                    <button type="submit" class="btn btn-dark" style="font-size: 11px;">Adicionar ao
+                                        Carrinho</button>
+                                </div>
+                            </form>
+                            <div sec:authorize="hasAuthority('ADMINISTRADOR')">
+                                <div class="container_btn_adm mt-2" style="display: flex; justify-content: center;">
+
+                                    <button type="submit" class="btn btn-dark" onclick="showModal()"
+                                        style="font-size: 11px;">Excluir</button>
+
+                                    <form>
+                                        <button type="button" class="btn btn-dark"
+                                            style="font-size: 11px; margin-left: 12px;">Editar</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                    </form>
                     </div>
                 </div>
             </div>

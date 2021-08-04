@@ -51,8 +51,8 @@ public class ItemPedido implements Serializable {
 
 	}
 
-	public BigDecimal getPreco() {
-		return livro.getPreco().multiply(new BigDecimal(quantidade));
+	public float getPreco() {
+		return livro.getPreco().floatValue()*quantidade;
 	}
 
 	public String toString() {

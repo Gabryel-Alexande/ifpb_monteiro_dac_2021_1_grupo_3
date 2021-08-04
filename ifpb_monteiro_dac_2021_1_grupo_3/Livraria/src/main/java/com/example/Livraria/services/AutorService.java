@@ -2,6 +2,7 @@ package com.example.Livraria.services;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,16 @@ public class AutorService {
 		
 		autorRepositorio.save(autor);
 	
+	}
+	
+	public void removerAutor(Long idAutor) {
+		Optional<Autor> autor = autorRepositorio.findById(idAutor);
+		
+		if(autor.isPresent()) {
+			autorRepositorio.delete(autor.get());
+		}
+		
+		
 	}
 
 	public List<Autor> listarAutores() {
