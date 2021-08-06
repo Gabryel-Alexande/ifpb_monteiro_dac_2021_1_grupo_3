@@ -10,13 +10,16 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.Livraria.dto.LivroDTO;
 import com.example.Livraria.model.Autor;
 import com.example.Livraria.model.Categoria;
 import com.example.Livraria.model.Editora;
+import com.example.Livraria.model.ItemPedido;
 import com.example.Livraria.model.Livro;
 import com.example.Livraria.repositorio.AutorRepositorio;
 import com.example.Livraria.repositorio.CategoriaRepositorio;
 import com.example.Livraria.repositorio.EditoraRepositorio;
+import com.example.Livraria.repositorio.ItemPedidoRepositorio;
 import com.example.Livraria.repositorio.LivroRepositorio;
 import com.example.Livraria.utilitarios.EnviadorDeEmail;
 
@@ -39,42 +42,43 @@ public class LivroService {
 	private EditoraRepositorio editoraRepositorio;
 	@Autowired
 	private EnviadorDeEmail enviadorDeEmail;
+	
+	@Autowired
+	private ItemPedidoRepositorio itemPedidoRepositorio;
 	/*
 	 * Este metodo cadastra um livro no banco recenbendo todos os seus parametros e o id da editora que pertece
 	 * e uma coleção de id de categoria, autor e imagens que pertencem a este livro
 	 */
-	public void cadastrarLivro(String isbn, String tituloLivro, List<Long> categorias, String descricao,
-			BigDecimal preco, String edicao, Integer anoLancamento, Long idEditora, String fotoLivro,
-			List<Long> autores, Integer quantidade) throws IllegalArgumentException {
-		List<Categoria> categoriasResgatados = new ArrayList<Categoria>();
+	public void cadastrarLivro(LivroDTO livroDTO) throws IllegalArgumentException {
 		
 		//Aqui ocorre a valição dos dados,o isbn não podeser igual a nenhuma ja existente no banco
 
-		if (livroRepositorio.findByIsbn(isbn) != null) {
+		if (livroRepositorio.findByIsbn(livroDTO.getIsbn()) != null) {
 			throw new IllegalArgumentException("[ERRO] Este isbn já existe!");
 		}
-		validarValoresLivro(anoLancamento, preco, quantidade);
+		validarValoresLivro(livroDTO.getAnoLancamento(),new BigDecimal(livroDTO.getPreco()),livroDTO.getQuantidadeEstoque());
+		
+		livroDTO.instanciarArrays();
+		
+		for (Long id : livroDTO.getListaAutores()) {
+			livroDTO.getAutores().add(autorRepositorio.findById(id).get());
+			
+		}
+		
+		
+		for (Long id : livroDTO.getListaCategorias()) {
+			livroDTO.getCategorias().add(categoriaRepositorio.findByIdCategortia(id));
+			
+		}
+		
+		livroDTO.setEditora(editoraRepositorio.findById(livroDTO.getIdEditora()).get());
 		
 		//parte responsavel por buscar todas a categoria requisitadas pelo id
-		for (Long idCategoria : categorias) {
-			Categoria categoria = categoriaRepositorio.findById(idCategoria).get();
-			if (categoria != null) {
-				categoriasResgatados.add(categoria);
-			}
-		}
-		Editora editora = editoraRepositorio.findById(idEditora).get();
-		Livro livro = new Livro(isbn, tituloLivro, categoriasResgatados, descricao, preco, edicao, anoLancamento,
-				editora, fotoLivro, null, quantidade);
-		List<Autor> autoresRegatados = new ArrayList<Autor>();
+		
+		Livro livro = livroDTO.parser();
 		
 		//parte responsavel por buscar todas os autores requisitados pelo id
-		for (Long autorDaVez : autores) {
-			Autor autor = autorRepositorio.findById(autorDaVez).get();
-			if (autor != null) {
-				autoresRegatados.add(autor);
-			}
-		}
-		livro.setAutores(autoresRegatados);
+		
 		livroRepositorio.save(livro);
 	}
 	/*
@@ -103,9 +107,17 @@ public class LivroService {
 		livroRepositorio.save(livro);
 
 	}
+	
+	
+	
+	public void removerLivro(Long idLivro) {
+		Livro livroRemove = livroRepositorio.findById(idLivro).get();
+		List<ItemPedido> itemPedidos = itemPedidoRepositorio.findByLivro(livroRemove); 
+		
+		for (ItemPedido itemPedido : itemPedidos) {
+			itemPedidoRepositorio.delete(itemPedido);
+		}
 
-	public void removerLivro(String isbn) {
-		Livro livroRemove = livroRepositorio.findByIsbn(isbn);
 		livroRepositorio.delete(livroRemove);
 
 	}
@@ -141,6 +153,19 @@ public class LivroService {
 	public List<Livro> listarLivros() {
 		return livroRepositorio.findAll();
 	}
+	
+	public List<Livro> listarLivrosCategoria(List<Long>idCategoria) {
+		List<Categoria> categorias = new ArrayList<>();
+		
+		for (Long long1 : idCategoria) {
+			
+			categorias.add(categoriaRepositorio.findById(long1).get());
+		}
+		
+		
+		return livroRepositorio.filtrarPorCategoria(idCategoria);
+		
+	}
 
 	public List<Livro> listarLivros(String campoOrdenacao, int ordem, int numeroPagina) {
 		Direction sortDirection = Sort.Direction.DESC;
@@ -175,14 +200,14 @@ public class LivroService {
 		
 		return livroRepositorio.conteinsTitulo(nome) ;
 	}
-	public List<Livro> bucarLivrosPorCategoria(Long id){
-		List<Livro> livros= new ArrayList<Livro>();
-		Categoria categoria= categoriaRepositorio.findByIdCategortia(id);
-		for (Livro livro : livroRepositorio.findByCategorias(categoria)) {
-			livros.add(livro);
-		}
-		return livros;
-	}
+//	public List<Livro> bucarLivrosPorCategoria(Long id){
+//		List<Livro> livros= new ArrayList<Livro>();
+//		Categoria categoria= categoriaRepositorio.findByIdCategortia(id);
+//		for (Livro livro : livroRepositorio.findByCategorias(categoria)) {
+//			livros.add(livro);
+//		}
+//		return livros;
+//	}
 	public Livro bucarLivrosPorIsbn(String isbn){
 		return livroRepositorio.findByIsbn(isbn);
 	}

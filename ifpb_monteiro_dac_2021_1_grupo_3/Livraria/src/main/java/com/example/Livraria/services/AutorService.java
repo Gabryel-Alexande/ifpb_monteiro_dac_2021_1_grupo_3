@@ -44,6 +44,10 @@ public class AutorService {
 	
 	}
 	
+	public Autor encontarAutor (Long idAutor) {
+		return autorRepositorio.findById(idAutor).get();
+	}
+	
 	public void removerAutor(Long idAutor) {
 		Optional<Autor> autor = autorRepositorio.findById(idAutor);
 		

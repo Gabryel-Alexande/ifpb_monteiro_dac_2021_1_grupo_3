@@ -55,5 +55,12 @@ public class ControllerCarrinho {
 		return "redirect:/livraria/protegido/carrinho";
 	}
 	
+	
+//	
+//	@GetMapping("/finalizarPedido")
+//	public String socilicitarFinalizarPedido() {
+//		
+//	}
+	
 
 }

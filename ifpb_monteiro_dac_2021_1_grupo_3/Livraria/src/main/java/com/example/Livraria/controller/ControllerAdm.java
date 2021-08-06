@@ -1,5 +1,8 @@
 package com.example.Livraria.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ import com.example.Livraria.exeception.LoginException;
 import com.example.Livraria.services.AutorService;
 import com.example.Livraria.services.CategoriaService;
 import com.example.Livraria.services.EditoraService;
+import com.example.Livraria.services.LivroService;
 
 @Controller
 @RequestMapping("/livraria/adm")
@@ -30,13 +34,42 @@ public class ControllerAdm {
 	private EditoraService editoraService;
 	@Autowired
 	private CategoriaService categoriaService;
+	@Autowired
+	LivroService livroService;
 
 	
 	@GetMapping("/cadastrarLivro")
 	public String solicitarCadastroLivro(LivroDTO livroDTO, Model modelo) {
-		
-		
+		modelo.addAttribute("categorias",categoriaService.listarCategoria());
+		modelo.addAttribute("editoras",editoraService.listarEditoras());
+		modelo.addAttribute("autores",autorService.listarAutores());
 		return "/adm/cadastro_livro";
+	}
+	
+	@PostMapping("/cadastrarLivro")
+	public String cadastrarLivro(@Valid LivroDTO livroDTO, BindingResult result) {
+		
+		if(result.hasErrors()) {
+			return "/adm/cadastro_livro";
+		}
+		
+		
+		System.out.println(livroDTO.getIdEditora());
+		
+		livroService.cadastrarLivro(livroDTO);
+		
+		return"redirect:/livraria/publico/home";
+		
+	}
+	
+	@PostMapping("/deletarLivro")
+	public String deletarLivro(@RequestParam(name = "id") Long idLivro , Model modelo) {
+		livroService.removerLivro(idLivro);
+		
+		
+		
+		return "redirect:/livraria/publico/home";
+		
 	}
 	
 	

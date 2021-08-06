@@ -84,6 +84,18 @@ public class Pedido implements Serializable {
 		preco += item.getPreco();
 		this.preco = new BigDecimal(preco);
 	}
+	
+	
+	public void atualizarValor() {
+		
+		float num = 0;
+		for (ItemPedido itemPedido2 : itemPedido) {
+			num+=itemPedido2.getPreco();
+		}
+		
+		preco = new BigDecimal(num);
+		
+	}
 
 	public String toString() {
 		return "Id: " + idPedido + "\nEstado: " + estadoPedido.toString() + "\nCliente: \n" + usuario.toString();

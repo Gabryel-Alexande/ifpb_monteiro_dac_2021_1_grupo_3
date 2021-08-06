@@ -1,11 +1,13 @@
 package com.example.Livraria.repositorio;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.Livraria.model.Categoria;
@@ -21,8 +23,17 @@ public interface LivroRepositorio extends JpaRepository<Livro, Long>{
 	
 	public List<Livro> findByTituloLivro(String tituloLivro);
 
-	public List<Livro> findByCategorias(Categoria categorias);
+	//public List<Livro> findByCategoria(Categoria categorias);
 	
 	@Query("SELECT l FROM Livro l WHERE UPPER(l.tituloLivro) LIKE %?1%")
 	public List<Livro> conteinsTitulo(String titulo); 
+	
+	@Query(value = "select * from livro join livro_categorias on livro.id_livro = livro_id_livro where "
+			+ "livro_categorias.categorias_id_categoria in (:categorias) ", nativeQuery = true)
+	public List<Livro> filtrarPorCategoria(@Param ("categorias") List<Long> categorias);
+	
+	
+	//public List<Livro> findByCategoria(List<Categoria> categorias);
+	
+	//List<Livro> findByCategorias(List<Categoria> categorias);
 }

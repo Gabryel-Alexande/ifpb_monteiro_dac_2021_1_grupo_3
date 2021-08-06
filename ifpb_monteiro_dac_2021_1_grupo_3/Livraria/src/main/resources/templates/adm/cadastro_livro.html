@@ -18,14 +18,15 @@
         }
     </script>
     <style>
-        #bnt_salvar, #bnt_excluir {
+        #bnt_salvar,
+        #bnt_excluir {
             background-color: #a50a98;
             color: white;
             border-color: #a50a98;
         }
 
         #botoes {
-            margin-left: 80%;
+            margin-left: 85%;
         }
 
         select {
@@ -39,11 +40,12 @@
 
         #bnt_excluir {
 
-        margin-left: 20px;
+            margin-left: 20px;
 
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar navbar-light " style="background-color: #a50a98;">
         <nav style="margin-left: 2%;">
@@ -86,95 +88,85 @@
 
     <div class="container-fluid my-4">
 
-        <form method="get" class="form-vertical  js-form-loading">
+        <form method="POST" th:action="@{/livraria/adm/cadastrarLivro}" th:object="${livroDTO}"
+            class="form-vertical  js-form-loading">
             <label for="input-produto-nome">ISBN</label>
             <div class="isbn col-sm-6">
                 <div class="form-group">
-                    <input id="input-produto-isbn" type="text" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <button id="bnt_excluir" class="btn  btn-primary" type="submit"
-                        onmouseover="javascript:mudarAoPassar();" onmouseout="javascript:mudarAoSair();"
-                        onclick="validarDados();">Excluir</button>
+                    <input id="input-produto-isbn" type="text" class="form-control" th:field="*{isbn}" />
                 </div>
             </div>
             <div class="form-group">
                 <label for="input-produto-nome">Titulo</label>
-                <input id="input-produto-nome" type="text" class="form-control" />
+                <input id="input-produto-nome" type="text" class="form-control" th:field="*{tituloLivro}"/>
             </div>
 
             <div class="form-group">
                 <label for="input-produto-descricao">Descrição</label>
-                <textarea id="input-produto-descricao" rows="3" class="form-control"></textarea>
+                <textarea id="input-produto-descricao" rows="3" class="form-control" th:field="*{descricao}"></textarea>
             </div>
 
             <div class="row">
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="input-produto-preco">Preço unitário</label>
-                        <input id="input-produto-preco" type="text" class="form-control" placeholder="R$" />
+                        <input id="input-produto-preco" type="number" class="form-control" th:field="*{preco}" placeholder="R$" />
                     </div>
                 </div>
 
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="input-produto-estoque">Estoque</label>
-                        <input id="input-produto-estoque" type="number" class="form-control" placeholder="Unidades" />
+                        <input id="input-produto-estoque" type="number" class="form-control" th:field="*{quantidadeEstoque}" placeholder="Unidades" />
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="input-produto-edicao">Edição</label>
-                        <input id="input-produto-edicao" type="text" class="form-control" placeholder="Versão" />
+                        <input id="input-produto-edicao" type="text" class="form-control" th:field="*{edicao}" placeholder="Versão" />
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="input-produto-ano">Ano de lançamento</label>
-                        <input id="input-produto-ano" type="number" max="9999" class="form-control" placeholder="Data">
+                        <input id="input-produto-ano" type="number" max="9999" class="form-control" placeholder="Data" th:field="*{anoLancamento}" >
                     </div>
                 </div>
                 <div class="col-sm-3">
 
                     <label for="input-produto-editora">Editora</label>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Selecione</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select class="form-select" aria-label="Default select example" th:field="*{idEditora}">
+                        <option th:each="editora : ${editoras}" th:value="${editora.idEditora}"
+                            th:text="${editora.nomeEditora}">One</option>
                     </select>
                 </div>
                 <div class="col-sm-3">
 
                     <label for="input-produto-categoria">Categorias</label>
-                    <select class="form-select" multiple>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select class="form-select" multiple th:field="*{listaCategorias}" type="text">
+                        <option th:each="categoria : ${categorias}" th:value="${categoria.idCategortia}"
+                            th:text="${categoria.nomeCategoria}"></option>
+
+
                     </select>
                 </div>
                 <div class="col-sm-3">
                     <label for="input-produto-autores">Autores</label>
-                    <select class="form-select" multiple>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select class="form-select" multiple th:field="*{listaAutores}">
+                        <option th:each="autor : ${autores}" th:value="${autor.idAutor}" th:text="${autor.nomeAutor}"></option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="custom-file-label" for="customInput">Selecione as imagens</label>
-                    <input id="input-produto-foto" type="text" class="form-control " placeholder="link" />
+                    <label class="custom-file-label"  for="customInput">Selecione as imagens</label>
+                    <input id="input-produto-foto" type="text" th:field="*{fotoLivro}" class="form-control " placeholder="link" />
                 </div>
 
             </div>
             <div id="botoes">
                 <div class="form-group mt-4">
                     <a th:href="@{/livraria/publico/perfil}" class="btn  btn-default">Cancelar</a>
-                    <button id="bnt_salvar" class="btn  btn-primary" type="submit" onmouseover="javascript:mudarAoPassar();"
-                    onmouseout="javascript:mudarAoSair();" onclick="validarDados();">Editar</button>
                     <button id="bnt_salvar" class="btn  btn-primary" type="submit"
-                        onmouseover="javascript:mudarAoPassar();" onmouseout="javascript:mudarAoSair();"
-                        onclick="validarDados();">Salvar</button>
+                        onmouseover="javascript:mudarAoPassar();" onmouseout="javascript:mudarAoSair();">Salvar</button>
                 </div>
             </div>
 

@@ -20,6 +20,10 @@ public class EditoraService {
 		editoraRepositorio.save(editora);
 	}
 	
+	public Editora encontarEditora(Long idEditora) {
+		return editoraRepositorio.findById(idEditora).get();
+	}
+	
 	public List<Editora> listarEditoras(){
 		return editoraRepositorio.findAll();
 	}

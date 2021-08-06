@@ -42,6 +42,11 @@ public class CategoriaService {
 		
 		
 	}
+	
+	public Categoria encontarCategoria(Long idCat) {
+		return categoriaRepositorio.findByIdCategortia(idCat);
+		
+	}
 	public List<Categoria> listarCategoria() {
 		return categoriaRepositorio.findAll();
 	}

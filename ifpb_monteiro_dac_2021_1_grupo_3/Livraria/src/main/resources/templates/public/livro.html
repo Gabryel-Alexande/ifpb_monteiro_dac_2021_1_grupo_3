@@ -25,7 +25,7 @@
             font-family: Arial, Helvetica, sans-serif;
             box-sizing: border-box;
         }
-        
+
         .container {
             border-color: #000000 !important;
             border-radius: 1%;
@@ -153,14 +153,146 @@
             width: 50%;
             height: 50%;
             justify-content: center;
-            
+
         }
+
         .object-fit {
-           object-fit:cover; 
+            object-fit: cover;
         }
 
+        .hidden {
+            display: none;
+        }
 
+        .modal-novo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%;
+
+            background-color: white;
+            padding: 6rem;
+            border-radius: 5px;
+            box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px);
+            z-index: 5;
+        }
+
+        .show-modal {
+            font-size: 2rem;
+            font-weight: 600;
+            padding: 1.75rem 3.5rem;
+            margin: 5rem 2rem;
+            border: none;
+            background-color: #fff;
+            color: #444;
+            border-radius: 10rem;
+            cursor: pointer;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.2rem;
+            right: 2rem;
+            font-size: 5rem;
+            color: #333;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .conteiner_btn {
+            margin-left: 75%;
+        }
+
+        #bnt_comprar,
+        #bnt_excluir,
+        #bnt_editar,
+        #bnt_add {
+            border-color: #a50a98;
+            color: #a50a98 !important;
+            height: 40px;
+            width: auto;
+        }
+
+        #btn_excluir {
+            border-color: #a50a98;
+            background-color: #a50a98;
+
+        }
+       
+
+        .menu_container {
+            display: flex;
+            justify-content: left;
+        }
+
+        .conteiner_categorias {
+            margin-left: 5%;
+            margin-top: 3%;
+            width: 300px;
+        }
+
+        .form-check {
+            margin-top: 5%;
+        }
     </style>
+    <script>
+        function showModal() {
+            document.querySelector(".modal-novo").classList.remove("hidden");
+            document.querySelector(".overlay").classList.remove("hidden");
+        }
+        function closeModal() {
+            document.querySelector(".modal-novo").classList.add("hidden");
+            document.querySelector(".overlay").classList.add("hidden");
+        }
+
+        function mudarAoPassarExcluir() {
+            document.getElementById("bnt_excluir").style.backgroundColor = "#a50a98";
+            document.getElementById("bnt_excluir").style.color = "white";
+        }
+        function mudarAoSairEcluir() {
+            document.getElementById("bnt_excluir").style.backgroundColor = "white";
+            document.getElementById("bnt_excluir").style.color = "#a50a98";
+        }
+        function mudarAoPassarEditar() {
+            document.getElementById("bnt_editar").style.backgroundColor = "#a50a98";
+            document.getElementById("bnt_editar").style.color = "white";
+        }
+        function mudarAoSairEditar() {
+            document.getElementById("bnt_editar").style.backgroundColor = "white";
+            document.getElementById("bnt_editar").style.color = "#a50a98";
+        }
+
+        function mudarAoPassarComprar() {
+            document.getElementById("bnt_comprar").style.backgroundColor = "#a50a98";
+            document.getElementById("bnt_comprar").style.color = "white";
+        }
+        function mudarAoSairComprar() {
+            document.getElementById("bnt_comprar").style.backgroundColor = "white";
+            document.getElementById("bnt_comprar").style.color = "#a50a98";
+        }
+        function mudarAoPassaradd() {
+            document.getElementById("bnt_add").style.backgroundColor = "#a50a98";
+            document.getElementById("bnt_add").style.color = "white";
+        }
+        function mudarAoSairadd() {
+            document.getElementById("bnt_add").style.backgroundColor = "white";
+            document.getElementById("bnt_add").style.color = "#a50a98";
+        }
+    </script>
+
 </head>
 
 <body>
@@ -174,8 +306,10 @@
             </a>
         </nav>
         <nav class="navbar navbar-light bg" style="display: flex; justify-content: center;">
-            <form class="form-inline" method="GET" th:action="@{/livraria/publico/home/pesquisa}" th:object="${pesquisaDTO}" style="display: flex;justify-content: right;">
-                <input class="form-control mr-sm-2" type="search" th:field="*{campo}" placeholder="Search" aria-label="Search">
+            <form class="form-inline" method="GET" th:action="@{/livraria/publico/home/pesquisa}"
+                th:object="${pesquisaDTO}" style="display: flex;justify-content: right;">
+                <input class="form-control mr-sm-2" type="search" th:field="*{campo}" placeholder="Search"
+                    aria-label="Search">
 
                 <button type="submit" class="btn" style="background: white;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -210,64 +344,96 @@
             </a>
         </nav>
     </nav>
-    <div class="container py-4 my-4 mx-auto d-flex flex-column border border-dark">
-        <div class="header">
-            <div class="row r1">
-                <div class="col-md-9 abc">
-                
-                    <h1 th:text="${livro.tituloLivro}">Battle Royale</h1>
-                </div>
-                <div class="col-md-3 text-right pqr"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                        class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
-            </div>
-        </div>
-        <div id="container-body" class="container-body mt-4">
-            <div class="row r3">
-                <div class="col-md-5 p-0 klo">
-                    <ul>
-                        <h4 class="md-4">Preço:</h4>
-                        <ul>
-                            <li th:text="${livro.preco}">R$58,99</li>
-                        </ul>
-                        <h4>Autores:</h4>
-                        <ul th:each="autor : ${livro.autores}">
-                            <li th:text="${autor.nomeAutor}"></li>
-            
-                        </ul>
-                        <h4 class="mt-4" >Editora:</h4>
-                        <ul>
-                            <li th:text="${livro.editora.nomeEditora}">Globo</li>
-                        </ul>
-                    </ul>
-                </div>
-                <div id="conteiner_imagem" class="col-md-7">
-                    <img
-                        class ="object-fit rounded float-center "margin-rigth-ml-5
-                        th:src="${livro.fotoLivro}"
-                        /> 
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="footer d-flex flex-column mt-5">
-        <div class="row r4">
-            <div class="col-md-2 myt des"><a href="#">Descrição</a></div>
-            <div class="col-md-2 myt "><a href="#"></a></div>
-            <div class="col-md-2 mio offset-md-4"><a href="#">ADICIONAR AO CARRINHO</a></div>
-            <div class="col-md-2 myt ">
-                <button id="bnt_comprar" type="button" class="btn btn-outline-warning"
-                    onmouseover="javascript:mudarAoPassar();" onmouseout="javascript:mudarAoSair();">
-                    <a href="#">COMPRAR</a>
-                </button>
-            </div>
 
+    <div>
+        
+        <div class="container py-4 my-4 mx-auto d-flex flex-column border border-dark">
+            <div class="modal-novo hidden">
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+                <h1>Excluir Livro ?</h1>
+                <p>
+                    Tenha em mente que essa ação não pode ser desfeita !
+                </p>
+                <div>
+                    <form  method="POST" th:action="@{/livraria/adm/deletarLivro?(id=${livro.idLivro})}" class="conteiner_btn">
+                        <button id="btn_excluir" class="btn  btn-primary" type="submit"
+                            onmouseover="javascript:mudarAoPassar();"
+                            onmouseout="javascript:mudarAoSair();">Excluir</button>
+                    </form>
+                </div>
+            </div>
+            <div class="overlay hidden"></div>
+            <div class="header">
+                <div class="row r1">
+                    <div class="col-md-9 abc">
+
+                        <h1 th:text="${livro.tituloLivro}">Battle Royale</h1>
+                    </div>
+                    <div class="col-md-3 text-right pqr"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+                            class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+                </div>
+            </div>
+            <div id="container-body" class="container-body mt-4">
+                <div class="row r3">
+                    <div class="col-md-5 p-0 klo">
+                        <ul>
+                            <h4 class="md-4">Preço:</h4>
+                            <ul>
+                                <li th:text="${livro.preco}">R$58,99</li>
+                            </ul>
+                            <h4>Autores:</h4>
+                            <ul th:each="autor : ${livro.autores}">
+                                <li th:text="${autor.nomeAutor}"></li>
+
+                            </ul>
+                            <h4 class="mt-4">Editora:</h4>
+                            <ul>
+                                <li th:text="${livro.editora.nomeEditora}">Globo</li>
+                            </ul>
+                        </ul>
+                    </div>
+                    <div id="conteiner_imagem" class="col-md-7">
+                        <img class="object-fit rounded float-center " margin-rigth-ml-5 th:src="${livro.fotoLivro}" />
+                    </div>
+                </div>
+            </div>
         </div>
-        <ul>
-            <p th:text="${livro.descricao}"> </p>
-        </ul>
+        <div class="footer d-flex flex-column mt-5">
+            <div class="row r4">
+                <div style="display: flex; justify-content: left;">
+                <div class="col-md-2 myt des"><a href="#">Descrição</a></div>
+                
+                <div sec:authorize="hasAuthority('ADMINISTRADOR')" class="col-md-2 myt " style="display: flex; justify-content: left; height: 50px;">
+                    <button id="bnt_editar" type="button" class="btn btn-outline-warning"
+                        onmouseover="javascript:mudarAoPassarEditar();" onmouseout="javascript:mudarAoSairEditar();">
+                        <a href="#">Editar</a>
+                    </button>
+                    <button id="bnt_excluir" type="button" class="btn btn-outline-warning .text-dark" style="margin-left: 10px;"
+                        onmouseover="javascript:mudarAoPassarExcluir();" onmouseout="javascript:mudarAoSairEcluir();" onclick="showModal();">
+                        Excluir
+                    </button>
+                </div>
+                <div class="col-md myt "><a href="#"></a></div>
+                <form th:action="@{/livraria/protegido/carrinho?(id=${livro.idLivro})}" style="width: 215px;" method="post">
+                    <div class="col-md-2 myt"><button style="width: 200px;" id="bnt_add" type="submit" class="btn btn-outline-warning"
+                        onmouseover="javascript:mudarAoPassaradd();" onmouseout="javascript:mudarAoSairadd();"
+                        >ADICIONAR AO CARRINHO</button></div>
+                    </form>
+                <div class="col-md-2 myt ">
+                    <button id="bnt_comprar" type="button" class="btn btn-outline-warning"
+                        onmouseover="javascript:mudarAoPassarComprar();" onmouseout="javascript:mudarAoSairComprar();">
+                        <a href="#">COMPRAR</a>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+            <ul>
+                <p th:text="${livro.descricao}"> </p>
+            </ul>
+        </div>
     </div>
-    </div>
-    </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

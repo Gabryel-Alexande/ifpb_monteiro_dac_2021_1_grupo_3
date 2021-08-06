@@ -132,7 +132,8 @@ public class UsuarioService implements Serializable {
 		try {
 			Pedido p = pedidoRepositorio.findCarrinho(user.getIdUsusario()).get(0);
 			p.setItemPedido(itemPedidoRepositorio.findByPedido(p));
-
+			p.atualizarValor();
+	
 			return p;
 
 		} catch (Exception e) {

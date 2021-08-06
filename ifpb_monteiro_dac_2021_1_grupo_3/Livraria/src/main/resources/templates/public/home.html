@@ -199,21 +199,15 @@
     <div class="menu_container">
 
         <nav class="conteiner_categorias">
+            <form method="GET" th:object="${categoriaFiltroDTO}" th:action="@{/livraria/publico/home/pesquisa/categoria}">
             <h1>Filtrar por categoria</h1>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                    Default checkbox
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                <label class="form-check-label" for="flexCheckChecked">
-                    Checked checkbox
-                </label>
+            <div class="form-check" th:each="categoria : ${categorias}" >
+                <input  class="form-check-input"  type="checkbox" th:text="${categoria.nomeCategoria}" th:field="*{idCategoria}" th:value="${categoria.idCategortia}" id="flexCheckDefault">
+
             </div>
             <button id="bnt_filtrar" class="btn  btn-primary" type="submit" onmouseover="javascript:mudarAoPassar();"
                 onmouseout="javascript:mudarAoSair();">Filtrar</button>
+            </form>
         </nav>
 
         <div>
@@ -263,22 +257,19 @@
                                             Carrinho</button>
                                     </div>
                                 </form>
-                                <div sec:authorize="hasAuthority('ADMINISTRADOR')">
-                                    <div class="container_btn_adm mt-2" style="display: flex; justify-content: center;">
-
-                                        <button type="submit" class="btn btn-dark" onclick="showModal()"
-                                            style="font-size: 11px;">Excluir</button>
-
-                                        <form>
-                                            <button type="button" class="btn btn-dark"
-                                                style="font-size: 11px; margin-left: 12px;">Editar</button>
-                                        </form>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <nav aria-label="Page navigation example" style="display: flex ;justify-content: center;">
+                    <ul class="pagination">
+                      <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                      <li class="page-item"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">3</a></li>
+                      <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                  </nav>
             </div>
         </div>
 
