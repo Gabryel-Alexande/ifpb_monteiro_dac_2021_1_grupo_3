@@ -53,6 +53,17 @@ public class ControllerPerfil {
 	@GetMapping("/protegido/editar_usuario")
 	public String solicitarEditarUsuario(UsuarioDTO usuario, Model modelo) {
 		
+		Authentication autenticado = SecurityContextHolder.getContext().getAuthentication();
+		
+		
+		try {
+			modelo.addAttribute("usuarioDTO",usuarioService.consultarUsuarioPorEmail(autenticado.getName()));
+		} catch (NotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		return "/protected/editar_usuario";
 	}
 	

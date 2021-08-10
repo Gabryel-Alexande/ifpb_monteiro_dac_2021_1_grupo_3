@@ -49,10 +49,10 @@
 <body>
     <nav class="navbar navbar-light " style="background-color: #a50a98;">
         <nav style="margin-left: 2%;">
-            <a th:href="@{/livraria/publico/home}">
+            <a th:href="@{/livraria/publico/Retornar_Home}">
                 <img src="http://cdn.onlinewebfonts.com/svg/img_323457.png" class="card-img-top" alt="..."
                     style="width: 40px;">
-                <a th:href="@{/livraria/publico/home}" class="navbar-brand m-3" href="#"
+                <a th:href="@{/livraria/publico/Retornar_Home}" class="navbar-brand m-3" href="#"
                     style="color: #000000;">Livraria</a>
             </a>
         </nav>
@@ -110,7 +110,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="input-produto-preco">Preço unitário</label>
-                        <input id="input-produto-preco" type="number" class="form-control" th:field="*{preco}" placeholder="R$" />
+                        <input id="input-produto-preco" type="text" min="1" class="form-control" th:field="*{preco}" placeholder="R$" />
                     </div>
                 </div>
 

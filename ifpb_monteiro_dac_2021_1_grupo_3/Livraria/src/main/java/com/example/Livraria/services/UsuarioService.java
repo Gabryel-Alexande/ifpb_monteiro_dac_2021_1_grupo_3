@@ -67,7 +67,7 @@ public class UsuarioService implements Serializable {
 
 		Autoridades auto = new Autoridades();
 
-		auto.setId(Autoridades.CLIENTE);
+		auto.setId(Autoridades.ADMINISTRADOR);
 		autoridades.add(auto);
 		usuario.setAutoridades(autoridades);
 
@@ -81,11 +81,11 @@ public class UsuarioService implements Serializable {
 	public void alteraUsuario(UsuarioDTO usuarioDTO) throws CPFException, LoginException {
 		Usuario usuario = usuarioRepositorio.findByEmail(usuarioDTO.getEmail());
 
-		validarDados(usuarioDTO.getCpf(), usuarioDTO.getEmail(), usuarioDTO.getSenha(), usuarioDTO.getData());
+		validarDados(usuarioDTO.getCpf(), usuarioDTO.getEmail(), usuarioDTO.getSenha(), usuarioDTO.getDataDeNascimento());
 		usuario.setCpf(usuarioDTO.getCpf());
 		usuario.setSenha(new BCryptPasswordEncoder().encode(usuarioDTO.getSenha()));
-		usuario.setNomeUsuario(usuarioDTO.getNome());
-		usuario.setDataDeNascimento(usuarioDTO.getData());
+		usuario.setNomeUsuario(usuarioDTO.getNomeUsuario());
+		usuario.setDataDeNascimento(usuarioDTO.getDataDeNascimento());
 		usuarioRepositorio.save(usuario);
 	}
 
@@ -95,8 +95,11 @@ public class UsuarioService implements Serializable {
 			throw new IllegalArgumentException("[ERRO] Cep invalido!");
 		}
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
-		Endereco enderecoRegatado = new Endereco(cep, rua, estado, cidade, complemento, pais, bairro, numeroCasa,
-				usuario);
+		Endereco enderecoRegatado = new Endereco(cep, rua, estado, cidade, complemento, pais, bairro, numeroCasa ,usuario);
+		
+		usuario.setEndereco(enderecoRegatado);
+		
+		usuarioRepositorio.save(usuario);
 		enderecoRepositorio.save(enderecoRegatado);
 	}
 
@@ -104,12 +107,15 @@ public class UsuarioService implements Serializable {
 		Endereco enderecoRegatado = enderecoRepositorio.findById(idEndereco).get();
 
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
-		if (usuario.getIdUsusario() == enderecoRegatado.getUsuario().getIdUsusario()) {
-			enderecoRegatado.setUsuario(null);
-			enderecoRepositorio.delete(enderecoRegatado);
-		} else {
-			throw new NotFoundException("[ERRO] Email não encontrado");
+		
+		if(usuario ==null) {
+			throw new NotFoundException("Email não encontrado");
 		}
+		else {
+			usuario.setEndereco(null);
+			usuarioRepositorio.save(usuario);
+		}
+		enderecoRepositorio.delete(enderecoRegatado);
 
 	}
 

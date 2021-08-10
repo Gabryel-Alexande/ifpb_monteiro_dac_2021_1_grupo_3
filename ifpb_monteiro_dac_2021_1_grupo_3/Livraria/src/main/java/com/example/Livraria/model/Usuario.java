@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
@@ -45,8 +46,8 @@ public class Usuario implements Serializable,UserDetails{
 	@Column(nullable = false)
 	private String senha;
 	
-	@OneToMany(cascade = CascadeType.MERGE,mappedBy = "usuario")
-	private List<Endereco> enderecos;
+	@OneToOne
+	private Endereco endereco;
 	
 	@Column(nullable = false)
 	private String cpf;
@@ -98,13 +99,7 @@ public class Usuario implements Serializable,UserDetails{
 		pedidos.remove(pedido);
 		pedido.removerClienteDoPedido();
 	}
-	public void adcionarEndereco(Endereco endereco) {
-		enderecos.add(endereco);
-	}
-	public void removerEndereco(Endereco endereco) {
-		enderecos.remove(endereco);
-	}
-
+	
 	public Pedido getCarrinho() {
 		for (Pedido pedido : pedidos) {
 			if(pedido.getEstadoPedido()==EstadoPedido.Aberto) {

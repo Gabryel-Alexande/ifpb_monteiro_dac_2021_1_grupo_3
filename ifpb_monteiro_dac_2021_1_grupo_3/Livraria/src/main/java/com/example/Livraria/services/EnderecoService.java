@@ -26,7 +26,4 @@ public class EnderecoService implements Serializable {
 //		Endereco endereco = new Endereco(cep, rua, estado, cidade, complemento, pais, bairro, numeroCasa);
 //		enderecoRepositorio.save(endereco);
 //	}
-	public List<Endereco> listarEnderecos(String email) {
-		return enderecoRepositorio.findByUsuario(usuarioRepositorio.findByEmail(email));
-	}
 }

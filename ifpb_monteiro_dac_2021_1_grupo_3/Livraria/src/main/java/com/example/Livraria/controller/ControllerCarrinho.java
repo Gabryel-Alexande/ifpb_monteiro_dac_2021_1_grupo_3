@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.Livraria.dto.PesquisaDTO;
+import com.example.Livraria.model.Pedido;
 import com.example.Livraria.services.UsuarioService;
 
 @Controller
@@ -25,10 +26,10 @@ public class ControllerCarrinho {
 	public String solicitarCarrinho(PesquisaDTO pesquisa ,Model modelo ) {
 		
 		Authentication autenticado = SecurityContextHolder.getContext().getAuthentication();
+		Pedido p = usuarioService.listarCarrinhoUsuario(autenticado.getName());
 		
-		
-		
-		modelo.addAttribute("pedido",usuarioService.listarCarrinhoUsuario(autenticado.getName()));
+		modelo.addAttribute("QuantItens",p.getItemPedido().size());
+		modelo.addAttribute("pedido",p);
 		
 		return "/protected/carrinho";
 		
@@ -56,9 +57,13 @@ public class ControllerCarrinho {
 	}
 	
 	
-//	
+	
 //	@GetMapping("/finalizarPedido")
-//	public String socilicitarFinalizarPedido() {
+//	public String socilicitarFinalizarPedido(@RequestParam(name = "id") Long Pedido, Model modelo) {
+//		Authentication autenticado = SecurityContextHolder.getContext().getAuthentication();
+//		
+//		modelo.addAttribute("Pedido",usuarioService.listarCarrinhoUsuario(autenticado.getName()));
+//		
 //		
 //	}
 	

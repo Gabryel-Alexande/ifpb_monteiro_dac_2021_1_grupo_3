@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import lombok.Data;
 
@@ -45,17 +46,16 @@ public class Endereco implements Serializable {
 
 	@Column(name = "numero_casa", nullable = false)
 	private String numeroCasa;
-
-	@ManyToOne
-	@JoinColumn(name = "idUsusario")
+	
+	@OneToOne
 	private Usuario usuario;
-
+	
 	@SuppressWarnings("unused")
 	private Endereco() {
 	};
 
 	public Endereco(String cep, String rua, String estado, String cidade, String complemento, String pais,
-			String bairro, String numeroCasa, Usuario usuario) {
+			String bairro, String numeroCasa , Usuario user) {
 		super();
 		this.cep = cep;
 		this.rua = rua;
@@ -65,7 +65,7 @@ public class Endereco implements Serializable {
 		this.pais = pais;
 		this.bairro = bairro;
 		this.numeroCasa = numeroCasa;
-		this.usuario = usuario;
+		this.usuario = user;
 	}
 
 	// Este metodo foi criado com a finalidade de resolver o problema da clausula

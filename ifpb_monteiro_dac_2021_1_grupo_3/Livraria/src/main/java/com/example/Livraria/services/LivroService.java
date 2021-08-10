@@ -81,6 +81,9 @@ public class LivroService {
 		
 		livroRepositorio.save(livro);
 	}
+	
+	
+	
 	/*
 	 * Todos os parametros de livro são setados aqui, aqueles que não mudam veem com o mesmo valor
 	 */
@@ -154,34 +157,25 @@ public class LivroService {
 		return livroRepositorio.findAll();
 	}
 	
-	public List<Livro> listarLivrosCategoria(List<Long>idCategoria) {
-		List<Categoria> categorias = new ArrayList<>();
-		
-		for (Long long1 : idCategoria) {
-			
-			categorias.add(categoriaRepositorio.findById(long1).get());
-		}
+	public Page<Livro> listarLivrosCategoria(List<Long>idCategoria,int numeroPagina) {
 		
 		
-		return livroRepositorio.filtrarPorCategoria(idCategoria);
+		List<Long>idLivros= livroRepositorio.filtrarPorCategoria(idCategoria);
+		
+		return livroRepositorio.buscarLivrosPeloId(idLivros,PageRequest.of(--numeroPagina,12));
 		
 	}
 
-	public List<Livro> listarLivros(String campoOrdenacao, int ordem, int numeroPagina) {
-		Direction sortDirection = Sort.Direction.DESC;
-		if (ordem == 2) {
-			sortDirection = Sort.Direction.ASC;
-		}
+	public Page<Livro> listarTodosOsLivros(Integer numeroPagina) {
+		
+		Direction sortDirection = Sort.Direction.ASC;
+		
 
-		Sort sort = Sort.by(sortDirection, campoOrdenacao);
-		Page<Livro> pagina = livroRepositorio.findAll(PageRequest.of(--numeroPagina, 5, sort));
+		Sort sort = Sort.by(sortDirection, "tituloLivro");
+		Page<Livro> pagina = livroRepositorio.findAll(PageRequest.of(--numeroPagina,12, sort));
 
-		List<Livro> livros = new ArrayList<Livro>();
-
-		for (Livro livro : pagina) {
-			livros.add(livro);
-		}
-		return livros;
+		
+		return pagina;
 	}
 
 	public List<Livro> listarCincoLivrosComMenorPreco() {
@@ -192,13 +186,13 @@ public class LivroService {
 		}
 		return livros;
 	}
-	public List<Livro> bucarLivroPorNome(String nome){
+	public Page<Livro> bucarLivroPorNome(String nome,Integer numeroPagina){
 //		List<Livro> livros= new ArrayList<Livro>();
 //		for (Livro livro : livroRepositorio.findByTituloLivro(nome)) {
 //			livros.add(livro);
 //		}
-		
-		return livroRepositorio.conteinsTitulo(nome) ;
+		Sort sort = Sort.by(Sort.Direction.ASC, "tituloLivro");
+		return livroRepositorio.conteinsTitulo(nome,PageRequest.of(--numeroPagina,12, sort)) ;
 	}
 //	public List<Livro> bucarLivrosPorCategoria(Long id){
 //		List<Livro> livros= new ArrayList<Livro>();

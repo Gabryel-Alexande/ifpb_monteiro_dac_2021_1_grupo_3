@@ -7,6 +7,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
+        #bnt_voltar{
+            border-color: #a50a98;
+            color: #a50a98 !important;
+            height: 40px;
+            width: 200px;
+            display: flex;
+            justify-content: center;
+            margin-left: 43%;
+            margin-top: 3%;
+        }
+
         .container {
             display: flex;
             justify-content: left;
@@ -60,16 +71,32 @@
         .valor {
             margin-left: 78%;
         }
+
+        .carrinho_vazio{
+            display: flex;
+            justify-content: center;
+            margin-top: 15%;
+        }
     </style>
+    <script>
+        function mudarAoPassar() {
+            document.getElementById("bnt_voltar").style.backgroundColor = "#a50a98";
+            document.getElementById("bnt_voltar").style.color = "white";
+        }
+        function mudarAoSair() {
+            document.getElementById("bnt_voltar").style.backgroundColor = "white";
+            document.getElementById("bnt_voltar").style.color = "#a50a98";
+        }
+    </script>
 </head>
 
 <body>
     <nav class="navbar navbar-light " style="background-color: #a50a98;">
         <nav style="margin-left: 2%;">
-            <a th:href="@{/livraria/publico/home}">
+            <a th:href="@{/livraria/publico/Retornar_Home}">
                 <img src="http://cdn.onlinewebfonts.com/svg/img_323457.png" class="card-img-top" alt="..."
                     style="width: 40px;">
-                <a th:href="@{/livraria/publico/home}" class="navbar-brand m-3" href="#"
+                <a th:href="@{/livraria/publico/Retornar_Home}" class="navbar-brand m-3" href="#"
                     style="color: #000000;">Livraria</a>
             </a>
         </nav>
@@ -124,8 +151,8 @@
         </div>
         <div class="quantidade">
             <h5 for="input-produto-estoque">Quantidade</h5>
-            <input disabled id="input-produto-estoque" th:value="${itens.quantidade}" type="number" min="1" class="form-control" 
-             />
+            <input disabled id="input-produto-estoque" th:value="${itens.quantidade}" type="number" min="1"
+                class="form-control" />
 
             <form th:action="@{/livraria/protegido/carrinho/del?(id=${itens.idItemPedido})}" method="POST">
                 <button type="submit" class="btn btn-dark">Remover</button>
@@ -133,15 +160,29 @@
 
         </div>
     </div>
-    <div class="total">
-        <h3>Total: </h3>
-        <h3 class="valor">
-            R$
-            <span th:text="${pedido.preco}">00,00</span>
-        </h3>
+    <div th:if="${QuantItens}!= 0">
+        <div class="total">
+            <h3>Total: </h3>
+            <h3 class="valor">
+                R$
+                <span th:text="${pedido.preco}">00,00</span>
+            </h3>
 
+        </div>
+        <button type="button" class="btn btn-dark finalizar">Finalizar Pedido</button>
     </div>
-    <button type="button" class="btn btn-dark finalizar">Finalizar Pedido</button>
+    <div th:if="${QuantItens}== 0" >
+        <h1 class="carrinho_vazio">
+            Carrinho Vazio ! 
+        </h1>
+        <div>
+            <button id="bnt_voltar" type="button" class="btn btn-outline-warning"
+            onmouseover="javascript:mudarAoPassar();" onmouseout="javascript:mudarAoSair();">
+            <a th:href="@{/livraria/publico/Retornar_Home}">Procure Seu Livro</a>
+        </button>
+        </div>
+       
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>

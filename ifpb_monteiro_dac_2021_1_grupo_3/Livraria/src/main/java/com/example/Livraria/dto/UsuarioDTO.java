@@ -17,7 +17,7 @@ import lombok.Data;
 public class UsuarioDTO {
 	
 	@NotBlank
-	private String nome;
+	private String nomeUsuario;
 	
 	@Email
 	private String email;
@@ -32,16 +32,16 @@ public class UsuarioDTO {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	@JsonSerialize(using = LocalDateSerializer.class)
 	@JsonDeserialize(using = LocalDateDeserializer.class)
-	private LocalDate data;
+	private LocalDate dataDeNascimento;
 
 	public Usuario parser() {
 
 		Usuario usuario = new Usuario();
 
-		usuario.setNomeUsuario(this.getNome());
+		usuario.setNomeUsuario(this.getNomeUsuario());
 		usuario.setSenha(this.getSenha());
 		usuario.setEmail(this.getEmail());
-		usuario.setDataDeNascimento(this.getData());
+		usuario.setDataDeNascimento(this.getDataDeNascimento());
 		usuario.setCpf(this.getCpf());
 
 		return usuario;

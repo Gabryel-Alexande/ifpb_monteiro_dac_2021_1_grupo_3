@@ -113,8 +113,8 @@
         </nav>
     </nav>
     <h1 class="m-5">Pedidos</h1>
-    <div th:each="pedido: ${pedidos}">
-        <div class="container" th:each="itens: ${pedido.itemPedido}">
+    <div th:each="pedido : ${pedidos}">
+        <div class="container" th:each="itens : ${pedido.itemPedido}">
             <div>
                 <img th:src="${itens.livro.fotoLivro}" class="mt-4" alt="...">
                 <div class="container-detalhes">
