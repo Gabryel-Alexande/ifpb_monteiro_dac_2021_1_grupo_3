@@ -5,11 +5,16 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.example.Livraria.dto.AutorDTO;
 import com.example.Livraria.exeception.LoginException;
 import com.example.Livraria.model.Autor;
+import com.example.Livraria.model.Livro;
 import com.example.Livraria.repositorio.AutorRepositorio;
 import com.example.Livraria.utilitarios.AutenticacaoLogin;
 import com.example.Livraria.utilitarios.EnviadorDeEmail;
@@ -57,8 +62,15 @@ public class AutorService {
 		
 		
 	}
-
-	public List<Autor> listarAutores() {
+	
+	public List<Autor>listarAutores(){
 		return autorRepositorio.findAll();
+	}
+
+	public Page<Autor> listarAutores(Integer numeroPagina) {
+		Direction sortDirection = Sort.Direction.ASC;
+		Sort sort = Sort.by(sortDirection, "nomeAutor");
+		Page<Autor> page = autorRepositorio.findAll(PageRequest.of(--numeroPagina,5, sort));
+		return page;
 	}
 }

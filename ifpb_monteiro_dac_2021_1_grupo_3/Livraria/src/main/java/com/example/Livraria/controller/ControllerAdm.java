@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +23,7 @@ import com.example.Livraria.dto.LivroDTO;
 import com.example.Livraria.dto.PesquisaDTO;
 import com.example.Livraria.exeception.LoginException;
 import com.example.Livraria.facade.LivroFacade;
+import com.example.Livraria.model.Autor;
 import com.example.Livraria.services.AutorService;
 import com.example.Livraria.services.CategoriaService;
 import com.example.Livraria.services.EditoraService;
@@ -41,6 +43,8 @@ public class ControllerAdm {
 	
 	@Autowired
 	LivroFacade livroFacade;
+	
+	private Integer paginaAutor=1;
 
 	
 	private Long idLivroEditar;
@@ -130,9 +134,22 @@ public class ControllerAdm {
 
 	@GetMapping("/cadastrarAutor")
 	public String solicitarCadastroAutor(AutorDTO autor, Model modelo) {
-		modelo.addAttribute("autores",autorService.listarAutores());
+		
+		Page<Autor> autores = autorService.listarAutores(paginaAutor);
+		
+		modelo.addAttribute("autores",autores);
+		modelo.addAttribute("numeracao",livroFacade.criarBotoes(autores.getTotalPages(),paginaAutor));
+		modelo.addAttribute("fim", autores.getTotalPages());
 		
 		return "/adm/cadastro_autor";
+	}
+	
+	@GetMapping("/escolher_pagina_inicio/{id}")
+	public String escolherPagina(@PathVariable Integer id ) {
+
+		paginaAutor = id;
+
+		return "redirect:/livraria/adm/cadastrarAutor";
 	}
 	
 	
