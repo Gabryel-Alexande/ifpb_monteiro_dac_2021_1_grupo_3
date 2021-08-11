@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.Livraria.dto.EnderecoDTO;
 import com.example.Livraria.dto.UsuarioDTO;
 import com.example.Livraria.exeception.CPFException;
 import com.example.Livraria.exeception.LoginException;
@@ -70,8 +71,12 @@ public class UsuarioService implements Serializable {
 		usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
 
 		Autoridades auto = new Autoridades();
-
-		auto.setId(Autoridades.ADMINISTRADOR);
+		if(usuarioRepositorio.findAll()==null) {
+			auto.setId(Autoridades.ADMINISTRADOR);
+		}
+		else {
+			auto.setId(Autoridades.CLIENTE);
+		}
 		autoridades.add(auto);
 		usuario.setAutoridades(autoridades);
 
@@ -93,13 +98,12 @@ public class UsuarioService implements Serializable {
 		usuarioRepositorio.save(usuario);
 	}
 
-	public void adcionarEndereco(String email, String cep, String rua, String estado, String cidade, String complemento,
-			String pais, String bairro, String numeroCasa) throws IllegalArgumentException {
-		if (ValidadorCep.ValidaCep(cep)) {
+	public void adcionarEndereco(EnderecoDTO enderecoDTO, String email) throws IllegalArgumentException {
+		if (ValidadorCep.ValidaCep(enderecoDTO.getCep())) {
 			throw new IllegalArgumentException("[ERRO] Cep invalido!");
 		}
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
-		Endereco enderecoRegatado = new Endereco(cep, rua, estado, cidade, complemento, pais, bairro, numeroCasa ,usuario);
+		Endereco enderecoRegatado = enderecoDTO.parse();
 		
 		usuario.setEndereco(enderecoRegatado);
 		
