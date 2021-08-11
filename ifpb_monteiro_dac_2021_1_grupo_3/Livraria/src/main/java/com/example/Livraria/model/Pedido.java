@@ -97,8 +97,9 @@ public class Pedido implements Serializable {
 		for (ItemPedido itemPedido2 : itemPedido) {
 			num+=itemPedido2.getPreco();
 		}
+		BigDecimal valor = new BigDecimal(num);
 		
-		preco = new BigDecimal(num);
+		preco = valor.divide(BigDecimal.ONE,2,BigDecimal.ROUND_HALF_UP);
 		
 	}
 
