@@ -87,26 +87,46 @@ public class LivroService {
 	/*
 	 * Todos os parametros de livro são setados aqui, aqueles que não mudam veem com o mesmo valor
 	 */
-	public void alterarLivro(Long id, String isbn, String tituloLivro, String descricao, BigDecimal preco,
-			String edicao, Integer anoLancamento, Long idEditora, Integer quantidadeEstoque) {
-		Livro validacao = livroRepositorio.findByIsbn(isbn);
+	public void alterarLivro(LivroDTO livroDTO, Long idLivroEdita) {
 		
+		Livro  validacao = livroRepositorio.findByIsbn(livroDTO.getIsbn());
 		//Aqui ocorre a valição dos dados,o isbn não podeser igual a nenhuma ja existente no banco
 		
-		if (validacao.getIsbn().equals(isbn) && validacao.getIdLivro() != id) {
-			throw new IllegalArgumentException("[ERRO] Este isbn já existe!");
+		if (validacao.getIsbn().equals(livroDTO.getIsbn()) && validacao.getIdLivro() != idLivroEdita) {
+            throw new IllegalArgumentException("[ERRO] Este isbn já existe!");
+        }
+		
+		
+		livroDTO.instanciarArrays();
+		
+		for (Long id : livroDTO.getListaAutores()) {
+			livroDTO.getAutores().add(autorRepositorio.findById(id).get());
+			
 		}
-		validarValoresLivro(anoLancamento, preco, quantidadeEstoque);
-		Livro livro = livroRepositorio.findById(id).get();
-		livro.setIsbn(isbn);
-		livro.setTituloLivro(tituloLivro);
-		livro.setDescricao(descricao);
-		livro.setPreco(preco);
-		livro.setEdicao(edicao);
-		livro.setAnoLancamento(anoLancamento);
-		Editora editoraNova = editoraRepositorio.findById(idEditora).get();
+		
+		
+		for (Long id : livroDTO.getListaCategorias()) {
+			livroDTO.getCategorias().add(categoriaRepositorio.findByIdCategortia(id));
+			
+		}
+		
+		
+		
+		
+		validarValoresLivro(livroDTO.getAnoLancamento(),new BigDecimal(livroDTO.getPreco()), livroDTO.getQuantidadeEstoque());
+		Livro livro = livroRepositorio.findById(idLivroEdita).get();
+		livro.setIsbn(livroDTO.getIsbn());
+		livro.setTituloLivro(livroDTO.getTituloLivro());
+		livro.setDescricao(livroDTO.getDescricao());
+		livro.setPreco(new BigDecimal(livroDTO.getPreco()));
+		livro.setEdicao(livroDTO.getEdicao());
+		livro.setAnoLancamento(livroDTO.getAnoLancamento());
+		Editora editoraNova = editoraRepositorio.findById(livroDTO.getIdEditora()).get();
 		livro.setEditora(editoraNova);
-		livro.setQuantidadeEstoque(quantidadeEstoque);
+		livro.setCategorias(livroDTO.getCategorias());
+		livro.setAutores(livroDTO.getAutores());
+		
+		livro.setQuantidadeEstoque(livroDTO.getQuantidadeEstoque());
 		livroRepositorio.save(livro);
 
 	}
@@ -155,6 +175,10 @@ public class LivroService {
 
 	public List<Livro> listarLivros() {
 		return livroRepositorio.findAll();
+	}
+	
+	public Livro buscarLivroPorId(Long id) {
+		return livroRepositorio.findById(id).get();
 	}
 	
 	public Page<Livro> listarLivrosCategoria(List<Long>idCategoria,int numeroPagina) {

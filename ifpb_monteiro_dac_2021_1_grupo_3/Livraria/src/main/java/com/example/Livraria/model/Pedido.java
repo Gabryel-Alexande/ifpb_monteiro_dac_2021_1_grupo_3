@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import lombok.Data;
@@ -42,6 +43,10 @@ public class Pedido implements Serializable {
 
 	@Enumerated(EnumType.STRING)
 	private EstadoPedido estadoPedido;
+	
+	@OneToOne
+	@JoinColumn(name = "idMetodoPagamento")
+	private MetodoPagamento metodoPagamento;
 
 	@SuppressWarnings("unused")
 	private Pedido() {

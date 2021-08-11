@@ -23,10 +23,16 @@
             border-radius: 5px;
         }
 
-        .detalhe{
+        .detalhe {
             margin-right: 1%;
         }
-
+        .forma_pagamento {
+            margin-left: 4%;
+            width: 90%;
+        }
+        .form-select{
+            background-color: rgba(0, 0, 0, 0.178);
+        }
         .container {
             display: flex;
             justify-content: left;
@@ -37,10 +43,12 @@
             margin-left: 60%;
             text-align: right;
         }
+
         .detalhes-produto{
             margin-left: 68%;
             text-align: right;
         }
+
         .container-enederco {
             margin-top: 3%;
             display: flex;
@@ -78,9 +86,11 @@
             margin-top: 1%;
             width: 95%;
         }
-        .preco{  
+
+        .preco {
             font-size: 20px;
         }
+
     </style>
 </head>
 
@@ -95,8 +105,10 @@
             </a>
         </nav>
         <nav class="navbar navbar-light bg" style="display: flex; justify-content: center;">
-            <form class="form-inline" method="GET" th:action="@{/livraria/publico/home/pesquisa}" th:object="${pesquisaDTO}" style="display: flex;justify-content: right;">
-                <input class="form-control mr-sm-2" type="search" th:field="*{campo}" placeholder="Search" aria-label="Search">
+            <form class="form-inline" method="GET" th:action="@{/livraria/publico/home/pesquisa}"
+                th:object="${pesquisaDTO}" style="display: flex;justify-content: right;">
+                <input class="form-control mr-sm-2" type="search" th:field="*{campo}" placeholder="Search"
+                    aria-label="Search">
 
                 <button type="submit" class="btn" style="background: white;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -156,7 +168,7 @@
                     <div class="detalhe-endereco">Lisco</div>
                     <div class="detalhe-endereco">Shinakata</div>
                 </div>
-            </div>
+            </div><br>
             <button type="button" class="btn btn-dark add">Adcionar endereço</button>
         </span>
         <span class="col detalhe-produto">
@@ -164,17 +176,26 @@
                 <div>
                     <h5 class="detalhe">Produto:</h5><br>
                     <h5 class="detalhe">Frete:</h5><br>
-                    <h5 class="detalhe">Cupom:</h5><br><br>
+                    <h5 class="detalhe">Cupom:</h5><br>
                     <h5 class="detalhe">Subtotal:</h5>
                 </div>
                 <div class="detalhes-produto">
                     <div class="detalhe-preco preco">R$ 353,94</div><br>
                     <div class="detalhe-preco preco">R$ 0</div><br>
-                    <div class="detalhe-preco preco">R$ 0</div><br><br>
+                    <div class="detalhe-preco preco">R$ 0</div><br>
                     <div class="detalhe-preco preco">R$ 353,94</div>
                     <div class="detalhe-preco preco text-danger">-R$ 0</div>
                 </div>
             </div>
+            <div class="forma_pagamento">
+
+                <h6>Forma de pagamento</h6>
+                <select class="form-select" aria-label="Default select example" th:field="*{idEditora}">
+                    <option th:each="editora : ${editoras}" th:value="${editora.idEditora}"
+                    th:text="${editora.nomeEditora}">One</option>
+                </select>
+            </div>
+        </span>
     </div>
     <div class="total">
         <h3>Total: </h3>

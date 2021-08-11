@@ -406,7 +406,7 @@
                 <div sec:authorize="hasAuthority('ADMINISTRADOR')" class="col-md-2 myt " style="display: flex; justify-content: left; height: 50px;">
                     <button id="bnt_editar" type="button" class="btn btn-outline-warning"
                         onmouseover="javascript:mudarAoPassarEditar();" onmouseout="javascript:mudarAoSairEditar();">
-                        <a href="#">Editar</a>
+                        <a th:href="@{/livraria/adm/editarLivro?(id=${livro.idLivro})}">Editar</a>
                     </button>
                     <button id="bnt_excluir" type="button" class="btn btn-outline-warning .text-dark" style="margin-left: 10px;"
                         onmouseover="javascript:mudarAoPassarExcluir();" onmouseout="javascript:mudarAoSairEcluir();" onclick="showModal();">

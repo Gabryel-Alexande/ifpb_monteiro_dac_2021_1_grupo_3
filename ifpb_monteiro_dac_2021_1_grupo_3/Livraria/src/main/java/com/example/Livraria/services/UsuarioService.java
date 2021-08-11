@@ -22,11 +22,13 @@ import com.example.Livraria.model.Endereco;
 import com.example.Livraria.model.EstadoPedido;
 import com.example.Livraria.model.ItemPedido;
 import com.example.Livraria.model.Livro;
+import com.example.Livraria.model.MetodoPagamento;
 import com.example.Livraria.model.Pedido;
 import com.example.Livraria.model.Usuario;
 import com.example.Livraria.repositorio.EnderecoRepositorio;
 import com.example.Livraria.repositorio.ItemPedidoRepositorio;
 import com.example.Livraria.repositorio.LivroRepositorio;
+import com.example.Livraria.repositorio.MetodoPagamentoRepositorio;
 import com.example.Livraria.repositorio.PedidoRepositorio;
 import com.example.Livraria.repositorio.UsuarioRepositorio;
 import com.example.Livraria.utilitarios.AutenticacaoCPF;
@@ -50,6 +52,8 @@ public class UsuarioService implements Serializable {
 	private EnderecoRepositorio enderecoRepositorio;
 	@Autowired
 	private ItemPedidoRepositorio itemPedidoRepositorio;
+	@Autowired
+	MetodoPagamentoRepositorio metodoPagamentoRepositorio;
 	@Autowired
 	private EnviadorDeEmail enviadorDeEmail;
 
@@ -312,5 +316,15 @@ public class UsuarioService implements Serializable {
 			throw new IllegalArgumentException("[ERRO] Data invalida!");
 		}
 
+	}
+	
+	public boolean isPagamentoInPedido(Long idPagamento) {
+		MetodoPagamento metodo = metodoPagamentoRepositorio.findById(idPagamento).get();
+		List<Pedido> pedidos = pedidoRepositorio.findByMetodoPagamento(metodo);
+		if(pedidos==null || pedidos.size()>0){
+			return false;
+		}
+		
+		return true;
 	}
 }

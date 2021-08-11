@@ -60,6 +60,7 @@
         #container-op {
             display: flex;
             justify-content: right;
+            margin-left: 1%;
         }
         
         .col-sm-5,.btn-outline-secondary {
@@ -68,8 +69,14 @@
             justify-content: center;
             text-decoration: none;
             color: #000000;
+            width: auto;
         }
-
+        .crud{
+            width: 550px;
+        }
+        .pagamento{
+            margin-left: 30%;
+        }
     </style>
 </head>
 
@@ -136,10 +143,11 @@
     </div>
     <div sec:authorize="hasAuthority('ADMINISTRADOR')">
         <div id="container-op" class="row">
-            <a th:href="@{/livraria/adm/cadastrarLivro}" class="col-sm-5" ><button class="btn btn-outline-secondary">Gerenciar Livro</button></a>
-           <a th:href="@{/livraria/adm/cadastrarEditora}" class="col-sm-5"><button class="btn btn-outline-secondary">Gerenciar Editora</button></a>
-           <a th:href="@{/livraria/adm/cadastrarAutor}" class="col-sm-5"><button class="btn btn-outline-secondary">Gerenciar Autor</button></a>
-            <a th:href="@{/livraria/adm/cadastrarCategoria}" class="col-sm-5"><button class="btn btn-outline-secondary">Gerenciar Categoria</button></a>
+            <a th:href="@{/livraria/adm/cadastrarLivro}" class="col-sm-5" ><button class="btn btn-outline-secondary crud">Gerenciar Livro</button></a>
+           <a th:href="@{/livraria/adm/cadastrarEditora}" class="col-sm-5"><button class="btn btn-outline-secondary crud">Gerenciar Editora</button></a>
+           <a th:href="@{/livraria/adm/cadastrarAutor}" class="col-sm-5"><button class="btn btn-outline-secondary crud">Gerenciar Autor</button></a>
+            <a th:href="@{/livraria/adm/cadastrarCategoria}" class="col-sm-5"><button class="btn btn-outline-secondary crud">Gerenciar Categoria</button></a>
+            <a th:href="@{/livraria/adm/metodo}"><button class="btn btn-outline-secondary crud pagamento">Gerenciar Metodos de pagametos</button></a>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +21,7 @@ import com.example.Livraria.dto.EditoraDTO;
 import com.example.Livraria.dto.LivroDTO;
 import com.example.Livraria.dto.PesquisaDTO;
 import com.example.Livraria.exeception.LoginException;
+import com.example.Livraria.facade.LivroFacade;
 import com.example.Livraria.services.AutorService;
 import com.example.Livraria.services.CategoriaService;
 import com.example.Livraria.services.EditoraService;
@@ -36,7 +38,12 @@ public class ControllerAdm {
 	private CategoriaService categoriaService;
 	@Autowired
 	LivroService livroService;
+	
+	@Autowired
+	LivroFacade livroFacade;
 
+	
+	private Long idLivroEditar;
 	
 	@GetMapping("/cadastrarLivro")
 	public String solicitarCadastroLivro(LivroDTO livroDTO, Model modelo) {
@@ -54,12 +61,38 @@ public class ControllerAdm {
 		}
 		
 		
-		System.out.println(livroDTO.getIdEditora());
 		
 		livroService.cadastrarLivro(livroDTO);
 		
 		return"redirect:/livraria/publico/home";
 		
+	}
+	
+	
+	@GetMapping("/editarLivro")
+	public String solicitarEditarLivro(@RequestParam(name = "id")Long idLivro,Model modelo) {
+		
+		
+	 	LivroDTO livro =  livroFacade.transformarEmDTO(livroService.buscarLivroPorId(idLivro));
+	 	this.idLivroEditar = livro.getIdLivro();
+		modelo.addAttribute("livroDTO",livro);
+		modelo.addAttribute("categorias",categoriaService.listarCategoria());
+		modelo.addAttribute("editoras",editoraService.listarEditoras());
+		modelo.addAttribute("autores",autorService.listarAutores());
+		
+		return "/adm/editar_livro";
+		
+	}
+	
+	@PostMapping("/editarLivro")
+	public String editarLivro(@Valid LivroDTO livroDTO , BindingResult result) {
+		if(result.hasErrors()) {
+			return "/adm/editar_livro";
+		}
+		
+		livroService.alterarLivro(livroDTO ,this.idLivroEditar);
+		
+		return "redirect:/livraria/publico/Retornar_Home";
 	}
 	
 	@PostMapping("/deletarLivro")

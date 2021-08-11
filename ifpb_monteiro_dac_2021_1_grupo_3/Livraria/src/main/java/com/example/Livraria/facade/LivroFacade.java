@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.example.Livraria.dto.LivroDTO;
 import com.example.Livraria.model.Livro;
 import com.example.Livraria.services.LivroService;
 
@@ -44,6 +45,29 @@ public class LivroFacade {
 		}
 		
 		return paginas;
+	}
+	
+	
+public LivroDTO transformarEmDTO(Livro livro) {
+		
+		LivroDTO livroDTO = new LivroDTO();
+		
+		
+		livroDTO.setIdLivro(livro.getIdLivro());
+		livroDTO.setAnoLancamento(livro.getAnoLancamento());
+		livroDTO.setEdicao(livro.getEdicao());
+		livroDTO.setQuantidadeEstoque(livro.getQuantidadeEstoque());
+		livroDTO.setIsbn(livro.getIsbn());
+		livroDTO.setAutores(livro.getAutores());
+		livroDTO.setIdLivro(livro.getIdLivro());
+		livroDTO.setPreco(livro.getPreco().floatValue());
+		livroDTO.setFotoLivro(livro.getFotoLivro());
+		livroDTO.setEditora(livro.getEditora());
+		livroDTO.setCategorias(livro.getCategorias());
+		livroDTO.setTituloLivro(livro.getTituloLivro());
+		livroDTO.setDescricao(livro.getDescricao());
+		
+		return livroDTO;
 	}
 	
 	
