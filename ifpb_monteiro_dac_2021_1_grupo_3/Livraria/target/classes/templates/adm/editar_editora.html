@@ -79,21 +79,21 @@
     <div class="page-header mt-4">
         <div class="container-fluid">
             <h1>
-                Editar Metodo de Pagamento
+                Editar Editora
             </h1>
         </div>
     </div>
-    <form class="form-inline" method="post" th:action="@{/livraria/adm/editar_metodo}" th:object="${pagamentoDTO}">
+    <form class="form-inline" method="post" th:action="@{/livraria/adm/editarEditora}" th:object="${editoraDTO}">
         <div class="container-fluid my-4">
 
             <div class="form-group">
                 <label for="input-produto-nome">Nome</label>
-                <input id="input-produto-nome" type="text" class="form-control" th:field="*{nomeDoPagamento}" />
+                <input id="input-produto-nome" type="text" class="form-control" th:field="*{nomeEditora}" />
             </div>
         </div>
         <div id="botoes">
             <div class="form-group mt-4">
-                <a th:href="@{/livraria/adm/metodo}" class="btn  btn-default">Cancelar</a>
+                <a th:href="@{/livraria/adm/cadastrarEditora}" class="btn  btn-default">Cancelar</a>
                 <button id="bnt_salvar" class="btn  btn-primary" type="submit" onmouseover="javascript:mudarAoPassar();"
                     onmouseout="javascript:mudarAoSair();">Salvar</button>
             </div>

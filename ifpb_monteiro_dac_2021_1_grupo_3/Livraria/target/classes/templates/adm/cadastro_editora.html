@@ -106,17 +106,23 @@
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Nome</th>
-                <th scope="col">Ações</th>
+                <th scope="col">Excluir</th>
+                <th scope="col">Editar</th>
               </tr>
             </thead>
             <tbody>
               <tr th:each="editora : ${editoras}">
                 <th scope="row" th:text="${editora.idEditora}">1</th>
                 <td th:text="${editora.nomeEditora}">Mark</td>
-                <td >
+                <td>
                     <form method="POST"  th:action="@{/livraria/adm/deletarEditora??(id=${editora.idEditora})}">
                         <button id="bnt_excluir" class="btn  btn-primary" type="submit" >Excluir</button>
                     </form>
+                </td>
+                <td>
+                    <a th:href="@{/livraria/adm/editarEditora??(id=${editora.idEditora})}"> 
+                        <button id="bnt_excluir" class="btn  btn-primary" type="button" >Editar</button>
+                    </a>
                 </td>
               </tr>
             </tbody>

@@ -8,4 +8,5 @@ import com.example.Livraria.model.Autor;
 @Repository
 public interface AutorRepositorio  extends JpaRepository<Autor, Long>{
 	
+	public Autor findByNomeAutor(String nomeAutor);
 }

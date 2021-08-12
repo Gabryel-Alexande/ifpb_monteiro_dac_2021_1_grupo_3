@@ -2,6 +2,7 @@ package com.example.Livraria.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
@@ -45,6 +46,11 @@ public class ControllerAdm {
 	LivroFacade livroFacade;
 	
 	private Integer paginaAutor=1;
+	
+	private Long idCategoriaEditar;
+	private Long idEditoraEditar;
+	private Long idAutorEditar;
+	
 
 	
 	private Long idLivroEditar;
@@ -120,6 +126,35 @@ public class ControllerAdm {
 	
 		return "/adm/cadastro_editora";
 	}
+	
+	
+	@GetMapping("/editarCategoria")
+	public String solicitarEditarCategoria(@RequestParam(name = "id") Long idCategoria, Model modelo,CategoriaDTO cat) {
+		this.idCategoriaEditar = idCategoria;
+		modelo.addAttribute("categoriaDTO",categoriaService.encontarCategoria(idCategoria));
+		
+		return "/adm/editar_categoria";
+		
+	}
+	
+	
+	
+	@PostMapping("/editarCategoria")
+	public String editarCategoria(@Valid CategoriaDTO categoriaDTO, BindingResult result ) {
+		if(result.hasErrors()) {
+			return "/adm/editar_categoria";
+		}
+		
+		categoriaService.editarCategoria(idCategoriaEditar,categoriaDTO.getNomeCategoria());
+		
+		return "redirect:/livraria/adm/cadastrarCategoria";
+		
+	}
+	
+	
+	
+	
+	
 
 	
 	
@@ -178,6 +213,38 @@ public class ControllerAdm {
 		return "redirect:/livraria/adm/cadastrarAutor";
 	}
 	
+	@GetMapping("/editarAutor")
+	public String solicitarEditarAutor(@RequestParam(name = "id") Long idAutor, Model modelo,AutorDTO autorDTO) {
+		this.idAutorEditar = idAutor;
+		autorDTO.setNomeAutor(autorService.encontarAutor(idAutor).getNomeAutor());
+		modelo.addAttribute("autorDTO",autorDTO);
+		
+		return "/adm/editar_autor";
+		
+	}
+	
+	
+	
+	@PostMapping("/editarAutor")
+	public String editarAutor(@Valid AutorDTO autorDTO, BindingResult result ) {
+		if(result.hasErrors()) {
+			return "/adm/editar_autor";
+		}
+		
+		
+		autorService.alterarAutor(idAutorEditar,autorDTO.getNomeAutor());
+		
+		
+		return "redirect:/livraria/adm/cadastrarAutor";
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 	@PostMapping("/cadastrarCategoria")
 	public String cadastrarCategoria(@Valid CategoriaDTO categoriaDTO, BindingResult result) {
 		if (result.hasErrors()) {
@@ -201,8 +268,13 @@ public class ControllerAdm {
 		if (result.hasErrors()) {
 			return "/adm/cadastro_editora";
 		}
-
-		editoraService.cadastrarEditora(editoraDTO);
+		try {
+			 editoraService.cadastrarEditora(editoraDTO);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 
 		return "redirect:/livraria/adm/cadastrarEditora";
 	}
@@ -214,6 +286,38 @@ public class ControllerAdm {
 		
 		return "redirect:/livraria/adm/cadastrarEditora";
 	}
+	
+	
+	@GetMapping("/editarEditora")
+	public String solicitarEditarEditora(@RequestParam(name = "id") Long idEditora ,Model modelo,EditoraDTO editoraDTO) {
+		this.idEditoraEditar = idEditora;
+		
+		editoraDTO.setNomeEditora(editoraService.encontarEditora(idEditora).getNomeEditora());
+		
+		modelo.addAttribute("editoraDTO", editoraDTO);
+		
+		return "/adm/editar_editora";
+		
+		
+	}
+	
+	@PostMapping("/editarEditora")
+	public String editarEditora(@Valid EditoraDTO editoraDTO,BindingResult result ) {
+		
+		if(result.hasErrors()) {
+			return "/adm/editar_editora";
+		}
+		try {
+			editoraService.editarEditora(editoraDTO.getNomeEditora(),idEditoraEditar);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return "redirect:/livraria/adm/cadastrarEditora";
+		
+	}
+	
 	
 	
 	

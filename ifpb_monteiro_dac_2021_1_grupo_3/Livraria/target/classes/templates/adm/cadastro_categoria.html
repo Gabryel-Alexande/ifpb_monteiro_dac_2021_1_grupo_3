@@ -106,7 +106,8 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nome</th>
-                    <th scope="col">Ações</th>
+                    <th scope="col">Excluir</th>
+                    <th scope="col">Editar</th>
                 </tr>
             </thead>
             <tbody>
@@ -117,6 +118,10 @@
                         <form method="POST" th:action="@{/livraria/adm/deletarCategoria?(id=${categoria.idCategortia})}">
                             <button id="bnt_excluir" class="btn  btn-primary" type="submit">Excluir</button>
                         </form>
+                    </td>
+                    <td>
+                        <a th:href="@{/livraria/adm/editarCategoria?(id=${categoria.idCategortia})}">
+                            <button id="bnt_excluir" class="btn  btn-primary" type="submit">Editar</button></a>  
                     </td>
                 </tr>
             </tbody>

@@ -1,5 +1,7 @@
 package com.example.Livraria.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,9 @@ import com.example.Livraria.dto.PesquisaDTO;
 import com.example.Livraria.dto.UsuarioDTO;
 import com.example.Livraria.exeception.CPFException;
 import com.example.Livraria.exeception.LoginException;
+import com.example.Livraria.model.Pedido;
 import com.example.Livraria.services.UsuarioService;
+
 
 import javassist.NotFoundException;
 
@@ -42,9 +46,10 @@ public class ControllerPerfil {
 		
 		Authentication autenticado = SecurityContextHolder.getContext().getAuthentication();
 		
+		List<Pedido> p = usuarioService.listarPedidosUsuario(autenticado.getName());
 		
-		model.addAttribute("pedidos",usuarioService.listarPedidosUsuario(autenticado.getName()));
-		
+		model.addAttribute("pedidos",p);
+		model.addAttribute("Quant",p.size());
 		
 		return "/protected/pedidos";
 		
