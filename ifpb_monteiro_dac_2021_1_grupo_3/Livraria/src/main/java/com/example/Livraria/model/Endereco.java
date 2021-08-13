@@ -12,9 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import lombok.Data;
-
-@Entity
 @Data
+@Entity
 public class Endereco implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -50,9 +49,7 @@ public class Endereco implements Serializable {
 	@OneToOne
 	private Usuario usuario;
 	
-	@SuppressWarnings("unused")
-	private Endereco() {
-	};
+	public Endereco(){};
 
 	public Endereco(String cep, String rua, String estado, String cidade, String complemento, String pais,
 			String bairro, String numeroCasa , Usuario user) {

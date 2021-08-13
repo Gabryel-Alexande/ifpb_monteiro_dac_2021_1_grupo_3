@@ -15,8 +15,9 @@ public class EnderecoDTO {
 	private String estado;
 	@NotBlank
 	private String cidade;
+	
+	private String complemento="Não Informado";
 	@NotBlank
-	private String complemento;
 	private String pais;
 	@NotBlank
 	private String bairro;

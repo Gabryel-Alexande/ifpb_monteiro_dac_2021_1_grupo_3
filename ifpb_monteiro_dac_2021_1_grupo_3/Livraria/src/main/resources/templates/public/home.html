@@ -210,24 +210,6 @@
         </nav>
 
         <div>
-            <div class="modal-novo hidden">
-                <button class="close-modal" onclick="closeModal()">&times;</button>
-                <h1>Excluir Livro ?</h1>
-                <p>
-                    Tenha em mente que essa ação não pode ser desfeita !
-                </p>
-                <div>
-                    <form class="conteiner_btn">
-                        <button href="pesquisa-produtos.html" onclick="closeModal()"
-                            class="btn  btn-default">Cancelar</button>
-                        <button id="btn_excluir" class="btn  btn-primary" type="submit"
-                            onmouseover="javascript:mudarAoPassar();"
-                            onmouseout="javascript:mudarAoSair();">Excluir</button>
-                    </form>
-                </div>
-            </div>
-            <div class="overlay hidden"></div>
-
             <div class="conteiner">
                 <div class="row row-cols-4">
                     <div class="col m-4" th:each="livro : ${livros}"

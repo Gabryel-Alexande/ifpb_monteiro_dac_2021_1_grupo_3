@@ -18,21 +18,27 @@
         }
     </script>
     <style>
-        span {
+        .detalhe {
             background-color: rgba(0, 0, 0, 0.178);
             border-radius: 5px;
         }
 
+
+        .detalhe-preco,
         .detalhe {
             margin-right: 1%;
+
         }
+
         .forma_pagamento {
             margin-left: 4%;
             width: 90%;
         }
-        .form-select{
+
+        .form-select {
             background-color: rgba(0, 0, 0, 0.178);
         }
+
         .container {
             display: flex;
             justify-content: left;
@@ -44,7 +50,7 @@
             text-align: right;
         }
 
-        .detalhes-produto{
+        .detalhes-produto {
             margin-left: 68%;
             text-align: right;
         }
@@ -90,7 +96,6 @@
         .preco {
             font-size: 20px;
         }
-
     </style>
 </head>
 
@@ -103,23 +108,6 @@
                 <a th:href="@{/livraria/publico/home}" class="navbar-brand m-3" href="#"
                     style="color: #000000;">Livraria</a>
             </a>
-        </nav>
-        <nav class="navbar navbar-light bg" style="display: flex; justify-content: center;">
-            <form class="form-inline" method="GET" th:action="@{/livraria/publico/home/pesquisa}"
-                th:object="${pesquisaDTO}" style="display: flex;justify-content: right;">
-                <input class="form-control mr-sm-2" type="search" th:field="*{campo}" placeholder="Search"
-                    aria-label="Search">
-
-                <button type="submit" class="btn" style="background: white;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-search" viewBox="0 0 16 16">
-                        <path
-                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
-                        </path>
-                    </svg>
-                </button>
-            </form>
-
         </nav>
         <nav style="margin-right: 2%; ">
             <a th:href="@{/livraria/protegido/carrinho}" class="carrinho">
@@ -143,65 +131,98 @@
             </a>
         </nav>
     </nav>
-    <div class="row container-enederco">
+    <div th:if="${QuantItens}>0">
+        <form method="POST" th:object="${pagamentoDTO}" th:action="@{/livraria/protegido/finalizarPedido}">
+            <div class="row container-enederco">
 
-        <span class="col detalhe">
-            <div class="container">
-                <div>
-                    <h6 class="detalhe">Bairro:</h6>
-                    <h6 class="detalhe">Rua:</h6>
-                    <h6 class="detalhe">CEP:</h6>
-                    <h6 class="detalhe">Número:</h6>
-                    <h6 class="detalhe">Complemento:</h6>
-                    <h6 class="detalhe">Cidade:</h6>
-                    <h6 class="detalhe">Estado:</h6>
-                    <h6 class="detalhe">Pais:</h6>
-                </div>
-                <div class="detalhes">
+                <span class="col detalhe">
 
-                    <div class="detalhe-endereco">Centro</div>
-                    <div class="detalhe-endereco">AV: Rua Projetada</div>
-                    <div class="detalhe-endereco">66666-2222</div>
-                    <div class="detalhe-endereco">11</div>
-                    <div class="detalhe-endereco">NA</div>
-                    <div class="detalhe-endereco">Jabam</div>
-                    <div class="detalhe-endereco">Lisco</div>
-                    <div class="detalhe-endereco">Shinakata</div>
-                </div>
-            </div><br>
-            <button type="button" class="btn btn-dark add">Adcionar endereço</button>
-        </span>
-        <span class="col detalhe-produto">
-            <div class="container">
-                <div>
-                    <h5 class="detalhe">Produto:</h5><br>
-                    <h5 class="detalhe">Frete:</h5><br>
-                    <h5 class="detalhe">Cupom:</h5><br>
-                    <h5 class="detalhe">Subtotal:</h5>
-                </div>
-                <div class="detalhes-produto">
-                    <div class="detalhe-preco preco">R$ 353,94</div><br>
-                    <div class="detalhe-preco preco">R$ 0</div><br>
-                    <div class="detalhe-preco preco">R$ 0</div><br>
-                    <div class="detalhe-preco preco">R$ 353,94</div>
-                    <div class="detalhe-preco preco text-danger">-R$ 0</div>
-                </div>
+                    <div th:if="${enderecoDisponivel}==1" class="container">
+                        <div>
+                            <h6 class="detalhe-endereco">Bairro:</h6>
+                            <h6 class="detalhe-endereco">Rua:</h6>
+                            <h6 class="detalhe-endereco">CEP:</h6>
+                            <h6 class="detalhe-endereco">Número:</h6>
+                            <h6 class="detalhe-endereco">Complemento:</h6>
+                            <h6 class="detalhe-endereco">Cidade:</h6>
+                            <h6 class="detalhe-endereco">Estado:</h6>
+                            <h6 class="detalhe-endereco">Pais:</h6>
+                        </div>
+                        <div class="detalhes">
+                            <div class="detalhe-endereco" th:text="${endereco.bairro}">Centro</div>
+                            <div class="detalhe-endereco" th:text="${endereco.rua}">AV: Rua Projetada</div>
+                            <div class="detalhe-endereco" th:text="${endereco.cep}">66666-2222</div>
+                            <div class="detalhe-endereco" th:text="${endereco.numeroCasa}">11</div>
+                            <div class="detalhe-endereco" th:text="${endereco.complemento}">NA</div>
+                            <div class="detalhe-endereco" th:text="${endereco.cidade}">Jabam</div>
+                            <div class="detalhe-endereco" th:text="${endereco.estado}">Lisco</div>
+                            <div class="detalhe-endereco" th:text="${endereco.pais}">Shinakata</div>
+                        </div>
+
+
+                    </div>
+                    <br>
+                    <div th:if="${enderecoDisponivel}==1">
+                        <a th:href="@{/livraria/protegido/endereco}">
+                            <button type="button" class="btn btn-dark add">Editar Endereço</button>
+                        </a>
+                    </div>
+                    <div th:if="${enderecoDisponivel}==0">
+                        <h1 style="margin-left:15% ; margin-top: 10%;"> Informe um endereço </h1>
+                        <a th:href="@{/livraria/protegido/endereco}">
+                            <button style="margin-top: 22%;" type="button" class="btn btn-dark add">Adcionar
+                                Endereço</button></a>
+                    </div>
+
+                </span>
+                <span class="col detalhe-produto detalhe">
+                    <div class="container">
+                        <div>
+                            <h5 class="detalhe-preco">Produto:</h5><br>
+                            <h5 class="detalhe-preco">Frete:</h5><br>
+                            <h5 class="detalhe-preco">Cupom:</h5><br>
+                            <h5 class="detalhe-preco">Subtotal:</h5>
+                        </div>
+                        <div class="detalhes-produto">
+                            <div class="detalhe-preco preco" th:text="${Pedido.preco}">R$ 353,94</div><br>
+                            <div class="detalhe-preco preco">R$ 0</div><br>
+                            <div class="detalhe-preco preco">R$ 0</div><br>
+                            <div class="detalhe-preco preco" th:text="${Pedido.preco}">R$ 353,94</div>
+                            <div class="detalhe-preco preco text-danger">-R$ 0</div>
+                        </div>
+                    </div>
+                    <div class="forma_pagamento">
+
+                        <h6>Forma de pagamento</h6>
+                        <select class="form-select" aria-label="Default select example" th:field="*{nomeDoPagamento}">
+                            <option th:each="metodo : ${MetodosPag}" th:value="${metodo.nomeDoPagamento}"
+                                th:text="${metodo.nomeDoPagamento}">One
+                            </option>
+                        </select>
+                    </div>
+                </span>
             </div>
-            <div class="forma_pagamento">
-
-                <h6>Forma de pagamento</h6>
-                <select class="form-select" aria-label="Default select example" th:field="*{idEditora}">
-                    <option th:each="editora : ${editoras}" th:value="${editora.idEditora}"
-                    th:text="${editora.nomeEditora}">One</option>
-                </select>
+            <div class="total">
+                <h3>Total: </h3>
+                <h3 class="valor"> R$:
+                    <span th:text="${Pedido.preco}">
+                    </span>
+                </h3>
             </div>
-        </span>
+            <div th:if="${comprar}==0">
+                <button disabled type="button" class="btn btn-dark finalizar-pedido">Finalizar Pedido</button>
+            </div>
+            <div th:if="${comprar}==1 ">
+                <button type="submit" class="btn btn-dark finalizar-pedido">Finalizar Pedido</button>
+            </div>
+        </form>
     </div>
-    <div class="total">
-        <h3>Total: </h3>
-        <h3 class="valor">R$ 353,94 </h3>
+    <div th:if="${QuantItens}==0">
+        <h1>
+            Você deve Adicionar livros em seu carrinho para acessar essa página
+        </h1>
+
     </div>
-    <button type="button" class="btn btn-dark finalizar-pedido">Finalizar Pedido</button>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

@@ -2,6 +2,7 @@ package com.example.Livraria.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,10 +44,23 @@ public class Pedido implements Serializable {
 
 	@Enumerated(EnumType.STRING)
 	private EstadoPedido estadoPedido;
-	
+
 	@OneToOne
 	@JoinColumn(name = "idMetodoPagamento")
 	private MetodoPagamento metodoPagamento;
+
+	private String cep;
+	private String rua;
+	private String estado;
+	private String cidade;
+	private String complemento;
+	private String pais;
+	private String bairro;
+	private String numeroCasa;
+	
+	
+	private LocalDate dataDaCompra;
+	
 
 	@SuppressWarnings("unused")
 	private Pedido() {
@@ -75,6 +89,7 @@ public class Pedido implements Serializable {
 	private void setIdPedido(Long idPedido) {
 
 	}
+
 	public void removerPreco(ItemPedido item) {
 		float preco = this.preco.floatValue();
 
@@ -82,25 +97,23 @@ public class Pedido implements Serializable {
 		this.preco = new BigDecimal(preco);
 	}
 
-
 	public void addPreco(ItemPedido item) {
 		float preco = this.preco.floatValue();
 
 		preco += item.getPreco();
 		this.preco = new BigDecimal(preco);
 	}
-	
-	
+
 	public void atualizarValor() {
-		
+
 		float num = 0;
 		for (ItemPedido itemPedido2 : itemPedido) {
-			num+=itemPedido2.getPreco();
+			num += itemPedido2.getPreco();
 		}
 		BigDecimal valor = new BigDecimal(num);
-		
-		preco = valor.divide(BigDecimal.ONE,2,BigDecimal.ROUND_HALF_UP);
-		
+
+		preco = valor.divide(BigDecimal.ONE, 2, BigDecimal.ROUND_HALF_UP);
+
 	}
 
 	public String toString() {

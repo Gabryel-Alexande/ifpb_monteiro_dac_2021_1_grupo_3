@@ -86,7 +86,7 @@ public class Livro implements Serializable {
 	}
 
 	public boolean isEmEstoque() {
-		return (quantidadeEstoque > 0) ? true : false;
+		return quantidadeEstoque > 0;
 	}
 
 	// Este metodo foi criado com a finalidade de resolver o problema da clausula
@@ -115,12 +115,12 @@ public class Livro implements Serializable {
 		if (quantidadeEstoque < quantidade) {
 			throw new NotFoundException("Este item nao tem em estoque!");
 		}
-		quantidadeEstoque = -quantidade;
+		quantidadeEstoque -= quantidade;
 
 	}
 
 	public void aumentarEtoque(int quantidade) {
-		quantidadeEstoque = +quantidade;
+		quantidadeEstoque += quantidade;
 	}
 
 	public String toString() {

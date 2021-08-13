@@ -71,10 +71,9 @@ public class UsuarioService implements Serializable {
 		usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
 
 		Autoridades auto = new Autoridades();
-		if(usuarioRepositorio.findAll()==null) {
+		if (usuarioRepositorio.findAll() == null) {
 			auto.setId(Autoridades.ADMINISTRADOR);
-		}
-		else {
+		} else {
 			auto.setId(Autoridades.CLIENTE);
 		}
 		autoridades.add(auto);
@@ -90,7 +89,8 @@ public class UsuarioService implements Serializable {
 	public void alteraUsuario(UsuarioDTO usuarioDTO) throws CPFException, LoginException {
 		Usuario usuario = usuarioRepositorio.findByEmail(usuarioDTO.getEmail());
 
-		validarDados(usuarioDTO.getCpf(), usuarioDTO.getEmail(), usuarioDTO.getSenha(), usuarioDTO.getDataDeNascimento());
+		validarDados(usuarioDTO.getCpf(), usuarioDTO.getEmail(), usuarioDTO.getSenha(),
+				usuarioDTO.getDataDeNascimento());
 		usuario.setCpf(usuarioDTO.getCpf());
 		usuario.setSenha(new BCryptPasswordEncoder().encode(usuarioDTO.getSenha()));
 		usuario.setNomeUsuario(usuarioDTO.getNomeUsuario());
@@ -99,27 +99,51 @@ public class UsuarioService implements Serializable {
 	}
 
 	public void adcionarEndereco(EnderecoDTO enderecoDTO, String email) throws IllegalArgumentException {
-		if (ValidadorCep.ValidaCep(enderecoDTO.getCep())) {
-			throw new IllegalArgumentException("[ERRO] Cep invalido!");
-		}
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		Endereco enderecoRegatado = enderecoDTO.parse();
-		
+
 		usuario.setEndereco(enderecoRegatado);
-		
-		usuarioRepositorio.save(usuario);
+
+		enderecoRegatado.setUsuario(usuario);
+
 		enderecoRepositorio.save(enderecoRegatado);
+		usuarioRepositorio.save(usuario);
+	}
+
+	public Endereco consultarEndereco(String email) {
+		Usuario usuario = usuarioRepositorio.findByEmail(email);
+		if (usuario.getEndereco() == null) {
+			return new Endereco();
+		}
+
+		return usuario.getEndereco();
+	}
+
+	public void editarEndereco(EnderecoDTO enderecoDTO, String email) throws IllegalArgumentException {
+		Usuario usuario = usuarioRepositorio.findByEmail(email);
+		Endereco enderecoRegatado = usuario.getEndereco();
+
+		enderecoRegatado.setBairro(enderecoDTO.getBairro());
+		enderecoRegatado.setCep(enderecoDTO.getCep());
+		enderecoRegatado.setCidade(enderecoDTO.getCidade());
+		enderecoRegatado.setComplemento(enderecoDTO.getComplemento());
+		enderecoRegatado.setEstado(enderecoDTO.getEstado());
+		enderecoRegatado.setNumeroCasa(enderecoDTO.getNumeroCasa());
+		enderecoRegatado.setPais(enderecoDTO.getPais());
+		enderecoRegatado.setRua(enderecoDTO.getRua());
+
+		enderecoRepositorio.save(enderecoRegatado);
+		usuarioRepositorio.save(usuario);
 	}
 
 	public void removerEndereco(Long idEndereco, String email) throws NotFoundException {
 		Endereco enderecoRegatado = enderecoRepositorio.findById(idEndereco).get();
 
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
-		
-		if(usuario ==null) {
+
+		if (usuario == null) {
 			throw new NotFoundException("Email não encontrado");
-		}
-		else {
+		} else {
 			usuario.setEndereco(null);
 			usuarioRepositorio.save(usuario);
 		}
@@ -147,7 +171,7 @@ public class UsuarioService implements Serializable {
 			Pedido p = pedidoRepositorio.findCarrinho(user.getIdUsusario()).get(0);
 			p.setItemPedido(itemPedidoRepositorio.findByPedido(p));
 			p.atualizarValor();
-	
+
 			return p;
 
 		} catch (Exception e) {
@@ -166,11 +190,9 @@ public class UsuarioService implements Serializable {
 
 	public List<Pedido> listarPedidosUsuario(String email) {
 		Usuario user = usuarioRepositorio.findByEmail(email);
-		
+
 		List<Pedido> pedidos = pedidoRepositorio.findPedidos(user.getIdUsusario());
-		
-		
-		
+
 //		if (pedidos==null) {
 //
 //			Pedido pedido = new Pedido(user);
@@ -191,66 +213,36 @@ public class UsuarioService implements Serializable {
 		if (quantidade < 1) {
 			throw new IllegalArgumentException("Quantidade invalida!");
 		}
-		
+
 		for (ItemPedido itemPedido : itemPedidoRepositorio.findByPedido(pedido)) {
-			if(itemPedido.getLivro().getIdLivro()==livro.getIdLivro()) {
-				itemPedido.setQuantidade(quantidade+itemPedido.getQuantidade());
-				pedido.setPreco(new BigDecimal(pedido.getPreco().floatValue()+(livro.getPreco().floatValue()*quantidade)));
+			if (itemPedido.getLivro().getIdLivro() == livro.getIdLivro()) {
+				itemPedido.setQuantidade(quantidade + itemPedido.getQuantidade());
+				pedido.setPreco(
+						new BigDecimal(pedido.getPreco().floatValue() + (livro.getPreco().floatValue() * quantidade)));
 				itemPedidoRepositorio.save(itemPedido);
 				chave = true;
 				break;
 			}
-			
+
 		}
-		
-		
-		
-		if(!chave) {
-			
+
+		if (!chave) {
+
 			ItemPedido item = new ItemPedido(livro, quantidade, pedido);
-			
-			
+
 			pedido.addPreco(item);
-			
+
 			itemPedidoRepositorio.save(item);
 			pedidoRepositorio.save(pedido);
 		}
-			
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-//		Usuario usuario = usuarioRepositorio.findByEmail(email);
-//		Optional<Livro> livro = livroRepositorio.findById(idLivro);
-//		Pedido pedido = getCarrinho(usuario);
-//		if (quantidade < 1) {
-//			throw new IllegalArgumentException("Quantidade invalida!");
-//		}
-//		if (pedido == null) {
-//			pedido = new Pedido(usuario);
-//			pedido.setEstadoPedido(EstadoPedido.Aberto);
-//		}
-//		ItemPedido item = new ItemPedido(livro.get(), quantidade, pedido);
-//		pedido.setPreco(item);
-//		itemPedidoRepositorio.save(item);
-//		pedidoRepositorio.save(pedido);
+
 	}
 
 	public void removerDoCarinho(Long id, String email) {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
 		ItemPedido item = itemPedidoRepositorio.findById(id).get();
 		Pedido pedido = pedidoRepositorio.findCarrinho(usuario.getIdUsusario()).get(0);
-		
+
 		if (usuario.getIdUsusario() == item.getPedido().getUsuario().getIdUsusario()) {
 			item.setPedido(null);
 			pedido.removerPreco(item);
@@ -264,23 +256,49 @@ public class UsuarioService implements Serializable {
 		return itemPedidoRepositorio.findByPedido(getCarrinho(usuario));
 	}
 
-	public void comprarLivro(String email) throws NotFoundException {
+	private Pedido setarEndereco(Pedido p, Endereco e) {
+		p.setBairro(e.getBairro());
+		p.setCep(e.getCep());
+		p.setCidade(e.getCidade());
+		p.setComplemento(e.getComplemento());
+		p.setEstado(e.getEstado());
+		p.setNumeroCasa(e.getNumeroCasa());
+		p.setPais(e.getPais());
+		p.setRua(e.getRua());
+		p.setDataDaCompra(LocalDate.now());
+
+		return p;
+	}
+
+	public void comprarLivro(String email, String metodoPag) throws NotFoundException {
 		Usuario usuario = usuarioRepositorio.findByEmail(email);
-		List<ItemPedido> itens = itemPedidoRepositorio.findAll();
-		Pedido pedido = getCarrinho(usuario);
+
+		Pedido pedido = this.listarCarrinhoUsuario(email);
+
+		List<ItemPedido> itens = itemPedidoRepositorio.findByPedido(pedido);
+
 		for (ItemPedido itemPedido : itemPedidoRepositorio.findByPedido(pedido)) {
+
 			if (!itemPedido.getLivro().isEmEstoque()) {
 				throw new NotFoundException("[ERRO] Este livro não estar em estoque!");
 			}
 		}
+
+		pedido = setarEndereco(pedido, usuario.getEndereco());
+
+		pedido.setMetodoPagamento(metodoPagamentoRepositorio.findByNomeDoPagamento(metodoPag));
+
 		pedido.setEstadoPedido(EstadoPedido.Fechado);
-		pedidoRepositorio.save(pedido);
+
 		for (ItemPedido itemPedido : itens) {
-			itemPedido.getLivro().diminuirEtoque(itemPedido.getQuantidade());
-			itemPedidoRepositorio.save(itemPedido);
+			System.out.println("CHEGUEI AQUIIIIIIIIII");
+			Livro l = livroRepositorio.findById(itemPedidoRepositorio.findByLivro(itemPedido.getIdItemPedido())).get();
+			l.diminuirEtoque(itemPedido.getQuantidade());
+			livroRepositorio.save(l);
 		}
-		enviadorDeEmail.enviarEmail(usuario.getEmail(), "Sua compra foi feita com sucesso!",
-				"Obrigado por sua compra.\nSeu pedido chegara em breve!");
+		pedidoRepositorio.save(pedido);
+//		enviadorDeEmail.enviarEmail(usuario.getEmail(), "Sua compra foi feita com sucesso!",
+//				"Obrigado por sua compra.\nSeu pedido chegara em breve!");
 	}
 
 	public void cancelarPedido(Long idPedido, String email) {
@@ -321,14 +339,14 @@ public class UsuarioService implements Serializable {
 		}
 
 	}
-	
+
 	public boolean isPagamentoInPedido(Long idPagamento) {
 		MetodoPagamento metodo = metodoPagamentoRepositorio.findById(idPagamento).get();
 		List<Pedido> pedidos = pedidoRepositorio.findByMetodoPagamento(metodo);
-		if(pedidos==null || pedidos.size()>0){
+		if (pedidos == null || pedidos.size() > 0) {
 			return false;
 		}
-		
+
 		return true;
 	}
 }
