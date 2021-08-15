@@ -131,22 +131,28 @@
     </nav>
     <div th:if="${Quant} != 0">
         <h1 class="m-5">Pedidos</h1>
-        <div th:each="pedido : ${pedidos}">
-            <div class="container" th:each="itens : ${pedido.itemPedido}">
-                <div>
+            <div class="container" th:each="pedido : ${pedidos}">
+                <div class="row row-cols-4">
+                <div class="col m-4" th:each="itens : ${pedido.itemPedido}"> 
                     <img th:src="${itens.livro.fotoLivro}" class="mt-4" alt="...">
                     <div class="container-detalhes">
                         <h5 class="card-title mt-4" th:text="${itens.livro.tituloLivro}">Battle Royale</h5>
                         <div class="card-text mt-5">
                             <span th:text="${itens.livro.preco}">R$ 58,99</span>
-                            <span class="quantidade">x3</span>
+                            <h8 class="quantidade">x <span th:text="${itens.quantidade}"> </span></h8>
                         </div>
                     </div>
-                    <div class="estoque">
-                        <h5 for="input-produto-estoque">Quantidade</h5>
-                        <h6 id="input-produto-estoque" th:text="${itens.quantidade}">3</h6>
-                    </div>
                 </div>
+            </div>
+            <h2 style="margin-top: 50%;">Preço Total R$<span th:text="${pedido.preco}"></span></h2>
+            <form th:action="@{/livraria/protegido/cancelarPedido?(id=${pedido.idPedido})}" method="post">
+            <button id="bnt_home" type="submit" class="btn btn-outline-warning"
+                onmouseover="javascript:mudarAoPassar();" onmouseout="javascript:mudarAoSair();">
+                Cancelar Pedido
+            </button>
+        </form>
+
+                
             </div>
         </div>
     </div>

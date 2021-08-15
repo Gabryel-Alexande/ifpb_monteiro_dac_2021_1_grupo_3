@@ -71,17 +71,16 @@ public class UsuarioService implements Serializable {
 		usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
 
 		Autoridades auto = new Autoridades();
-		if (usuarioRepositorio.findAll() == null) {
-			auto.setId(Autoridades.ADMINISTRADOR);
-		} else {
-			auto.setId(Autoridades.CLIENTE);
-		}
+		
+	
+		auto.setId(Autoridades.CLIENTE);
+		
 		autoridades.add(auto);
 		usuario.setAutoridades(autoridades);
 
-		enviadorDeEmail.enviarEmail(usuario.getEmail(), "Sua conta foi criada com sucesso!",
-				"Seja bem vindo a nossa loja " + usuario.getNomeUsuario()
-						+ "\nAqui temos uma grande variedade de livros.\nSinta-se a vontade para nos contactar.\nObrigado por nos escolher.");
+//		enviadorDeEmail.enviarEmail(usuario.getEmail(), "Sua conta foi criada com sucesso!",
+//				"Seja bem vindo a nossa loja " + usuario.getNomeUsuario()
+//						+ "\nAqui temos uma grande variedade de livros.\nSinta-se a vontade para nos contactar.\nObrigado por nos escolher.");
 
 		usuarioRepositorio.save(usuario);
 	}
@@ -308,7 +307,8 @@ public class UsuarioService implements Serializable {
 			for (ItemPedido itemPedido : itemPedidoRepositorio.findByPedido(pedido)) {
 				itemPedido.getLivro().aumentarEtoque(itemPedido.getQuantidade());
 			}
-			pedidoRepositorio.delete(pedido);
+			pedido.setEstadoPedido(EstadoPedido.Cancelado);
+			pedidoRepositorio.save(pedido);
 		}
 		enviadorDeEmail.enviarEmail(usuario.getEmail(), "Sua compra cancelada com sucesso!",
 				"Sua compra foi cancelada, logo receberá seu reembolso!");

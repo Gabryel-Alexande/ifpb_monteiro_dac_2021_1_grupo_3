@@ -23,7 +23,6 @@ import com.example.Livraria.repositorio.ItemPedidoRepositorio;
 import com.example.Livraria.repositorio.LivroRepositorio;
 import com.example.Livraria.utilitarios.EnviadorDeEmail;
 
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -42,78 +41,77 @@ public class LivroService {
 	private EditoraRepositorio editoraRepositorio;
 	@Autowired
 	private EnviadorDeEmail enviadorDeEmail;
-	
+
 	@Autowired
 	private ItemPedidoRepositorio itemPedidoRepositorio;
+
 	/*
-	 * Este metodo cadastra um livro no banco recenbendo todos os seus parametros e o id da editora que pertece
-	 * e uma coleção de id de categoria, autor e imagens que pertencem a este livro
+	 * Este metodo cadastra um livro no banco recenbendo todos os seus parametros e
+	 * o id da editora que pertece e uma coleção de id de categoria, autor e imagens
+	 * que pertencem a este livro
 	 */
 	public void cadastrarLivro(LivroDTO livroDTO) throws IllegalArgumentException {
-		
-		//Aqui ocorre a valição dos dados,o isbn não podeser igual a nenhuma ja existente no banco
+
+		// Aqui ocorre a valição dos dados,o isbn não podeser igual a nenhuma ja
+		// existente no banco
 
 		if (livroRepositorio.findByIsbn(livroDTO.getIsbn()) != null) {
 			throw new IllegalArgumentException("[ERRO] Este isbn já existe!");
 		}
-		validarValoresLivro(livroDTO.getAnoLancamento(),new BigDecimal(livroDTO.getPreco()),livroDTO.getQuantidadeEstoque());
-		
+		validarValoresLivro(livroDTO.getAnoLancamento(), new BigDecimal(livroDTO.getPreco()),
+				livroDTO.getQuantidadeEstoque());
+
 		livroDTO.instanciarArrays();
-		
+
 		for (Long id : livroDTO.getListaAutores()) {
 			livroDTO.getAutores().add(autorRepositorio.findById(id).get());
-			
+
 		}
-		
-		
+
 		for (Long id : livroDTO.getListaCategorias()) {
 			livroDTO.getCategorias().add(categoriaRepositorio.findByIdCategortia(id));
-			
+
 		}
-		
+
 		livroDTO.setEditora(editoraRepositorio.findById(livroDTO.getIdEditora()).get());
-		
-		//parte responsavel por buscar todas a categoria requisitadas pelo id
-		
+
+		// parte responsavel por buscar todas a categoria requisitadas pelo id
+
 		Livro livro = livroDTO.parser();
-		
-		//parte responsavel por buscar todas os autores requisitados pelo id
-		
+
+		// parte responsavel por buscar todas os autores requisitados pelo id
+
 		livroRepositorio.save(livro);
 	}
-	
-	
-	
+
 	/*
-	 * Todos os parametros de livro são setados aqui, aqueles que não mudam veem com o mesmo valor
+	 * Todos os parametros de livro são setados aqui, aqueles que não mudam veem com
+	 * o mesmo valor
 	 */
 	public void alterarLivro(LivroDTO livroDTO, Long idLivroEdita) {
-		
-		Livro  validacao = livroRepositorio.findByIsbn(livroDTO.getIsbn());
-		//Aqui ocorre a valição dos dados,o isbn não podeser igual a nenhuma ja existente no banco
-		
+
+		Livro validacao = livroRepositorio.findByIsbn(livroDTO.getIsbn());
+		// Aqui ocorre a valição dos dados,o isbn não podeser igual a nenhuma ja
+		// existente no banco
+
 		if (validacao.getIsbn().equals(livroDTO.getIsbn()) && validacao.getIdLivro() != idLivroEdita) {
-            throw new IllegalArgumentException("[ERRO] Este isbn já existe!");
-        }
-		
-		
+			throw new IllegalArgumentException("[ERRO] Este isbn já existe!");
+		}
+
 		livroDTO.instanciarArrays();
-		
+
 		for (Long id : livroDTO.getListaAutores()) {
 			livroDTO.getAutores().add(autorRepositorio.findById(id).get());
-			
+
 		}
-		
-		
+
 		for (Long id : livroDTO.getListaCategorias()) {
 			livroDTO.getCategorias().add(categoriaRepositorio.findByIdCategortia(id));
-			
+
 		}
-		
-		
-		
-		
-		validarValoresLivro(livroDTO.getAnoLancamento(),new BigDecimal(livroDTO.getPreco()), livroDTO.getQuantidadeEstoque());
+
+		validarValoresLivro(livroDTO.getAnoLancamento(), new BigDecimal(livroDTO.getPreco()),
+				livroDTO.getQuantidadeEstoque());
 		Livro livro = livroRepositorio.findById(idLivroEdita).get();
 		livro.setIsbn(livroDTO.getIsbn());
 		livro.setTituloLivro(livroDTO.getTituloLivro());
@@ -123,20 +121,26 @@ public class LivroService {
 		livro.setAnoLancamento(livroDTO.getAnoLancamento());
 		Editora editoraNova = editoraRepositorio.findById(livroDTO.getIdEditora()).get();
 		livro.setEditora(editoraNova);
-		livro.setCategorias(livroDTO.getCategorias());
-		livro.setAutores(livroDTO.getAutores());
-		
+
+		if (livroDTO.getCategorias().size() != 0) {
+			livro.setCategorias(livroDTO.getCategorias());
+
+		}
+
+		if (livroDTO.getAutores().size() != 0) {
+			livro.setAutores(livroDTO.getAutores());
+
+		}
+
 		livro.setQuantidadeEstoque(livroDTO.getQuantidadeEstoque());
 		livroRepositorio.save(livro);
 
 	}
-	
-	
-	
+
 	public void removerLivro(Long idLivro) {
 		Livro livroRemove = livroRepositorio.findById(idLivro).get();
-		List<ItemPedido> itemPedidos = itemPedidoRepositorio.findByLivro(livroRemove); 
-		
+		List<ItemPedido> itemPedidos = itemPedidoRepositorio.findByLivro(livroRemove);
+
 		for (ItemPedido itemPedido : itemPedidos) {
 			itemPedidoRepositorio.delete(itemPedido);
 		}
@@ -176,29 +180,26 @@ public class LivroService {
 	public List<Livro> listarLivros() {
 		return livroRepositorio.findAll();
 	}
-	
+
 	public Livro buscarLivroPorId(Long id) {
 		return livroRepositorio.findById(id).get();
 	}
-	
-	public Page<Livro> listarLivrosCategoria(List<Long>idCategoria,int numeroPagina) {
-		
-		
-		List<Long>idLivros= livroRepositorio.filtrarPorCategoria(idCategoria);
-		
-		return livroRepositorio.buscarLivrosPeloId(idLivros,PageRequest.of(--numeroPagina,12));
-		
+
+	public Page<Livro> listarLivrosCategoria(List<Long> idCategoria, int numeroPagina) {
+
+		List<Long> idLivros = livroRepositorio.filtrarPorCategoria(idCategoria);
+
+		return livroRepositorio.buscarLivrosPeloId(idLivros, PageRequest.of(--numeroPagina, 12));
+
 	}
 
 	public Page<Livro> listarTodosOsLivros(Integer numeroPagina) {
-		
+
 		Direction sortDirection = Sort.Direction.ASC;
-		
 
 		Sort sort = Sort.by(sortDirection, "tituloLivro");
-		Page<Livro> pagina = livroRepositorio.findAll(PageRequest.of(--numeroPagina,12, sort));
+		Page<Livro> pagina = livroRepositorio.findAll(PageRequest.of(--numeroPagina, 12, sort));
 
-		
 		return pagina;
 	}
 
@@ -210,14 +211,16 @@ public class LivroService {
 		}
 		return livros;
 	}
-	public Page<Livro> bucarLivroPorNome(String nome,Integer numeroPagina){
+
+	public Page<Livro> bucarLivroPorNome(String nome, Integer numeroPagina) {
 //		List<Livro> livros= new ArrayList<Livro>();
 //		for (Livro livro : livroRepositorio.findByTituloLivro(nome)) {
 //			livros.add(livro);
 //		}
 		Sort sort = Sort.by(Sort.Direction.ASC, "tituloLivro");
-		return livroRepositorio.conteinsTitulo(nome,PageRequest.of(--numeroPagina,12, sort)) ;
+		return livroRepositorio.conteinsTitulo(nome, PageRequest.of(--numeroPagina, 12, sort));
 	}
+
 //	public List<Livro> bucarLivrosPorCategoria(Long id){
 //		List<Livro> livros= new ArrayList<Livro>();
 //		Categoria categoria= categoriaRepositorio.findByIdCategortia(id);
@@ -226,30 +229,32 @@ public class LivroService {
 //		}
 //		return livros;
 //	}
-	public Livro bucarLivrosPorIsbn(String isbn){
+	public Livro bucarLivrosPorIsbn(String isbn) {
 		return livroRepositorio.findByIsbn(isbn);
 	}
-	public Livro bucarLivrosPorId(Long id){
+
+	public Livro bucarLivrosPorId(Long id) {
 		Optional<Livro> livro = livroRepositorio.findById(id);
-		if(livro.isPresent()) {
+		if (livro.isPresent()) {
 			return livro.get();
-			
+
 		}
 		return null;
-		
+
 	}
-	
+
 	/*
-	 * Metodo validador de dados do livro, aqui é testado se todos os valores correspondem as restrições do banco
+	 * Metodo validador de dados do livro, aqui é testado se todos os valores
+	 * correspondem as restrições do banco
 	 */
-	private void validarValoresLivro(Integer anoLancamento, BigDecimal preco,Integer quantidade) {
+	private void validarValoresLivro(Integer anoLancamento, BigDecimal preco, Integer quantidade) {
 		if (anoLancamento > Calendar.getInstance().get(Calendar.YEAR) || anoLancamento < 0) {
 			throw new IllegalArgumentException("[ERRO] Data invalida!");
 		}
 		if (preco.floatValue() <= 0) {
 			throw new IllegalArgumentException("[ERRO] Preco invalida!");
 		}
-		if(quantidade<0) {
+		if (quantidade < 0) {
 			throw new IllegalArgumentException("[ERRO] Quantidade invalida!");
 		}
 	}

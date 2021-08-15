@@ -73,11 +73,15 @@ public class LivroDTO {
 
 		livro.setPreco(new BigDecimal(this.getPreco()));
 		livro.setDescricao(this.getDescricao());
-
+		livro.setEditora(this.getEditora());
+		
+		
+		livro.setCategorias(this.getCategorias());
+		
 		livro.setAutores(this.getAutores());
 
-		livro.setCategorias(this.getCategorias());
-		livro.setEditora(this.getEditora());
+		
+		
 
 		return livro;
 	}

@@ -20,6 +20,7 @@ import com.example.Livraria.dto.UsuarioDTO;
 import com.example.Livraria.exeception.CPFException;
 import com.example.Livraria.exeception.LoginException;
 import com.example.Livraria.model.Pedido;
+import com.example.Livraria.services.LivroService;
 import com.example.Livraria.services.UsuarioService;
 
 
@@ -31,6 +32,7 @@ public class ControllerPerfil {
 	@Autowired
 	UsuarioService usuarioService;
 	@Autowired
+	LivroService livroService;
 	
 	
 	@GetMapping("/publico/perfil")
@@ -53,6 +55,16 @@ public class ControllerPerfil {
 		
 		return "/protected/pedidos";
 		
+	}
+	
+	@PostMapping("/protegido/cancelarPedido")
+	public String cancelarPedido(@RequestParam(name = "id") Long idPedido) {
+		
+		Authentication autenticado = SecurityContextHolder.getContext().getAuthentication();
+		
+		usuarioService.cancelarPedido(idPedido, autenticado.getName());
+		
+		return"redirect:/livraria/protegido/pedidos";
 	}
 	
 	@GetMapping("/protegido/editar_usuario")
