@@ -24,9 +24,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import jdk.jfr.BooleanFlag;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class Usuario implements Serializable,UserDetails{
 	
 	private static final long serialVersionUID = 1L;
@@ -37,7 +40,7 @@ public class Usuario implements Serializable,UserDetails{
 	private Long idUsusario;
 	
 	@Column(name = "nome_usuario", nullable = false)
-	@Size(min=3,max=50)
+	@Size(min=3,max=50, message = "O nome de usuário deve ter entre 3 a 50 caracteres")
 	private String nomeUsuario;
 	
 	@Column(nullable = false) 

@@ -87,6 +87,12 @@
     </div>
 
     <div class="container-fluid my-4">
+        <div th:if="${excecao} != ''" class="container mt-4">
+            <div class="alert alert-danger" role="alert">
+                <span th:text="${excecao}"></span> 
+                <button type="button" class="btn-close btn-outline-success" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
 
         <form method="POST" th:action="@{/livraria/adm/editarLivro}" th:object="${livroDTO}"
             class="form-vertical  js-form-loading">

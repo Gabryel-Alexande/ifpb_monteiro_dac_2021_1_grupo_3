@@ -7,11 +7,14 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -22,9 +25,10 @@ import com.example.Livraria.facade.LivroFacade;
 import com.example.Livraria.model.Livro;
 import com.example.Livraria.services.CategoriaService;
 import com.example.Livraria.services.LivroService;
+import com.example.Livraria.services.UsuarioService;
 
 @Controller
-@RequestMapping("/livraria/publico")
+@RequestMapping("/livraria")
 public class ControllerHome {
 
 	@Autowired
@@ -36,16 +40,21 @@ public class ControllerHome {
 	@Autowired
 	private LivroFacade livroFacade;
 	
+	@Autowired
+	private UsuarioService usuarioService;
+	
 	
 	private Integer pagina =1;
 	
 	private String buscaPagina ="";
 	
+	private String excecao = "";
+	
 	private List<Long> idsLivros = new ArrayList<Long>();
 	
 	
 	
-	@GetMapping("/home")
+	@GetMapping("/publico/home")
 	public String solicitarHome(PesquisaDTO pesquisa,CategoriaFiltroDTO dto ,Model modelo) {
 		
 		if (this.idsLivros.size()==0) {
@@ -62,12 +71,32 @@ public class ControllerHome {
 		
 		modelo.addAttribute("fim", livros.getTotalPages());
 		
+		modelo.addAttribute("excecao",excecao);
+		
+		excecao="";
+		
 		return "/public/home";
 
 	}
 	
+	@PostMapping("/protegido/carrinho")
+	public String adicionarNoCarrinho(@RequestParam(name = "id") Long idLivro, Model modelo) {
+		Authentication autenticado = SecurityContextHolder.getContext().getAuthentication();
+		
+		try{
+			usuarioService.adcionarAoCarinho(idLivro,1,autenticado.getName());
+		}catch (Exception e) {
+			// TODO: handle exception
+			excecao = e.getMessage();
+		}
+		
+		return "redirect:/livraria/publico/home";
+		
+		
+	}
 	
-	@GetMapping("/Retornar_Home")
+	
+	@GetMapping("/publico/Retornar_Home")
 	public String retornarHome() {
 		this.buscaPagina="";
 		this.pagina=1;
@@ -79,7 +108,7 @@ public class ControllerHome {
 	
 	
 	
-	@GetMapping("/escolher_pagina_inicio/{id}")
+	@GetMapping("/publico/escolher_pagina_inicio/{id}")
 	public String escolherPagina(@PathVariable Integer id ) {
 
 		pagina = id;
@@ -87,7 +116,7 @@ public class ControllerHome {
 		return "redirect:/livraria/publico/home";
 	}
 	
-	@GetMapping("/home/pesquisa")
+	@GetMapping("/publico/home/pesquisa")
 	public String solicitarLivroPesquisa(PesquisaDTO pesquisa, Model modelo,CategoriaFiltroDTO dto) {
 		this.buscaPagina = pesquisa.getCampo();
 		this.pagina = 1;
@@ -96,7 +125,7 @@ public class ControllerHome {
 	}
 	
 	
-	@GetMapping("/home/pesquisa/categoria")
+	@GetMapping("/publico/home/pesquisa/categoria")
 	public String solicitarLivroPesquisaCategoria(@Valid CategoriaFiltroDTO dto ,PesquisaDTO pesquisa, BindingResult result,Model modelo ) {
 //		for (Long valor : dto.getIdCategoria()) {
 //			
@@ -125,7 +154,7 @@ public class ControllerHome {
 	}
 	
 
-	@GetMapping("/home/livro")
+	@GetMapping("/publico/home/livro")
 	public String solicitarLivro(@RequestParam(name = "id") Long idLivro,PesquisaDTO pesquisa , Model modelo) {
 		LivroDTO livroDTO = this.transformarEmDTO(livroService.bucarLivrosPorId(idLivro));
 		
@@ -134,6 +163,21 @@ public class ControllerHome {
 
 		return "/public/livro";
 
+	}
+	
+	@PostMapping("/adm/deletarLivro")
+	public String deletarLivro(@RequestParam(name = "id") Long idLivro , Model modelo) {
+		
+		try{
+			livroService.removerLivro(idLivro);
+		}catch (Exception e) {
+			excecao = e.getMessage();
+		}
+		
+		
+		
+		return "redirect:/livraria/publico/home";
+		
 	}
 	
 	

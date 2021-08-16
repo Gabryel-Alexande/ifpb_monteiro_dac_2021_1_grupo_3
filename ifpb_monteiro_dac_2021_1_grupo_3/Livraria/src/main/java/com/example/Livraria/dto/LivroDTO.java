@@ -10,31 +10,33 @@ import com.example.Livraria.model.Livro;
 import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Data
 public class LivroDTO {
 
 	private Long idLivro;
 
-	@NotBlank
+	@NotBlank(message = "O isbn não pode vazio")
 	private String isbn;
 
-	@NotBlank
+	@NotBlank(message = "A foto do livro não pode ser vazia")
 	private String fotoLivro;
 
-	@NotBlank
+	@NotBlank(message = "O titulo não pode ser vazio")
 	private String tituloLivro;
 
-	@NotBlank
+	@NotBlank(message = "A descrição não pode  ser vazia")
+	@Size(max = 255 ,message = "A Descrição não pode conter mais de 255 caracteres")
 	private String descricao;
 
-	@NotBlank
+	@NotBlank(message = "A edição não pode ser vazia")
 	private String edicao;
-	@NotNull
+	@NotNull(message = "Por favor informe uma quantidade em estoque")
 	private Integer quantidadeEstoque;
-	@NotNull
+	@NotNull(message = "Informe o ano de lançamento do livro")
 	private Integer anoLancamento;
-	@NotNull
+	@NotNull(message = "Informe o valor do Livro")
 	private Float preco;
 	@NotNull
 	private List<Long> listaAutores;

@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.ObjectDeletedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -137,12 +138,12 @@ public class LivroService {
 
 	}
 
-	public void removerLivro(Long idLivro) {
+	public void removerLivro(Long idLivro) throws IllegalArgumentException{
 		Livro livroRemove = livroRepositorio.findById(idLivro).get();
 		List<ItemPedido> itemPedidos = itemPedidoRepositorio.findByLivro(livroRemove);
 
-		for (ItemPedido itemPedido : itemPedidos) {
-			itemPedidoRepositorio.delete(itemPedido);
+		if(itemPedidos.size()>0) {
+			throw new IllegalArgumentException("Impossível deletar esse livro póis clientes já o compraram");
 		}
 
 		livroRepositorio.delete(livroRemove);

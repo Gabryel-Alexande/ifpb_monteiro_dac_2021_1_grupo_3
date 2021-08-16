@@ -58,7 +58,7 @@ public class UsuarioService implements Serializable {
 	@Autowired
 	private EnviadorDeEmail enviadorDeEmail;
 
-	public void cadastrarUsuario(UsuarioDTO usuarioDTO) throws CPFException, LoginException {
+	public void cadastrarUsuario(UsuarioDTO usuarioDTO) throws CPFException, LoginException ,IllegalArgumentException{
 		Usuario usuario = usuarioDTO.parser();
 		List<Autoridades> autoridades = new ArrayList<>();
 
@@ -73,7 +73,13 @@ public class UsuarioService implements Serializable {
 		Autoridades auto = new Autoridades();
 		
 	
-		auto.setId(Autoridades.CLIENTE);
+		if(usuarioRepositorio.findAll().size()==0) {
+			auto.setId(Autoridades.ADMINISTRADOR);
+		}
+		else {
+			
+			auto.setId(Autoridades.CLIENTE);
+		}
 		
 		autoridades.add(auto);
 		usuario.setAutoridades(autoridades);
@@ -209,12 +215,16 @@ public class UsuarioService implements Serializable {
 		return pedidos;
 	}
 
-	public void adcionarAoCarinho(Long idLivro, Integer quantidade, String email) {
+	public void adcionarAoCarinho(Long idLivro, Integer quantidade, String email) throws IllegalArgumentException {
 		Pedido pedido = this.listarCarrinhoUsuario(email);
 		Livro livro = livroRepositorio.findById(idLivro).get();
 		boolean chave = false;
 		if (quantidade < 1) {
 			throw new IllegalArgumentException("Quantidade invalida!");
+		}
+		
+		if(livro.getQuantidadeEstoque()-quantidade <0) {
+			throw new IllegalArgumentException("Infelizmente o livro: "+livro.getTituloLivro()+" Está sem copias em estoque");
 		}
 
 		for (ItemPedido itemPedido : itemPedidoRepositorio.findByPedido(pedido)) {
@@ -283,7 +293,7 @@ public class UsuarioService implements Serializable {
 		for (ItemPedido itemPedido : itemPedidoRepositorio.findByPedido(pedido)) {
 
 			if (!itemPedido.getLivro().isEmEstoque()) {
-				throw new NotFoundException("[ERRO] Este livro não estar em estoque!");
+				throw new NotFoundException("[ERRO] O livro: "+itemPedido.getLivro().getTituloLivro()+" não está em estoque!");
 			}
 		}
 
@@ -294,7 +304,6 @@ public class UsuarioService implements Serializable {
 		pedido.setEstadoPedido(EstadoPedido.Fechado);
 
 		for (ItemPedido itemPedido : itens) {
-			System.out.println("CHEGUEI AQUIIIIIIIIII");
 			Livro l = livroRepositorio.findById(itemPedidoRepositorio.findByLivro(itemPedido.getIdItemPedido())).get();
 			l.diminuirEtoque(itemPedido.getQuantidade());
 			livroRepositorio.save(l);
@@ -328,13 +337,14 @@ public class UsuarioService implements Serializable {
 	}
 
 	private void validarDados(String cpf, String email, String senha, LocalDate dataDeNascimento)
-			throws CPFException, LoginException {
+			throws CPFException, LoginException ,IllegalArgumentException{
 		if (!AutenticacaoCPF.autenticarCPF(cpf)) {
 			throw new CPFException();
 		} else if (!AutenticacaoLogin.validarLogin(email)) {
 			throw new LoginException("[ERRO] Email invalido!");
 		} else if (!AutenticacaoLogin.validarrSenha(senha)) {
-			throw new LoginException("[ERRO] Senha invalido!");
+			throw new LoginException("[ERRO] Senha invalida! Lembre-se de adicionar números letras maiusculas "
+					+ " e minusculas e caractere especial");
 		}
 
 		LocalDate dataAtual = LocalDate.now();

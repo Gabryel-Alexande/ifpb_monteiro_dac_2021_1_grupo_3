@@ -18,7 +18,7 @@ public class CategoriaDTO {
 	private Long idCategortia;
 	
 	@NotBlank
-	@Size(min=3,max=50)
+	@Size(min=3,max=50 , message = "O nome da Categoria deve ter entre 3 a 50 caracteres")
 	private String nomeCategoria;
 	
 	private List<Livro> livros;

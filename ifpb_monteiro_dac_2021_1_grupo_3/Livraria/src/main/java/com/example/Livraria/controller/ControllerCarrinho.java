@@ -33,6 +33,8 @@ public class ControllerCarrinho {
 	@Autowired
 	MetodoPagamentoRepositorio metodoPagamentoRepositorio;
 	
+	private String excecao = "";
+	
 	@GetMapping("/carrinho")
 	public String solicitarCarrinho(PesquisaDTO pesquisa ,Model modelo ) {
 		
@@ -46,16 +48,16 @@ public class ControllerCarrinho {
 		
 	}
 	
-	@PostMapping("/carrinho")
-	public String adicionarNoCarrinho(@RequestParam(name = "id") Long idLivro, Model modelo) {
-		Authentication autenticado = SecurityContextHolder.getContext().getAuthentication();
-		
-		usuarioService.adcionarAoCarinho(idLivro,1,autenticado.getName());
-		
-		return "redirect:/livraria/publico/home";
-		
-		
-	}
+//	@PostMapping("/carrinho")
+//	public String adicionarNoCarrinho(@RequestParam(name = "id") Long idLivro, Model modelo) {
+//		Authentication autenticado = SecurityContextHolder.getContext().getAuthentication();
+//		
+//		usuarioService.adcionarAoCarinho(idLivro,1,autenticado.getName());
+//		
+//		return "redirect:/livraria/publico/home";
+//		
+//		
+//	}
 	
 	@PostMapping("/carrinho/del")
 	public String removerDoCarrinho(@RequestParam(name = "id") Long idItemPedido, Model modelo) {
@@ -98,6 +100,10 @@ public class ControllerCarrinho {
 			modelo.addAttribute("comprar",1);
 		}
 		
+		modelo.addAttribute("excecao",excecao);
+		
+		excecao="";
+		
 		
 		
 		return "/protected/pedido";
@@ -115,8 +121,9 @@ public class ControllerCarrinho {
 		try {
 			usuarioService.comprarLivro(autenticado.getName(), pagamentoDTO.getNomeDoPagamento());
 		} catch (NotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			excecao = e.getMessage();
+			return "redirect:/livraria/protegido/finalizarPedido";
+			
 		}
 		
 		

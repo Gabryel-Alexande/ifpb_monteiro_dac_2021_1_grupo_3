@@ -211,6 +211,12 @@
 
         <div>
             <div class="conteiner">
+                <div th:if="${excecao} != ''" class="container mt-4">
+                    <div class="alert alert-danger" role="alert">
+                        <span th:text="${excecao}"></span> 
+                        <button type="button" class="btn-close btn-outline-success" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
                 <div class="row row-cols-4">
                     <div class="col m-4" th:each="livro : ${livros}"
                         style="width: 14rem;display: flex; justify-content: center;">

@@ -51,6 +51,8 @@ public class ControllerAdm {
 	private Long idEditoraEditar;
 	private Long idAutorEditar;
 	
+	private String excecao = "";
+	
 
 	
 	private Long idLivroEditar;
@@ -60,6 +62,8 @@ public class ControllerAdm {
 		modelo.addAttribute("categorias",categoriaService.listarCategoria());
 		modelo.addAttribute("editoras",editoraService.listarEditoras());
 		modelo.addAttribute("autores",autorService.listarAutores());
+		modelo.addAttribute("excecao",excecao);
+		excecao="";
 		return "/adm/cadastro_livro";
 	}
 	
@@ -67,12 +71,18 @@ public class ControllerAdm {
 	public String cadastrarLivro(@Valid LivroDTO livroDTO, BindingResult result) {
 		
 		if(result.hasErrors()) {
-			return "/adm/cadastro_livro";
+			excecao = "Ocorreu um Erro verifique todos os campos ";
+			return "redirect:/livraria/adm/cadastrarLivro";
 		}
 		
 		
+		try {
+			livroService.cadastrarLivro(livroDTO);
+		}catch (Exception e) {
+			excecao = e.getMessage();
+			return "redirect:/livraria/adm/cadastrarLivro";
+		}
 		
-		livroService.cadastrarLivro(livroDTO);
 		
 		return"redirect:/livraria/publico/home";
 		
@@ -81,39 +91,45 @@ public class ControllerAdm {
 	
 	@GetMapping("/editarLivro")
 	public String solicitarEditarLivro(@RequestParam(name = "id")Long idLivro,Model modelo) {
-		
-		
 	 	LivroDTO livro =  livroFacade.transformarEmDTO(livroService.buscarLivroPorId(idLivro));
 	 	this.idLivroEditar = livro.getIdLivro();
 		modelo.addAttribute("livroDTO",livro);
 		modelo.addAttribute("categorias",categoriaService.listarCategoria());
 		modelo.addAttribute("editoras",editoraService.listarEditoras());
 		modelo.addAttribute("autores",autorService.listarAutores());
-		
+		modelo.addAttribute("excecao",excecao);
+		excecao ="";
 		return "/adm/editar_livro";
 		
 	}
 	
 	@PostMapping("/editarLivro")
-	public String editarLivro(@Valid LivroDTO livroDTO , BindingResult result) {
+	public String editarLivro(@Valid LivroDTO livroDTO , BindingResult result , Model modelo) {
 		if(result.hasErrors()) {
-			return "/adm/editar_livro";
+			excecao = "Ocorreu um Erro verifique todos os campos ";
+			return "redirect:/livraria/adm/editarLivro?&id="+idLivroEditar;
+		}
+		try {
+			livroService.alterarLivro(livroDTO ,this.idLivroEditar);
+		}catch (Exception e) {
+			excecao = e.getMessage();
+			return "redirect:/livraria/adm/editarLivro?&id="+idLivroEditar;
 		}
 		
-		livroService.alterarLivro(livroDTO ,this.idLivroEditar);
 		
 		return "redirect:/livraria/publico/Retornar_Home";
 	}
 	
-	@PostMapping("/deletarLivro")
-	public String deletarLivro(@RequestParam(name = "id") Long idLivro , Model modelo) {
-		livroService.removerLivro(idLivro);
-		
-		
-		
-		return "redirect:/livraria/publico/home";
-		
-	}
+//	@PostMapping("/deletarLivro")
+//	public String deletarLivro(@RequestParam(name = "id") Long idLivro , Model modelo) {
+//		
+//		livroService.removerLivro(idLivro);
+//		
+//		
+//		
+//		return "redirect:/livraria/publico/home";
+//		
+//	}
 	
 	
 	

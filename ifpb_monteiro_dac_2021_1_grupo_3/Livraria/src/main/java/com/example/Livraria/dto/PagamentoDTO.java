@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class PagamentoDTO {
 	
-	@NotBlank
+	@NotBlank(message = "Informe o Nome do Pagamento")
 	String nomeDoPagamento;
 
 

@@ -19,13 +19,13 @@ public class UsuarioDTO {
 	@NotBlank
 	private String nomeUsuario;
 	
-	@Email
+	@Email(message = "Informe um email Válido")
 	private String email;
 	
-	@NotBlank
+	@NotBlank(message = "Senha não pode ser vazia")
 	private String senha;
 	
-	@NotBlank
+	@NotBlank(message = "O CPF Não Pode ser vazio")
 	@Pattern(regexp ="[0-9]{3}.?[0-9]{3}.?[0-9]{3}-?[0-9]{2}",message = "CPF Não Está no Formato Aceito")
 	private String cpf;
 

@@ -87,49 +87,55 @@
     </div>
 
     <div class="container-fluid my-4">
+        <div th:if="${excecao} != ''" class="container mt-4">
+            <div class="alert alert-danger" role="alert">
+                <span th:text="${excecao}"></span> 
+                <button type="button" class="btn-close btn-outline-success" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
 
         <form method="POST" th:action="@{/livraria/adm/cadastrarLivro}" th:object="${livroDTO}"
             class="form-vertical  js-form-loading">
             <label for="input-produto-nome">ISBN</label>
             <div class="isbn col-sm-6">
                 <div class="form-group">
-                    <input id="input-produto-isbn" type="text" class="form-control" th:field="*{isbn}" />
+                    <input id="input-produto-isbn" required="required" type="text" class="form-control" th:field="*{isbn}" />
                 </div>
             </div>
             <div class="form-group">
                 <label for="input-produto-nome">Titulo</label>
-                <input id="input-produto-nome" type="text" class="form-control" th:field="*{tituloLivro}"/>
+                <input id="input-produto-nome" required="required" type="text" class="form-control" th:field="*{tituloLivro}"/>
             </div>
 
             <div class="form-group">
                 <label for="input-produto-descricao">Descrição</label>
-                <textarea id="input-produto-descricao" rows="3" class="form-control" th:field="*{descricao}"></textarea>
+                <textarea id="input-produto-descricao" required="required" rows="3" class="form-control" th:field="*{descricao}"></textarea>
             </div>
 
             <div class="row">
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="input-produto-preco">Preço unitário</label>
-                        <input id="input-produto-preco" type="number" min="1" class="form-control" th:field="*{preco}" placeholder="R$" />
+                        <input id="input-produto-preco" required="required" type="text" min="1" class="form-control" th:field="*{preco}" placeholder="R$" />
                     </div>
                 </div>
 
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="input-produto-estoque">Estoque</label>
-                        <input id="input-produto-estoque" type="number" class="form-control" th:field="*{quantidadeEstoque}" placeholder="Unidades" />
+                        <input id="input-produto-estoque" required="required" type="number" class="form-control" th:field="*{quantidadeEstoque}" placeholder="Unidades" />
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="input-produto-edicao">Edição</label>
-                        <input id="input-produto-edicao" type="text" class="form-control" th:field="*{edicao}" placeholder="Versão" />
+                        <input id="input-produto-edicao" required="required" type="text" class="form-control" th:field="*{edicao}" placeholder="Versão" />
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="input-produto-ano">Ano de lançamento</label>
-                        <input id="input-produto-ano" type="number" max="9999" class="form-control" placeholder="Data" th:field="*{anoLancamento}" >
+                        <input id="input-produto-ano" required="required" type="number" max="9999" class="form-control" placeholder="Data" th:field="*{anoLancamento}" >
                     </div>
                 </div>
                 <div class="col-sm-3">
@@ -143,8 +149,8 @@
                 <div class="col-sm-3">
 
                     <label for="input-produto-categoria">Categorias</label>
-                    <select class="form-select" multiple th:field="*{listaCategorias}" type="text">
-                        <option th:each="categoria : ${categorias}" th:value="${categoria.idCategortia}"
+                    <select class="form-select" multiple th:field="*{listaCategorias}" required="required" type="text">
+                        <option  th:each="categoria : ${categorias}" th:value="${categoria.idCategortia}"
                             th:text="${categoria.nomeCategoria}"></option>
 
 
@@ -152,12 +158,12 @@
                 </div>
                 <div class="col-sm-3">
                     <label for="input-produto-autores">Autores</label>
-                    <select class="form-select" multiple th:field="*{listaAutores}">
+                    <select class="form-select" required="required" multiple th:field="*{listaAutores}">
                         <option th:each="autor : ${autores}" th:value="${autor.idAutor}" th:text="${autor.nomeAutor}"></option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="custom-file-label"  for="customInput">Selecione as imagens</label>
+                    <label class="custom-file-label" required="required"  for="customInput">Selecione as imagens</label>
                     <input id="input-produto-foto" type="text" th:field="*{fotoLivro}" class="form-control " placeholder="link" />
                 </div>
 

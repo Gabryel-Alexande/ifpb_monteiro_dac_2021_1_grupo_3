@@ -75,7 +75,14 @@
 </head>
 
 <body>
+   
     <div id="cadastro" class="card">
+        <div th:if="${excecao} != ''" class="container mt-4">
+            <div class="alert alert-danger" role="alert">
+                <span th:text="${excecao}"></span> 
+                <button type="button" class="btn-close btn-outline-success" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
         <form  class="form-inline" method="post" th:action="@{/cadastro}" th:object="${usuarioDTO}">
             <h1>Cadastro</h1>
 
@@ -100,12 +107,14 @@
             <div>
                 <label for="senha">Senha</label>
                 <input id="senha" name="senha" required="required" type="password" placeholder="ex. 1234"
-                    th:field="*{senha}" />
+                    th:field="*{senha}" th:errorclass="is-invalid" />
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}">Errors</div>
             </div>
             <div>
                 <label for="cpf">CPF</label>
-                <input id="cpf" name="cpf" type="text" placeholder="ex. 111.111.111-11" th:field="*{cpf}" />
-                <span th:errors="*{cpf}"></span>
+                <input id="cpf" name="cpf" type="text" placeholder="ex. 111.111.111-11" th:field="*{cpf}" 
+                th:errorclass="is-invalid"/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}">Errors</div>
             </div>
 
             <div>

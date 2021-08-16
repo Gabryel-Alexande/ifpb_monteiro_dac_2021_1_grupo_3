@@ -12,7 +12,7 @@ public class EditoraDTO {
 	
 	private Long idEditora;
 	@NotBlank
-	@Size(min=3,max=50)
+	@Size(min=3,max=50 , message = "O nome da Editora deve ter entre 3 a 50 caracteres")
 	private String nomeEditora;
 	
 	
