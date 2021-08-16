@@ -67,6 +67,14 @@ public class ControllerPerfil {
 		return"redirect:/livraria/protegido/pedidos";
 	}
 	
+	@GetMapping("/protegido/verPedido")
+	public String verPedido(@RequestParam(name = "id")Long idPedido , Model modelo , PesquisaDTO pesquisaDTO) {
+		 
+		 modelo.addAttribute("pedido",usuarioService.encontarPedido(idPedido));
+		 
+		 return"/protected/verPedido";
+	}
+	
 	@GetMapping("/protegido/editar_usuario")
 	public String solicitarEditarUsuario(UsuarioDTO usuario, Model modelo) {
 		

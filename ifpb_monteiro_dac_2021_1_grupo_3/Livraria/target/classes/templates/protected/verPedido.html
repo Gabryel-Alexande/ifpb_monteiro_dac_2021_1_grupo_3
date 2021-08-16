@@ -1,25 +1,36 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 
 <head>
-    <meta charset='utf-8'>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Livraria</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
-        #bnt_cancelar,
-        #bnt_home {
-            border-color: #a50a98;
-            color: #a50a98 !important;
-            height: 40px;
-            width: 200px;
+        .total {
+            margin-top: 2%;
+            margin-left: 5%;
+            display: flex;
+            justify-content: left;
+        }
+        .detalhe-endereco{
+            margin-top: 2%;
+            margin-left: 8%;
+            margin-bottom: 2%;
+        }
+        .valor {
+            margin-left: 73%;
         }
 
-        .container_bnt {
-            margin-top: 45% !important;
-            margin-left: 63%;
+        .finalizar {
+            margin-top: 1%;
+            margin-bottom: 3%;
+            margin-left: 5%;
+            width: 1135px;
         }
-
+        .container-endereco,
         .container {
             display: flex;
             justify-content: left;
@@ -28,19 +39,13 @@
             border-radius: 30px;
             border: 1px solid black;
         }
-
-        .btn-dark,
-        .finalizar {
-
-            font-size: 17px;
-            margin-top: 70%;
-            width: 90%;
-            margin-left: 5%;
+        .container-endereco{
+            background-color: rgba(0, 0, 0, 0.178);
+            margin-right: 10%;
         }
-
-        .finalizar {
-            margin-top: 1%;
-            margin-bottom: 3%;
+        .detalhes {
+            margin-left: 60%;
+            text-align: right;
         }
 
         img {
@@ -54,53 +59,28 @@
             margin-left: 5%;
         }
 
-        .form-group {
-            color: black;
+        #bnt_cancelar {
+            border-color: #a50a98;
+            color: #a50a98 !important;
+            height: 40px;
+            width: 200px;
         }
 
-        .estoque {
+        .container_bnt {
+            margin-top: 35% !important;
+            margin-left: 13%;
+        }
+
+        .quantidade {
             margin-top: 3%;
-            margin-left: 30%;
-        }
-
-        .total {
-            margin-top: 2%;
-            margin-left: 5%;
-            display: flex;
-            justify-content: left;
-        }
-
-        .valor {
-            margin-left: 78%;
-        }
-
-        .imagem_livro {
-            margin-top: 5%;
-            margin-left: 15%;
+            margin-left: 1%;
+            height: 100px;
         }
     </style>
-    <script>
-        function mudarAoPassar() {
-            document.getElementById("bnt_home").style.backgroundColor = "#a50a98";
-            document.getElementById("bnt_home").style.color = "white";
-        }
-        function mudarAoSair() {
-            document.getElementById("bnt_home").style.backgroundColor = "white";
-            document.getElementById("bnt_home").style.color = "#a50a98";
-        }
-        function mudarAoPassarC() {
-            document.getElementById("bnt_cancelar").style.backgroundColor = "#a50a98";
-            document.getElementById("bnt_cancelar").style.color = "white";
-        }
-        function mudarAoSairC() {
-            document.getElementById("bnt_cancelar").style.backgroundColor = "white";
-            document.getElementById("bnt_cancelar").style.color = "#a50a98";
-        }
-    </script>
 </head>
 
 <body>
-    <nav class="navbar navbar-light " style="background-color: #a50a98;">
+    <nav class="navbar navbar-light" style="background-color: #a50a98;">
         <nav style="margin-left: 2%;">
             <a th:href="@{/livraria/publico/home}">
                 <img src="http://cdn.onlinewebfonts.com/svg/img_323457.png" class="card-img-top" alt="..."
@@ -148,49 +128,70 @@
             </a>
         </nav>
     </nav>
-    <div th:if="${Quant} != 0">
-        <h1 class="m-5">Pedidos</h1>
-        <div class="container" th:each="pedido : ${pedidos}">
+    <h1 class="m-4">Detalhe dos pedidos</h1>
+    <div  class="container-endereco">
+        <div class="detalhe-endereco">
+            <h6 class="detalhe-enderec">Bairro:</h6>
+            <h6 class="detalhe-enderec">Rua:</h6>
+            <h6 class="detalhe-enderec">CEP:</h6>
+            <h6 class="detalhe-enderec">Número:</h6>
+            <h6 class="detalhe-enderec">Complemento:</h6>
+            <h6 class="detalhe-enderec">Cidade:</h6>
+            <h6 class="detalhe-enderec">Estado:</h6>
+            <h6 class="detalhe-enderec">Pais:</h6>
+        </div>
+        <div class="detalhes">
+            <div class="detalhe-endereco" th:text="${pedido.bairro}">Centro</div>
+            <div class="detalhe-endereco" th:text="${pedido.rua}">AV: Rua Projetada</div>
+            <div class="detalhe-endereco" th:text="${pedido.cep}">66666-2222</div>
+            <div class="detalhe-endereco" th:text="${pedido.numeroCasa}">11</div>
+            <div class="detalhe-endereco" th:text="${pedido.complemento}">NA</div>
+            <div class="detalhe-endereco" th:text="${pedido.cidade}">Jabam</div>
+            <div class="detalhe-endereco" th:text="${pedido.estado}">Lisco</div>
+            <div class="detalhe-endereco" th:text="${pedido.pais}">Shinakata</div>
+        </div>
+
+
+    </div>
+        <div class="container" th:each=" itens : ${pedido.itemPedido}">
             <div>
-                <div class="m-4"  style="display: flex;justify-content: right;">
-                    
-                    <a th:href="@{/livraria/protegido/verPedido?(id=${pedido.idPedido})}" >
-                    <img class="imagem_livro" th:src="${pedido.itemPedido.get(0).livro.fotoLivro}"
+                <div class="m-4" style="display: flex;justify-content: right;">
+                    <img class="imagem_livro" th:src="${itens.livro.fotoLivro}"
                         src="https://elshaddai.com.br/wp-content/uploads/2019/06/O-Hobbit-J.R.R-Tolkien.jpg" alt="...">
-                    </a>
                     <div class="container-detalhes">
-                        <h5 class="card-title mt-4" >Id: <span th:text="${pedido.idPedido}">654651456</span></h5>
-                        <a th:href="@{/livraria/protegido/verPedido?(id=${pedido.idPedido})}" >
-                        <h5 class="card-title mt-4" th:text="${pedido.itemPedido.get(0).livro.tituloLivro}">Battle Royale</h5>
-                        </a>
+                        <h5 class="card-title mt-4" th:text="${itens.livro.tituloLivro}">Battle Royale</h5>
                         <div class="card-text mt-3">
-                            <span th:text="${pedido.itemPedido.get(0).livro.preco}">R$ 58,99</span>
-                            <h8 class="quantidade">x <span th:text="${pedido.itemPedido.get(0).quantidade}"> </span></h8>
+                            <span th:text="${itens.livro.preco}">R$ 58,99</span>
                         </div>
-                        <h2 style="margin-top: 10%;">Preço Total R$<span th:text="${pedido.preco}">10,00</span></h2>
                     </div>
-                    <form class="container_bnt"th:action="@{/livraria/protegido/cancelarPedido?(id=${pedido.idPedido})}" method="post">
-                        <button id="bnt_cancelar" type="submit" class="btn btn-outline-warning"
-                            onmouseover="javascript:mudarAoPassarC();" onmouseout="javascript:mudarAoSairC();">
-                            Cancelar Pedido
-                        </button>
-                    </form>
+                    <div style="justify-content: center !important; margin-top: 2%;">
+
+                        <h2>Descrição</h2><br>
+                        <p th:text="${itens.livro.descricao}"></p>
+                    </div>
+                    <div class="quantidade">
+                        <h5 for="input-produto-estoque">Quantidade</h5>
+                        <input disabled id="input-produto-estoque" th:value="${itens.quantidade}" type="number" min="1"
+                            class="form-control" />
+                    </div>
+
                 </div>
             </div>
 
 
         </div>
-    </div>
-    </div>
-    <div th:if="${Quant} == 0">
-        <h1 style="display:flex; justify-content: center; margin-top: 15%;">Você não fez nenhuma compra!</h1>
-        <div style="display:flex; justify-content: center; margin-top: 3%;">
-            <button id="bnt_home" type="button" class="btn btn-outline-warning"
-                onmouseover="javascript:mudarAoPassar();" onmouseout="javascript:mudarAoSair();">
-                <a th:href="@{/livraria/publico/Retornar_Home}">Escolha seu Livro </a>
-            </button>
+        <div class="total">
+            <h3>Total: </h3>
+            <h3 class="valor">
+                R$
+                <span th:text="${pedido.preco}">00,00</span>
+            </h3>
+
         </div>
-    </div>
+        <form th:action="@{/livraria/protegido/cancelarPedido?(id=${pedido.idPedido})}" method="post">
+            <button type="submit" class="btn btn-dark finalizar">Cancelar Pedido</button>
+        </form>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>

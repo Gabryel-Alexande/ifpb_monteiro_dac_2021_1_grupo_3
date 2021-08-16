@@ -162,6 +162,10 @@ public class UsuarioService implements Serializable {
 	public List<Usuario> listarUsuarios() {
 		return usuarioRepositorio.findAll();
 	}
+	
+	public Pedido encontarPedido(Long id) {
+		return pedidoRepositorio.findById(id).get();
+	}
 
 	public Pedido listarCarrinhoUsuario(String email) {
 		Usuario user = usuarioRepositorio.findByEmail(email);
