@@ -85,10 +85,16 @@
     </div>
     <form class="form-inline" method="post" th:action="@{/livraria/adm/editar_metodo}" th:object="${pagamentoDTO}">
         <div class="container-fluid my-4">
+            <div th:if="${excecao} != ''" class="container mt-4">
+                <div class="alert alert-danger" role="alert">
+                    <span th:text="${excecao}"></span> 
+                    <button type="button" class="btn-close btn-outline-success" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
 
             <div class="form-group">
                 <label for="input-produto-nome">Nome</label>
-                <input id="input-produto-nome" type="text" class="form-control" th:field="*{nomeDoPagamento}" />
+                <input id="input-produto-nome" required="required" type="text" class="form-control" th:field="*{nomeDoPagamento}" />
             </div>
         </div>
         <div id="botoes">

@@ -36,7 +36,7 @@ public class EditoraService {
 	public void editarEditora(String nome, Long idEditora) {
 		Editora editora = editoraRepositorio.findByNomeEditora(nome);
 		try {
-			if (editora.getNomeEditora().equals(nome) && editora.getIdEditora() != idEditora) {
+			if (editora.getNomeEditora().equalsIgnoreCase(nome) && editora.getIdEditora() != idEditora) {
 				throw new DuplicateKeyException("Nome já existe ");
 			}
 		} catch (NullPointerException e) {

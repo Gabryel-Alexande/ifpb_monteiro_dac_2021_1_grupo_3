@@ -22,11 +22,15 @@ public class ControllerMetodoPagamento {
 	UsuarioService usuarioService;
 	private Long idMetodo;
 	
+	private String excecao = "";
+	
 	@GetMapping("/metodo")
 	public String solicitarCriarMetodoPagamento(Model modelo ,PagamentoDTO pagamentoDTO) {
 		
 		 
 		 modelo.addAttribute("metodo",metodoPagamentoRepositorio.findAll());
+		 modelo.addAttribute("excecao",excecao);
+		 excecao="";
 		 
 		 return "/adm/metodo_pagamento";
 		 
@@ -38,7 +42,8 @@ public class ControllerMetodoPagamento {
 		MetodoPagamento metodo = metodoPagamentoRepositorio.findByNomeDoPagamento(pagamentoDTO.getNomeDoPagamento());
 		
 		if(metodo!= null) {
-			return "/adm/metodo_pagamento";
+			excecao = "Metodo de pagamento já existe";
+			return"redirect:/livraria/adm/metodo";
 		}
 		MetodoPagamento metodoNovo = new MetodoPagamento();
 		metodoNovo.setNomeDoPagamento(pagamentoDTO.getNomeDoPagamento());
@@ -68,7 +73,9 @@ public class ControllerMetodoPagamento {
 		 MetodoPagamento metodo=metodoPagamentoRepositorio.findById(idMetodo).get();
 		 
 		 pagamentoDTO.setNomeDoPagamento(metodo.getNomeDoPagamento());
-		modelo.addAttribute("pagamentoDTO",pagamentoDTO);
+		 modelo.addAttribute("pagamentoDTO",pagamentoDTO);
+		 modelo.addAttribute("excecao",excecao);
+		 excecao="";
 		
 		return "/adm/editar_metodo_pagamento";
 		
@@ -80,8 +87,9 @@ public class ControllerMetodoPagamento {
 		
 		MetodoPagamento metodo=metodoPagamentoRepositorio.findByNomeDoPagamento(pagamentoDTO.getNomeDoPagamento());
 		
-		if (metodo.getNomeDoPagamento().equals(pagamentoDTO.getNomeDoPagamento()) && metodo.getIdMetodoPagamento() != idMetodo) {
-            return"/adm/editar_metodo_pagamento";
+		if (metodo.getNomeDoPagamento().equalsIgnoreCase(pagamentoDTO.getNomeDoPagamento()) && metodo.getIdMetodoPagamento() != idMetodo) {
+            excecao = "Esse metodo de pagamento já está cadastrado";
+            return "redirect:/livraria/adm/editar_metodo?&id="+idMetodo;
         }
 		
 		MetodoPagamento metodoPag=metodoPagamentoRepositorio.findById(idMetodo).get();

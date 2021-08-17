@@ -47,7 +47,7 @@ public class AutorService {
 		autor = autorRepositorio.findByNomeAutor(nomeAutor);
 
 		try {
-			if (autor.getNomeAutor().equals(nomeAutor) && autor.getIdAutor() != id) {
+			if (autor.getNomeAutor().equalsIgnoreCase(nomeAutor) && autor.getIdAutor() != id) {
 				throw new DuplicateKeyException("Nome já existe ");
 			}
 		} catch (NullPointerException e) {}

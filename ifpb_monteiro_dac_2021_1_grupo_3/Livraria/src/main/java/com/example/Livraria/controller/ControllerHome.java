@@ -79,6 +79,23 @@ public class ControllerHome {
 
 	}
 	
+	@PostMapping("/protegido/comprar")
+	public String comprarDiretamente(@RequestParam(name = "id") Long idLivro, Model modelo) {
+		Authentication autenticado = SecurityContextHolder.getContext().getAuthentication();
+		
+		try{
+			usuarioService.adcionarAoCarinho(idLivro,1,autenticado.getName());
+		}catch (Exception e) {
+			// TODO: handle exception
+			excecao = e.getMessage();
+			return "redirect:/livraria/publico/home";
+		} 
+		
+		return"redirect:/livraria/protegido/finalizarPedido";
+		
+		
+	}
+	
 	@PostMapping("/protegido/carrinho")
 	public String adicionarNoCarrinho(@RequestParam(name = "id") Long idLivro, Model modelo) {
 		Authentication autenticado = SecurityContextHolder.getContext().getAuthentication();

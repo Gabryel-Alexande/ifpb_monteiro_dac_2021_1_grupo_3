@@ -96,26 +96,26 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="input-produto-bairro">Bairro</label>
-                        <input id="input-produto-bairro" type="text" max="9999" class="form-control"
+                        <input id="input-produto-bairro" required="required" type="text" max="9999" class="form-control"
                             th:field="*{bairro}">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="input-produto-rua">Rua</label>
-                    <input id="input-produto-rua" rows="3" class="form-control" th:field="*{rua}" />
+                    <input id="input-produto-rua" rows="3" required="required" class="form-control" th:field="*{rua}" />
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="input-produto-CEP">CEP</label>
-                        <input id="input-produto-CEP" type="text" class="form-control" th:field="*{cep}" />
+                        <input id="input-produto-CEP" required="required" type="text" class="form-control" th:field="*{cep}" />
                     </div>
                 </div>
 
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="input-produto-numero">Número</label>
-                        <input id="input-produto-numero" type="number" max="9999" class="form-control"
+                        <input id="input-produto-numero" required="required" type="number" max="9999" class="form-control"
                             placeholder="Número" th:field="*{numeroCasa}">
                     </div>
                 </div>
@@ -129,19 +129,19 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="input-produto-cidade">Cidade</label>
-                        <input id="input-produto-cidade" type="text" class="form-control" th:field="*{cidade}" />
+                        <input id="input-produto-cidade" required="required" type="text" class="form-control" th:field="*{cidade}" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="input-produto-estado">Estado</label>
-                    <input id="input-produto-estado" type="text" class="form-control" th:field="*{estado}" />
+                    <input id="input-produto-estado" required="required" type="text" class="form-control" th:field="*{estado}" />
                 </div>
             </div>
 
             <div class="col-sm-3">
                 <div class="form-group">
                     <label for="input-produto-pais">Pais</label>
-                    <input id="input-produto-pais" type="text" max="9999" class="form-control" th:field="*{pais}">
+                    <input id="input-produto-pais" required="required" type="text" max="9999" class="form-control" th:field="*{pais}">
                 </div>
             </div>
 

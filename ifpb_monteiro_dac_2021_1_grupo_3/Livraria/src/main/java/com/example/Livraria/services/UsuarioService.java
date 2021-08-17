@@ -26,6 +26,7 @@ import com.example.Livraria.model.Livro;
 import com.example.Livraria.model.MetodoPagamento;
 import com.example.Livraria.model.Pedido;
 import com.example.Livraria.model.Usuario;
+import com.example.Livraria.repositorio.AutoridadesRepositorio;
 import com.example.Livraria.repositorio.EnderecoRepositorio;
 import com.example.Livraria.repositorio.ItemPedidoRepositorio;
 import com.example.Livraria.repositorio.LivroRepositorio;
@@ -57,8 +58,11 @@ public class UsuarioService implements Serializable {
 	MetodoPagamentoRepositorio metodoPagamentoRepositorio;
 	@Autowired
 	private EnviadorDeEmail enviadorDeEmail;
+	
+	@Autowired
+	private AutoridadesRepositorio autoridadesRepositorio;
 
-	public void cadastrarUsuario(UsuarioDTO usuarioDTO) throws CPFException, LoginException ,IllegalArgumentException{
+	public void cadastrarUsuario(UsuarioDTO usuarioDTO) throws CPFException, LoginException ,IllegalArgumentException ,Exception {
 		Usuario usuario = usuarioDTO.parser();
 		List<Autoridades> autoridades = new ArrayList<>();
 
@@ -74,7 +78,14 @@ public class UsuarioService implements Serializable {
 		
 	
 		if(usuarioRepositorio.findAll().size()==0) {
+			
+//			if(autoridadesRepositorio.findAll().size()==0) {
+//				autoridadesRepositorio.insertAutoridadesCliente();
+//				autoridadesRepositorio.insertAutoridadesADM();
+//			}
+			
 			auto.setId(Autoridades.ADMINISTRADOR);
+			
 		}
 		else {
 			
@@ -91,7 +102,7 @@ public class UsuarioService implements Serializable {
 		usuarioRepositorio.save(usuario);
 	}
 
-	public void alteraUsuario(UsuarioDTO usuarioDTO) throws CPFException, LoginException {
+	public void alteraUsuario(UsuarioDTO usuarioDTO) throws IllegalArgumentException, Exception {
 		Usuario usuario = usuarioRepositorio.findByEmail(usuarioDTO.getEmail());
 
 		validarDados(usuarioDTO.getCpf(), usuarioDTO.getEmail(), usuarioDTO.getSenha(),
@@ -337,10 +348,13 @@ public class UsuarioService implements Serializable {
 	}
 
 	private void validarDados(String cpf, String email, String senha, LocalDate dataDeNascimento)
-			throws CPFException, LoginException ,IllegalArgumentException{
+			throws CPFException, LoginException ,IllegalArgumentException , Exception{
+		System.err.println( AutenticacaoCPF.autenticarCPF(cpf));
 		if (!AutenticacaoCPF.autenticarCPF(cpf)) {
-			throw new CPFException();
-		} else if (!AutenticacaoLogin.validarLogin(email)) {
+			throw new Exception("CPF INVALIDO");
+			
+		} 
+		else if (!AutenticacaoLogin.validarLogin(email)) {
 			throw new LoginException("[ERRO] Email invalido!");
 		} else if (!AutenticacaoLogin.validarrSenha(senha)) {
 			throw new LoginException("[ERRO] Senha invalida! Lembre-se de adicionar números letras maiusculas "
@@ -349,7 +363,7 @@ public class UsuarioService implements Serializable {
 
 		LocalDate dataAtual = LocalDate.now();
 		if (Period.between(dataDeNascimento, dataAtual).getYears() < 18) {
-			throw new IllegalArgumentException("[ERRO] Data invalida!");
+			throw new IllegalArgumentException("[ERRO] Data invalida! é Necessário ter 18 anos ou mais");
 		}
 
 	}

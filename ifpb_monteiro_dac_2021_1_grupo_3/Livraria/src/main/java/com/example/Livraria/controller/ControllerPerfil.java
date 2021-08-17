@@ -34,6 +34,8 @@ public class ControllerPerfil {
 	@Autowired
 	LivroService livroService;
 	
+	private String excecao = "";
+	
 	
 	@GetMapping("/publico/perfil")
 	public String solicitarPerfil() {
@@ -83,6 +85,8 @@ public class ControllerPerfil {
 		
 		try {
 			modelo.addAttribute("usuarioDTO",usuarioService.consultarUsuarioPorEmail(autenticado.getName()));
+			modelo.addAttribute("excecao",excecao);
+			excecao="";
 		} catch (NotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -96,14 +100,17 @@ public class ControllerPerfil {
 	public String editarUsuario(@Valid UsuarioDTO usuarioDTO ,BindingResult result,Model modelo) {
 		
 		if(result.hasErrors()) {
-			return"/protected/editar_usuario";
+			excecao = "Algum dos campos está incompleto ou com erro";
+			
+			return"redirect:/livraria/protegido/editar_usuario";
 		}
 		try {
 			usuarioService.alteraUsuario(usuarioDTO);
-		} catch (CPFException | LoginException e) {
-			System.out.println("Erro aqui");
+		} catch (Exception e) {
 			
-			return"/protected/editar_usuario";
+			excecao = e.getMessage();
+			
+			return"redirect:/livraria/protegido/editar_usuario";
 		}
 		
 		return "redirect:/login";

@@ -99,43 +99,43 @@
             <label for="input-produto-nome">ISBN</label>
             <div class="isbn col-sm-6">
                 <div class="form-group">
-                    <input id="input-produto-isbn" type="text" class="form-control" th:field="*{isbn}" />
+                    <input id="input-produto-isbn" required="required" type="text" class="form-control" th:field="*{isbn}" />
                 </div>
             </div>
             <div class="form-group">
                 <label for="input-produto-nome">Titulo</label>
-                <input id="input-produto-nome" type="text" class="form-control" th:field="*{tituloLivro}"/>
+                <input id="input-produto-nome" required="required" type="text" class="form-control" th:field="*{tituloLivro}"/>
             </div>
 
             <div class="form-group">
                 <label for="input-produto-descricao">Descrição</label>
-                <textarea id="input-produto-descricao" rows="3" class="form-control" th:field="*{descricao}"></textarea>
+                <textarea id="input-produto-descricao" rows="3" required="required" class="form-control" th:field="*{descricao}"></textarea>
             </div>
 
             <div class="row">
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="input-produto-preco">Preço unitário</label>
-                        <input id="input-produto-preco" type="text" min="1" class="form-control" th:field="*{preco}" placeholder="R$" />
+                        <input id="input-produto-preco" required="required" type="text" min="1" class="form-control" th:field="*{preco}" placeholder="R$" />
                     </div>
                 </div>
 
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="input-produto-estoque">Estoque</label>
-                        <input id="input-produto-estoque" type="number" class="form-control" th:field="*{quantidadeEstoque}" placeholder="Unidades" />
+                        <input id="input-produto-estoque" required="required" type="number" class="form-control" th:field="*{quantidadeEstoque}" placeholder="Unidades" />
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="input-produto-edicao">Edição</label>
-                        <input id="input-produto-edicao" type="text" class="form-control" th:field="*{edicao}" placeholder="Versão" />
+                        <input id="input-produto-edicao" required="required" type="text" class="form-control" th:field="*{edicao}" placeholder="Versão" />
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="input-produto-ano">Ano de lançamento</label>
-                        <input id="input-produto-ano" type="number" max="9999" class="form-control" placeholder="Data" th:field="*{anoLancamento}" >
+                        <input id="input-produto-ano" required="required" type="number" max="9999" class="form-control" placeholder="Data" th:field="*{anoLancamento}" >
                     </div>
                 </div>
                 <div class="col-sm-3">

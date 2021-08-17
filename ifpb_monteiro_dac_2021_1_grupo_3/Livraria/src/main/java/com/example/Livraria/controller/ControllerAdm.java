@@ -139,6 +139,8 @@ public class ControllerAdm {
 	public String solicitarCadastroEditora(EditoraDTO editoraDTO, Model modelo) {
 		
 		modelo.addAttribute("editoras",editoraService.listarEditoras());
+		modelo.addAttribute("excecao",excecao);
+		excecao="";
 	
 		return "/adm/cadastro_editora";
 	}
@@ -148,6 +150,8 @@ public class ControllerAdm {
 	public String solicitarEditarCategoria(@RequestParam(name = "id") Long idCategoria, Model modelo,CategoriaDTO cat) {
 		this.idCategoriaEditar = idCategoria;
 		modelo.addAttribute("categoriaDTO",categoriaService.encontarCategoria(idCategoria));
+		modelo.addAttribute("excecao",excecao);
+		excecao="";
 		
 		return "/adm/editar_categoria";
 		
@@ -157,11 +161,18 @@ public class ControllerAdm {
 	
 	@PostMapping("/editarCategoria")
 	public String editarCategoria(@Valid CategoriaDTO categoriaDTO, BindingResult result ) {
-		if(result.hasErrors()) {
-			return "/adm/editar_categoria";
-		}
 		
-		categoriaService.editarCategoria(idCategoriaEditar,categoriaDTO.getNomeCategoria());
+		if(result.hasErrors()) {
+			excecao = "O campo está com algum problema";
+			return "redirect:/livraria/adm/editarCategoria?&id="+idCategoriaEditar;
+		}
+		try {
+			
+			categoriaService.editarCategoria(idCategoriaEditar,categoriaDTO.getNomeCategoria());
+		}catch (Exception e) {
+			excecao = e.getMessage();
+			return "redirect:/livraria/adm/editarCategoria?&id="+idCategoriaEditar;
+		}
 		
 		return "redirect:/livraria/adm/cadastrarCategoria";
 		
@@ -178,6 +189,8 @@ public class ControllerAdm {
 	@GetMapping("/cadastrarCategoria")
 	public String solicitarCadastroCategoria(CategoriaDTO categoriaDTO, Model modelo) {
 		modelo.addAttribute("categorias",categoriaService.listarCategoria());
+		modelo.addAttribute("excecao",excecao);
+		excecao="";
 		return "/adm/cadastro_categoria";
 	}
 	
@@ -191,6 +204,8 @@ public class ControllerAdm {
 		modelo.addAttribute("autores",autores);
 		modelo.addAttribute("numeracao",livroFacade.criarBotoes(autores.getTotalPages(),paginaAutor));
 		modelo.addAttribute("fim", autores.getTotalPages());
+		modelo.addAttribute("excecao",excecao);
+		excecao="";
 		
 		return "/adm/cadastro_autor";
 	}
@@ -210,13 +225,15 @@ public class ControllerAdm {
 	public String cadastrarAutor(@Valid AutorDTO autor, BindingResult result) {
 
 		if (result.hasErrors()) {
-			return "/adm/cadastro_autor";
+			excecao = "O campo está com algum erro";
+			return "redirect:/livraria/adm/cadastrarAutor";
 		}
 
 		try {
 			autorService.cadastrarAutor(autor);
-		} catch (LoginException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			excecao = e.getMessage();
+			
 		}
 
 		return "redirect:/livraria/adm/cadastrarAutor";
@@ -234,6 +251,8 @@ public class ControllerAdm {
 		this.idAutorEditar = idAutor;
 		autorDTO.setNomeAutor(autorService.encontarAutor(idAutor).getNomeAutor());
 		modelo.addAttribute("autorDTO",autorDTO);
+		modelo.addAttribute("excecao",excecao);
+		excecao="";
 		
 		return "/adm/editar_autor";
 		
@@ -244,11 +263,18 @@ public class ControllerAdm {
 	@PostMapping("/editarAutor")
 	public String editarAutor(@Valid AutorDTO autorDTO, BindingResult result ) {
 		if(result.hasErrors()) {
-			return "/adm/editar_autor";
+			excecao = "O campo está com algum erro ";
+		return"redirect:/livraria/adm/editarAutor?&id="+idAutorEditar;
 		}
 		
-		
-		autorService.alterarAutor(idAutorEditar,autorDTO.getNomeAutor());
+		try {
+			autorService.alterarAutor(idAutorEditar,autorDTO.getNomeAutor());
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			excecao = e.getMessage();
+			return"redirect:/livraria/adm/editarAutor?&id="+idAutorEditar;
+		}
 		
 		
 		return "redirect:/livraria/adm/cadastrarAutor";
@@ -264,10 +290,16 @@ public class ControllerAdm {
 	@PostMapping("/cadastrarCategoria")
 	public String cadastrarCategoria(@Valid CategoriaDTO categoriaDTO, BindingResult result) {
 		if (result.hasErrors()) {
-			return "/adm/cadastro_categoria";
+			excecao = "O campo está com algum erro";
+			return "redirect:/livraria/adm/cadastrarCategoria";
 		}
-
-		categoriaService.criarCategoria(categoriaDTO);
+		try {
+			categoriaService.criarCategoria(categoriaDTO);
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			excecao =e.getMessage();
+		}
 		return "redirect:/livraria/adm/cadastrarCategoria";
 	}
 	
@@ -282,12 +314,13 @@ public class ControllerAdm {
 	@PostMapping("/cadastrarEditora")
 	public String cadastarEditora(@Valid EditoraDTO editoraDTO, BindingResult result) {
 		if (result.hasErrors()) {
-			return "/adm/cadastro_editora";
+			excecao = "O campo está com algum erro";
+			return "redirect:/livraria/adm/cadastrarEditora";
 		}
 		try {
 			 editoraService.cadastrarEditora(editoraDTO);
 		}catch(Exception e) {
-			e.printStackTrace();
+			excecao =e.getMessage();
 		}
 		
 		
@@ -311,6 +344,8 @@ public class ControllerAdm {
 		editoraDTO.setNomeEditora(editoraService.encontarEditora(idEditora).getNomeEditora());
 		
 		modelo.addAttribute("editoraDTO", editoraDTO);
+		modelo.addAttribute("excecao",excecao);
+		excecao="";
 		
 		return "/adm/editar_editora";
 		
@@ -321,12 +356,15 @@ public class ControllerAdm {
 	public String editarEditora(@Valid EditoraDTO editoraDTO,BindingResult result ) {
 		
 		if(result.hasErrors()) {
-			return "/adm/editar_editora";
+			excecao = "Campo está com erro";
+			return "redirect:/livraria/adm/editarEditora?&id="+idEditoraEditar;
 		}
 		try {
 			editoraService.editarEditora(editoraDTO.getNomeEditora(),idEditoraEditar);
 		}catch (Exception e) {
-			e.printStackTrace();
+			excecao = e.getMessage();
+			
+			return "redirect:/livraria/adm/editarEditora?&id="+idEditoraEditar;
 		}
 		
 		

@@ -404,10 +404,11 @@
                 <div class="col-md-2 myt des"><a href="#">Descrição</a></div>
                 
                 <div sec:authorize="hasAuthority('ADMINISTRADOR')" class="col-md-2 myt " style="display: flex; justify-content: left; height: 50px;">
+                     <a th:href="@{/livraria/adm/editarLivro?(id=${livro.idLivro})}">
                     <button id="bnt_editar" type="button" class="btn btn-outline-warning"
                         onmouseover="javascript:mudarAoPassarEditar();" onmouseout="javascript:mudarAoSairEditar();">
-                        <a th:href="@{/livraria/adm/editarLivro?(id=${livro.idLivro})}">Editar</a>
-                    </button>
+                       Editar
+                    </button></a>
                     <button id="bnt_excluir" type="button" class="btn btn-outline-warning .text-dark" style="margin-left: 10px;"
                         onmouseover="javascript:mudarAoPassarExcluir();" onmouseout="javascript:mudarAoSairEcluir();" onclick="showModal();">
                         Excluir
@@ -420,10 +421,14 @@
                         >ADICIONAR AO CARRINHO</button></div>
                     </form>
                 <div class="col-md-2 myt ">
-                    <button id="bnt_comprar" type="button" class="btn btn-outline-warning"
+                    
+                    <form method="POST" th:action="@{/livraria/protegido/comprar?(id=${livro.idLivro})}">
+                    <button id="bnt_comprar" type="submit" class="btn btn-outline-warning"
                         onmouseover="javascript:mudarAoPassarComprar();" onmouseout="javascript:mudarAoSairComprar();">
-                        <a href="#">COMPRAR</a>
+                    
+                        <a>COMPRAR</a>
                     </button>
+                </form>
                 </div>
 
             </div>

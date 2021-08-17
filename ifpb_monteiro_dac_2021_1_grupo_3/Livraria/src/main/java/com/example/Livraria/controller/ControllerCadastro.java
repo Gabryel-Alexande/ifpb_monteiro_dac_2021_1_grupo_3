@@ -38,8 +38,13 @@ public class ControllerCadastro {
 	@PostMapping("/cadastro")
 	public String cadastrar(@Valid  UsuarioDTO usuarioDTO,BindingResult result , Model modelo ){
 
+//		if(result.hasErrors()) {
+//			return "/cadastro";
+//		}
+		
 		if(result.hasErrors()) {
-			return "/cadastro";
+			excecao="O campo "+result.getFieldError().getField().toLowerCase()+" está com algum problema";
+			return"redirect:/cadastro";	
 		}
 		
 		try{
@@ -50,8 +55,6 @@ public class ControllerCadastro {
 			excecao = e.getMessage();
 		
 		return"redirect:/cadastro";		
-		
-		
 	}
 	}
 }

@@ -26,7 +26,7 @@ public class UsuarioDTO {
 	private String senha;
 	
 	@NotBlank(message = "O CPF Não Pode ser vazio")
-	@Pattern(regexp ="[0-9]{3}.?[0-9]{3}.?[0-9]{3}-?[0-9]{2}",message = "CPF Não Está no Formato Aceito")
+	//@Pattern(regexp ="[0-9]{3}.?[0-9]{3}.?[0-9]{3}-?[0-9]{2}",message = "CPF Não Está no Formato Aceito")
 	private String cpf;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")

@@ -36,8 +36,8 @@ public class CategoriaService {
 		Categoria categoria = categoriaRepositorio.findByNomeCategoria(nome);
 
 		try {
-			if (categoria.getNomeCategoria().equals(nome) && categoria.getIdCategortia() != id) {
-				throw new DuplicateKeyException("Nome já existe ");
+			if (categoria.getNomeCategoria().equalsIgnoreCase(nome) && categoria.getIdCategortia() != id) {
+				throw new DuplicateKeyException("Nome já existe");
 			}
 		} catch (NullPointerException e) {}
 
