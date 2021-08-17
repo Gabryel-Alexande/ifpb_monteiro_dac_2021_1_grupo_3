@@ -16,8 +16,8 @@
         }
 
         .container_bnt {
-            margin-top: 45% !important;
-            margin-left: 63%;
+            /* margin-top: 45% !important; */
+            margin-left: 93%;
         }
 
         .container {
@@ -50,8 +50,7 @@
         }
 
         .container-detalhes {
-            margin-top: 1%;
-            margin-left: 5%;
+            margin-left: 10%;
         }
 
         .form-group {
@@ -152,24 +151,36 @@
         <h1 class="m-5">Pedidos</h1>
         <div class="container" th:each="pedido : ${pedidos}">
             <div>
-                <div class="m-4"  style="display: flex;justify-content: right;">
-                    
-                    <a th:href="@{/livraria/protegido/verPedido?(id=${pedido.idPedido})}" >
-                    <img class="imagem_livro" th:src="${pedido.itemPedido.get(0).livro.fotoLivro}"
-                        src="https://elshaddai.com.br/wp-content/uploads/2019/06/O-Hobbit-J.R.R-Tolkien.jpg" alt="...">
-                    </a>
-                    <div class="container-detalhes">
-                        <h5 class="card-title mt-4" >Id: <span th:text="${pedido.idPedido}">654651456</span></h5>
-                        <a th:href="@{/livraria/protegido/verPedido?(id=${pedido.idPedido})}" >
-                        <h5 class="card-title mt-4" th:text="${pedido.itemPedido.get(0).livro.tituloLivro}">Battle Royale</h5>
+                <div class="m-4">
+
+                    <div style="display: flex;justify-content: right;">
+                        <a th:href="@{/livraria/protegido/verPedido?(id=${pedido.idPedido})}">
+                            <img class="imagem_livro" th:src="${pedido.itemPedido.get(0).livro.fotoLivro}"
+                                src="https://elshaddai.com.br/wp-content/uploads/2019/06/O-Hobbit-J.R.R-Tolkien.jpg"
+                                alt="...">
                         </a>
-                        <div class="card-text mt-3">
-                            <span th:text="${pedido.itemPedido.get(0).livro.preco}">R$ 58,99</span>
-                            <h8 class="quantidade">x <span th:text="${pedido.itemPedido.get(0).quantidade}"> </span></h8>
+                        <div class="container-detalhes">
+                            <h5 class="card-title mt-4">Id: <span th:text="${pedido.idPedido}">654651456</span></h5>
+                            <a th:href="@{/livraria/protegido/verPedido?(id=${pedido.idPedido})}">
+                                <h5 class="card-title mt-4" th:text="${pedido.itemPedido.get(0).livro.tituloLivro}">
+                                    Battle Royale</h5>
+                            </a>
+                            <div class="card-text mt-3">
+                                <span th:text="${pedido.itemPedido.get(0).livro.preco}">R$ 58,99</span>
+                                <h8 class="quantidade">x <span th:text="${pedido.itemPedido.get(0).quantidade}"> </span>
+                                </h8>
+                            </div>
+                            <h2 style="margin-top: 10%;">Preço Total R$<span th:text="${pedido.preco}">10,00</span></h2>
                         </div>
-                        <h2 style="margin-top: 10%;">Preço Total R$<span th:text="${pedido.preco}">10,00</span></h2>
+                        <div style="margin-top: 2%;">
+                            <h6>Observação:</h6>
+                            <p>Saiba que depois de cancelar seu pedido você não <br>
+                                pode voltar atrás, só comprando novamente. <br><br>
+                                Tenha certeza do que estar fazendo.</p>
+                        </div>
                     </div>
-                    <form class="container_bnt"th:action="@{/livraria/protegido/cancelarPedido?(id=${pedido.idPedido})}" method="post">
+                    <form class="container_bnt"
+                        th:action="@{/livraria/protegido/cancelarPedido?(id=${pedido.idPedido})}" method="post">
                         <button id="bnt_cancelar" type="submit" class="btn btn-outline-warning"
                             onmouseover="javascript:mudarAoPassarC();" onmouseout="javascript:mudarAoSairC();">
                             Cancelar Pedido

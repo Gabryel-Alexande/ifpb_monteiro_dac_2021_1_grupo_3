@@ -96,6 +96,15 @@
         .preco {
             font-size: 20px;
         }
+        .sem_produto{
+            display: flex;
+            justify-content: center;
+            margin-top: 15%;
+        }
+        .erro{
+            width: 70%;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -223,8 +232,8 @@
             </div>
         </form>
     </div>
-    <div th:if="${QuantItens}==0">
-        <h1>
+    <div class="sem_produto"th:if="${QuantItens}==0">
+        <h1 class="erro">
             Você deve Adicionar livros em seu carrinho para acessar essa página
         </h1>
 
