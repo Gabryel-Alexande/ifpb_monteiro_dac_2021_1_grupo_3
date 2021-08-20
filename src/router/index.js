@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import AdicionaAutor from '../views/AdicionaAutor.vue'
+import AdicionaPag from '../views/AdicionaPag.vue'
 
 const routes = [
   {
@@ -9,12 +9,12 @@ const routes = [
   },
   {
     path: '/add',
-    component: AdicionaAutor
+    component: AdicionaPag
   }
   ,
   {
     path: '/edit/:metodoId',
-    component: AdicionaAutor,
+    component: AdicionaPag,
     props: true,
   }
   

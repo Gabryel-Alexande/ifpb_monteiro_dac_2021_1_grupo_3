@@ -1,5 +1,5 @@
 export default{
-  ADICIONA_AUTOR:(estado, valor) => {
+  ADICIONA_PAGAMENTO:(estado, valor) => {
     estado.metodos.push(valor)
   }
   

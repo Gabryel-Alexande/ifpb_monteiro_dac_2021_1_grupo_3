@@ -26,11 +26,11 @@
 </template>
 
 <script>
-import servicoAutor from '../servico/servicoAutor'
+import servicoPag from '../servico/servicoPag'
 import axios from 'axios'
 
 export default {
-    name: 'AdicionaAutor',
+    name: 'AdicionaPag',
     props: [
         "metodoId"
     ],
@@ -39,7 +39,7 @@ export default {
             isEditing: false,
 
             metodo: {
-                idMetodoPagamento: -1,
+                idMetodoPagamento:undefined,
 
                 nomeDoPagamento: ""
 
@@ -59,10 +59,10 @@ export default {
             } else {
                 if (this.metodo.nomeDoPagamento != '') {
 
-                    servicoAutor.adiciona(this.metodo).then(
+                    servicoPag.adiciona(this.metodo).then(
                         dado => {
                             console.log(dado.data),
-                                this.$store.commit('ADICIONA_AUTOR', this.metodo)
+                                this.$store.commit('ADICIONA_PAGAMENTO', this.metodo)
                         })
                     console.log("Metodo  adicionado: " + this.metodo.nomeDoPagamento);
                     this.$router.push("/");

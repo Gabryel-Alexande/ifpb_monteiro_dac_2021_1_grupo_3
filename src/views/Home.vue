@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import servicoAutor from '../servico/servicoAutor'
+import servicoPag from '../servico/servicoPag'
 //import RemoverMetodo from './views/RemoverMetodo.vue'
 import axios from 'axios'
 export default {
@@ -41,7 +41,7 @@ export default {
     },
     created() {
         console.log("Created.")
-        servicoAutor.lista().then(
+        servicoPag.lista().then(
             dado => {
                 this.$store.state.metodos = dado.data
                 this.metodos = this.$store.state.metodos
