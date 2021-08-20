@@ -29,7 +29,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/login").permitAll()
 		.antMatchers("/logout").permitAll()
 		.antMatchers("/livaria/protegido/**").hasAuthority("CLIENTE")
-		.antMatchers("/livraria/adm/**").hasAuthority("ADMINISTRADOR")
+		.antMatchers("/livraria/adm/**").permitAll()
+		.antMatchers("/pagamentos/**").permitAll()
+		//.hasAuthority("ADMINISTRADOR")
 		.antMatchers("/css/**","/js/**").permitAll()
 		
 		.anyRequest().authenticated()
