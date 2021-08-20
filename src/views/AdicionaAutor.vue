@@ -1,0 +1,101 @@
+<template>
+    <main class="container">
+        <div>
+            <header>
+                <div class="jumbotron mb-0">
+                    <h1 v-if="isEditing===false" class="display-4">Adicionar Pagamentos</h1>
+                    <h1 v-if="isEditing===true" class="display-4">Editar Metodo de Pagamentos</h1>
+                </div>
+            </header>
+    
+            <div class="card">
+                <form class="card-body" @submit.prevent>
+                    <div class="form-group">
+                        <label for="nome" class="form-label">Nome Metodo de Pagamento :</label>
+                        <input type="text" required id="nome" class="form-control" v-model="metodo.nomeDoPagamento">
+                        <div class="invalid-feedback"></div>
+                    </div>
+    
+    
+                    <button v-if="isEditing===false" type="submit" value="Enviar" v-on:click="enviarMetodoDePagamento()">Cadastrar</button>
+                    <button v-if="isEditing===true" type="submit" value="Enviar" v-on:click="enviarMetodoDePagamento()">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</template>
+
+<script>
+import servicoAutor from '../servico/servicoAutor'
+import axios from 'axios'
+
+export default {
+    name: 'AdicionaAutor',
+    props: [
+        "metodoId"
+    ],
+    data() {
+        return {
+            isEditing: false,
+
+            metodo: {
+                idMetodoPagamento: -1,
+
+                nomeDoPagamento: ""
+
+            },
+
+        }
+    },
+    mounted() {
+        this.fetchMetodoPagamento();
+    },
+
+    methods: {
+        enviarMetodoDePagamento: function() {
+            if (this.metodo.idMetodoPagamento !== -1) {
+                axios.put("http://localhost:8080/pagamentos/editar-metodo/" + this.metodo.idMetodoPagamento, this.metodo);
+                this.$router.push("/");
+            } else {
+                if (this.metodo.nomeDoPagamento != '') {
+
+                    servicoAutor.adiciona(this.metodo).then(
+                        dado => {
+                            console.log(dado.data),
+                                this.$store.commit('ADICIONA_AUTOR', this.metodo)
+                        })
+                    console.log("Metodo  adicionado: " + this.metodo.nomeDoPagamento);
+                    this.$router.push("/");
+                } else {
+                    console.log("ERRO: Metodo com valor vazio ");
+                }
+            }
+        },
+
+        fetchMetodoPagamento: function() {
+            if (this.metodoId) {
+                this.isEditing = true
+                let dadoBruto = axios.get("http://localhost:8080/pagamentos/editar-metodo/" + this.metodoId);
+
+                dadoBruto.then(
+                    dado => {
+                        this.metodo = dado.data
+
+
+                    });
+                this.metodo.idMetodoPagamento = this.metodoId
+
+                //console.log(pag.nomeDoPagamento)
+
+            }
+
+        }
+
+
+
+
+
+
+    }
+}
+</script>

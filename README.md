@@ -1,4 +1,4 @@
-# livraria-frontend
+# livriavue_inicial
 
 ## Project setup
 ```

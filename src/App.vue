@@ -1,15 +1,21 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <h1 v-text="msg"></h1>
+  <Navegacao></Navegacao>
+  <router-view/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Navegacao from './views/Navegacao.vue'
 
 export default {
   name: 'App',
+  data() {
+      return {
+        msg:"Bem vindo a Tela de Metodos de Pagamentos"
+      }
+    },
   components: {
-    HelloWorld
+    Navegacao
   }
 }
 </script>
