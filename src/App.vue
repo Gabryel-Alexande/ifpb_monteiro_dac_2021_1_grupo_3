@@ -1,23 +1,26 @@
 <template>
+  <!-- <Cabecalho></Cabecalho> -->
   <h1 v-text="msg"></h1>
   <Navegacao></Navegacao>
-  <router-view/>
+  <router-view />
 </template>
 
 <script>
-import Navegacao from './views/Navegacao.vue'
+// import Cabecalho from "./views/Cabecalho";
+import Navegacao from "./views/Navegacao.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   data() {
-      return {
-        msg:"Bem vindo a Tela de Metodos de Pagamentos"
-      }
-    },
+    return {
+      msg: "Bem vindo a Tela de Metodos de Pagamentos",
+    };
+  },
   components: {
-    Navegacao
-  }
-}
+    // Cabecalho,
+    Navegacao,
+  },
+};
 </script>
 
 <style>
