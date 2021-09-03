@@ -87,10 +87,13 @@ public class ControllerMetodoPagamento {
 		
 		MetodoPagamento metodo=metodoPagamentoRepositorio.findByNomeDoPagamento(pagamentoDTO.getNomeDoPagamento());
 		
-		if (metodo.getNomeDoPagamento().equalsIgnoreCase(pagamentoDTO.getNomeDoPagamento()) && metodo.getIdMetodoPagamento() != idMetodo) {
-            excecao = "Esse metodo de pagamento já está cadastrado";
-            return "redirect:/livraria/adm/editar_metodo?&id="+idMetodo;
-        }
+		if(metodo != null ){
+			if (metodo.getIdMetodoPagamento() != idMetodo) {
+				excecao = "Esse metodo de pagamento já está cadastrado";
+				return "redirect:/livraria/adm/editar_metodo?&id="+idMetodo;
+			}
+
+		}
 		
 		MetodoPagamento metodoPag=metodoPagamentoRepositorio.findById(idMetodo).get();
 		
